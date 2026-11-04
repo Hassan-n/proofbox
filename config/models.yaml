@@ -1,0 +1,22 @@
+# Proofbox Model Role Mapping (Vultr Serverless Inference)
+# Verified latency & multimodal capability on 4 Nov 2026
+
+roles:
+  router: "deepseek-v4.1-flash-1017"       # 1.13s - fast classification
+  extractor: "qwen3.8-27b"                 # 0.62s - strict JSON extraction (use /no_think)
+  analyst_coder: "deepseek-v4.1-flash-1017" # 0.72s - Python sandbox code generation
+  writer: "glm-5.3"                        # 0.71s - plain-language advice & dispute letters
+  vision_verifier: "mimo-v2.6-pro"         # 1.49s - screenshot inspection for Link Lens
+  translator: "qwen3.8-flash-next"         # Stretch goal: isiZulu / Afrikaans
+
+fallbacks:
+  router: "qwen3.8-flash-next"
+  extractor: "deepseek-v4.1-flash-1017"
+  analyst_coder: "qwen3.8-27b"
+  writer: "deepseek-v4.1-flash-1017"
+  vision_verifier: "glm-5.3"               # 1.12s verified vision fallback
+
+defaults:
+  max_tokens: 1500
+  temperature: 0.0
+  system_prefix: "/no_think "
