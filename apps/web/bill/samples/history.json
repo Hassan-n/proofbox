@@ -1,0 +1,91 @@
+{
+  "municipality": "Karoo Bay Metro",
+  "account_number": "1004 7781 02",
+  "synthetic": true,
+  "note": "Synthetic demo document",
+  "previous_bills": [
+    {
+      "billing_period": {
+        "start": "2026-06-01",
+        "end": "2026-06-30"
+      },
+      "consumption_kl": "17.6",
+      "reading_type": "actual",
+      "total_due": "723.12"
+    },
+    {
+      "billing_period": {
+        "start": "2026-07-01",
+        "end": "2026-07-31"
+      },
+      "consumption_kl": "18.4",
+      "reading_type": "actual",
+      "total_due": "758.08"
+    },
+    {
+      "billing_period": {
+        "start": "2026-08-01",
+        "end": "2026-08-31"
+      },
+      "consumption_kl": "18.0",
+      "reading_type": "estimated",
+      "total_due": "740.60"
+    }
+  ],
+  "outage_log": [
+    {
+      "date": "2026-09-08",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-09",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-10",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-11",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-12",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-13",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-14",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-15",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    },
+    {
+      "date": "2026-09-16",
+      "area": "Ward 7",
+      "supply": "none",
+      "source": "Municipal outage notice"
+    }
+  ]
+}
