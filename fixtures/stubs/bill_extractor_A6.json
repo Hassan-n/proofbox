@@ -1,0 +1,65 @@
+{
+  "municipality": "Karoo Bay Metro",
+  "account_number": "1004 7781 02",
+  "account_holder": "T. Demo",
+  "service_address": "7 Placeholder Lane, Karoo Bay",
+  "invoice_number": "KBM-762511",
+  "issue_date": "2026-10-05",
+  "billing_period": {
+    "start": "2026-09-01",
+    "end": "2026-09-30"
+  },
+  "meter_number": "KBM-WM-51893",
+  "meter_readings": [
+    {
+      "date": "2026-07-31",
+      "reading_kl": "2381.0",
+      "type": "actual"
+    },
+    {
+      "date": "2026-08-31",
+      "reading_kl": "2399.0",
+      "type": "estimated"
+    },
+    {
+      "date": "2026-09-30",
+      "reading_kl": "2417.0",
+      "type": "estimated"
+    }
+  ],
+  "consumption_kl": "18.0",
+  "tariff_lines": [
+    {
+      "description": "Water 0-6 kl",
+      "quantity_kl": "6.0",
+      "rate_per_kl": "15.00",
+      "amount": "90.00"
+    },
+    {
+      "description": "Water 6-15 kl",
+      "quantity_kl": "9.0",
+      "rate_per_kl": "38.00",
+      "amount": "342.00"
+    },
+    {
+      "description": "Water above 15 kl",
+      "quantity_kl": "3.0",
+      "rate_per_kl": "38.00",
+      "amount": "114.00"
+    }
+  ],
+  "fixed_charges": [
+    {
+      "description": "Water service charge",
+      "amount": "120.00"
+    },
+    {
+      "description": "Refuse removal",
+      "amount": "95.00"
+    }
+  ],
+  "subtotal": "761.00",
+  "vat_rate": "0.15",
+  "vat": "114.15",
+  "total_due": "875.15"
+}
