@@ -1,0 +1,22 @@
+{
+  "tariff_id": "karoo-bay-metro-water-v1",
+  "version": 1,
+  "municipality": "Karoo Bay Metro",
+  "synthetic": true,
+  "currency": "ZAR",
+  "water_tiers": [
+    { "from_kl": "0", "to_kl": "6", "rate_per_kl": "15.00" },
+    { "from_kl": "6", "to_kl": "15", "rate_per_kl": "25.00" },
+    { "from_kl": "15", "to_kl": null, "rate_per_kl": "38.00" }
+  ],
+  "fixed_charges": [
+    { "code": "water_service", "description": "Water service charge", "amount": "120.00" },
+    { "code": "refuse", "description": "Refuse removal", "amount": "95.00" }
+  ],
+  "vat_rate": "0.15",
+  "rounding": {
+    "mode": "ROUND_HALF_UP",
+    "quantum": "0.01",
+    "policy": "Round each charge line to cents, sum rounded lines into the subtotal, then round VAT on the subtotal."
+  }
+}
