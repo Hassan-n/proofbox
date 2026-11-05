@@ -10,7 +10,10 @@ from fastapi import FastAPI, Header, HTTPException
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 
+from bill_modes import router as bill_router
+
 app = FastAPI()
+app.include_router(bill_router)
 WORKER_TOKEN = os.getenv("WORKER_TOKEN", "dev-secret-token")
 PROXY_LOG = Path(os.getenv("PROXY_LOG", "/tmp/proxy_logs/proxy_events.jsonl"))
 JOB_LOCK = asyncio.Lock()

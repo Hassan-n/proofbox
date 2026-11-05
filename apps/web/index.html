@@ -26,6 +26,8 @@
     .brand { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700; }
     .mark { width: 30px; aspect-ratio: 1; background: var(--green); color: var(--green-bright); display: grid; place-items: center; font: bold 18px var(--serif); }
     .masthead-note { color: var(--muted); font-size: 11px; text-transform: uppercase; }
+    .masthead-link { margin-left: auto; color: var(--green); font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--line); padding: 8px 12px; border-radius: 2px; background: var(--surface); }
+    .masthead-link:hover, .masthead-link:focus-visible { border-color: var(--green); }
     main { max-width: 1200px; margin: 0 auto; padding: 44px 24px 64px; }
     .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 360px); gap: 40px; align-items: end; border-bottom: 1px solid var(--line); padding-bottom: 30px; }
     .eyebrow { color: var(--green); font-size: 11px; font-weight: 700; text-transform: uppercase; }
@@ -80,6 +82,7 @@
 <body>
   <header class="masthead">
     <div class="brand"><span class="mark" aria-hidden="true">P</span><span>PROOFBOX / LINK LENS</span></div>
+    <a class="masthead-link" id="bill-link" href="bill/">Check a water bill <span aria-hidden="true">→</span></a>
     <div class="masthead-note">Sandboxed inspection · Observe, never submit</div>
   </header>
   <main>
@@ -113,6 +116,9 @@
   </main>
   <script>
     const API_BASE = new URLSearchParams(location.search).get("api") || location.origin;
+    if (new URLSearchParams(location.search).get("api")) {
+      document.querySelector("#bill-link").href = `bill/?api=${encodeURIComponent(API_BASE)}`;
+    }
     const form = document.querySelector("#inspect-form");
     const input = document.querySelector("#url");
     const submit = document.querySelector("#submit");

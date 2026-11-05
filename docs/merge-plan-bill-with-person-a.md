@@ -7,11 +7,31 @@ Status at the start of this plan:
 - `main` @ `3c4cb50` is the merge base of both branches.
 - A test merge of both branches is **clean**. `git merge-tree` reports no conflicts, because neither branch touches the other's files.
 
-> **Update (5 Nov, 20:50):** heads are now `origin/feat/day3-bill-lens` @ `fe8f9fe` (integration work) and `origin/link_lens` @ `c90349d` (`5d929ff` hard-codes `MODELS_CFG` in `gateway.py`; `c90349d` adds the nginx `apps/web/Dockerfile`). The merge is still clean, and 196 tests pass on the merged tree. One new action for A: add `COPY bill /usr/share/nginx/html/bill` to `apps/web/Dockerfile` (see the integration doc, section 6).
->
-> **Update (Step 4 done by B):** the wiring now exists in Bill-owned files, and 196 tests pass. Upload is `POST /api/bill/intake` (JSON base64, replacing the multipart proposal in K1). Receipts are served at `/api/bill/receipts/{id}` (K5). The worker sandbox is a separate `/run-bill` router (replacing K4's change to `/run`). The dispatch hook is `process_bill_job` (K3). Person A only adds the plug-in lines in **[bill-integration-for-person-a.md](bill-integration-for-person-a.md)**. Sections below that propose changes to A's files are superseded by that doc wherever they conflict.
+## Current status on `test_merge` (5 Nov, 21:10)
 
-The problem is not merge conflicts. The two halves are not wired together yet. Bill Lens is a library: `run_bill_lens()` exists, but nothing in the API, worker or intake calls it.
+`test_merge` = `link_lens` @ `c90349d` + `feat/day3-bill-lens` @ `d3b0f3b`, plus the wiring commit. The merge had no conflicts, and **201 tests pass**. This branch replaces M1–M5 as the integration branch: test here, then merge to `main`. Setup and env for A: **[bill-integration-for-person-a.md](bill-integration-for-person-a.md)**.
+
+| Item | Status | Where / note |
+|------|--------|--------------|
+| A1 thinking off | ✅ Bill side | `lenses/bill/model_caller.py` turns it off; the gateway is unchanged |
+| A2 writer model | ⏳ deploy | Set `BILL_MODEL_WRITER=deepseek-v4.1-flash-1017` |
+| A3 config path | ✅ | Fixed by A in `5d929ff` |
+| A4 stub mode | ➖ optional | `scripts/bill_dev_server.py --stub` covers local smoke tests |
+| A5 receipts | ✅ | `GET /api/bill/receipts/{id}` (`router.py`, `store.py`) |
+| A6 bill intake | ✅ | `POST /api/bill/intake`, JSON base64 (no `python-multipart`) |
+| A7 dispatch | ✅ | `main.py`: `lens == "bill"` → background `process_bill_job`, at most 2 at a time |
+| A8 worker modes | ✅ | `apps/worker/bill_modes.py` `/run-bill`, included in `worker/main.py` and its Dockerfile |
+| A9 parse image | ⏳ deploy | `docker build -t proofbox-parse:latest sandbox/code` on the worker VM |
+| A10 tariff | ✅ | `apps/api/tariffs/tariff_v1.json` ships in the API image (test keeps it in sync) |
+| A11 web | ✅ | `apps/web/Dockerfile` copies `bill/`; masthead link on the Link page |
+| B1–B6 | ✅ | `job.py`, `worker_client.py` (`WorkerCodeRunner`), `store.py` (`ReceiptSaver`), `apps/web/bill/`, D-B15, `test_integration.py` + `test_wiring.py` |
+| B7 20-document run | ➖ optional | 5 documents run live |
+| J1 contracts | ⏳ | Write `docs/contracts.md` from section 2 (now matches the code) |
+| J2–J8 | ⏳ deploy | Need the deployed stack: Docker sandbox test, Gate 2/4 runs, concurrency, `model_calls`, decisions, tag |
+
+The original plan follows. Where it conflicts with the table above or the integration doc, the table and the integration doc win.
+
+At the start of this plan the two halves were not wired together: Bill Lens was a library that nothing in the API, worker or intake called. The status table above shows that this is now done on `test_merge`.
 
 Owner key: **A** = Person A, **B** = Person B, **A+B** = together.
 
@@ -35,15 +55,15 @@ Merging the library before it is wired in (M4) is safe. Nothing imports it yet, 
 
 The original contracts (C1–C9) were never written down. These are the ones Bill integration depends on. Agree them in a 15-minute call, write them into `docs/contracts.md`, and merge.
 
-| ID | Contract | Proposal from B | Decide |
+| ID | Contract | As built (was: proposal from B) | Decide |
 |----|----------|-----------------|--------|
-| K1 | Bill intake | `POST /api/intake/bill` as multipart (`file` = PDF, maximum 5 MB, `%PDF` magic check, optional `history` JSON). Store the PDF in `receipts` (`kind=pdf`, `blob_base64`). `input_ref` = receipt id. This needs no extra volume | A |
-| K2 | Result envelope | Keep B's current `result_json` (`lens:"bill"`, `status`, `summary`, `findings[]`, `receipts{}`, `dispute_letter`, `events`). A's job page just links to `/bill/?job={id}` for `lens == "bill"` | A+B |
-| K3 | Lens dispatch | `process_job` branches on `job["lens"]`: `"link"` keeps the current code; `"bill"` calls `lenses.bill.job.process_bill_job(job)` (B owns this). A full C3 registry is optional | A |
-| K4 | Worker `/run` for Bill | Same endpoint and same bearer token, with new `mode` values: `parse_bill` and `code`. Add `inputs: [{name, b64}]`. The worker writes the inputs to a temporary directory, mounts it read-only at `/inputs`, uses `--network none`, a read-only root filesystem, 20 s, 512 MB and 0.5 CPU, then deletes it. It streams NDJSON exactly as Link does, ending with `{type:"result", exit_code, stdout, stderr, timed_out, duration_ms}` | A |
-| K5 | Receipts | `save_receipt(job_id, kind, content:str, meta:dict) -> id`, written to `receipts.content_json = {content, meta}` with `sha256` of the content. Add `GET /api/receipts/{id}` returning `{receipt:{id, kind, sha256, content, meta}}` | A writes the DB helper and endpoint; B writes the adapter |
-| K6 | Events | Bill emits using A's `add_event(job_id, type, detail)`. New types: `bill_parsed`, `bill_extracted`, `checks_done`, `analyst_done`, `letter_written`, plus the shared `instruction_ignored` | A+B |
-| K7 | Gateway | `call_model(role, job_id, system_prompt, untrusted_data, schema, image_base64_webp, max_tokens)`. Bill already uses this signature | A |
+| K1 | Bill intake | `POST /api/bill/intake` with JSON `{filename, pdf_base64, history?, session_id?}` (maximum 5 MB, `%PDF-` magic check, history ≤ 256 KB). Store the PDF in `receipts` (`kind=pdf`, `blob_base64`). `input_ref` = receipt id. This needs no extra volume | A |
+| K2 | Result envelope | Keep B's current `result_json` (`lens:"bill"`, `status`, `summary`, `findings[]`, `receipts{}`, `dispute_letter`, `document`). A's job page just links to `/bill/?job={id}` for `lens == "bill"` | A+B |
+| K3 | Lens dispatch | `process_job` branches on `job["lens"]`: `"link"` keeps the current code; `"bill"` runs `lenses.bill.job.process_bill_job(job)` as a background task (at most `BILL_JOBS_PARALLEL`). A full C3 registry is optional | A |
+| K4 | Worker sandbox for Bill | Separate `POST /run-bill` (same bearer token) with `mode` `parse_bill` or `code` and `inputs: [{name, b64}]`. The worker writes the inputs to a temporary directory, mounts it read-only at `/inputs`, uses `--network none`, a read-only root filesystem, 20 s, 512 MB and 0.5 CPU, then deletes it. It streams NDJSON `{event, detail, data?}`. `/run` and `JOB_LOCK` are unchanged | A |
+| K5 | Receipts | `save_receipt(job_id, kind, content:str, meta:dict) -> id`, written to `receipts.content_json = {content, meta}` with `sha256` of the content. `GET /api/bill/receipts/{id}` returns `{receipt:{id, job_id, kind, sha256, content, meta}}` | B (done) |
+| K6 | Events | Bill emits using A's `add_event(job_id, type, detail)`. Types: `bill_received`, `bill_parsed`, `history_missing`, `bill_extracted`, `checks_completed`, `analyst_completed` / `analyst_skipped`, `letter_drafted`, the shared `instruction_ignored`, and the worker's `container_*` and `*_kill` | A+B |
+| K7 | Gateway | Bill uses `gateway.client`, `MODELS_CFG` and `_log_call` with thinking off; `BILL_USE_SHARED_GATEWAY=1` switches to `call_model(role, job_id, system_prompt, untrusted_data, schema, image_base64_webp, max_tokens)` | A |
 
 ---
 
@@ -103,6 +123,6 @@ The longest chain is the worker modes (A8 → A9 → B2), so A should start ther
 ## 7. What already works and needs no change
 
 - All of the Bill logic: tariff, checks, extractor, analyst, writer, pipeline, prompts and result page.
-- The code uses Python 3.12 syntax and depends only on the standard library and pydantic, both already in A's API image.
-- The gateway already honours the caller's `max_tokens`, so the writer's 4000 is passed through.
+- The code uses Python 3.12 syntax and depends only on the standard library, pydantic, FastAPI, httpx and psycopg, all already in A's API image.
+- Bill passes its own `max_tokens` (4000 for the writer) straight to the gateway client.
 - The `instruction_ignored` detection runs inside the trusted parse script, as C4 requires.

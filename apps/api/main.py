@@ -13,12 +13,30 @@ from psycopg.types.json import Jsonb
 
 from db import add_event, claim_next_job, init_db, pool
 from link_lens import evaluate_link, validate_inspection_url
+from lenses.bill.job import process_bill_job
+from lenses.bill.router import router as bill_router
 
 WORKER_URL = os.getenv("WORKER_URL", "http://10.99.0.3:8080")
 WORKER_TOKEN = os.getenv("WORKER_TOKEN", "dev-secret-token")
+# Bill jobs take ~20 s with live models, so they run beside the queue instead of blocking Link jobs.
+BILL_SLOTS = asyncio.Semaphore(int(os.getenv("BILL_JOBS_PARALLEL", "2")))
+_bill_tasks: set[asyncio.Task] = set()
+
+
+async def _run_bill_job(job: dict) -> None:
+    try:
+        await process_bill_job(job)
+    finally:
+        BILL_SLOTS.release()
 
 
 async def process_job(job: dict) -> None:
+    if job["lens"] == "bill":
+        await BILL_SLOTS.acquire()
+        task = asyncio.create_task(_run_bill_job(job))
+        _bill_tasks.add(task)
+        task.add_done_callback(_bill_tasks.discard)
+        return
     job_id = job["id"]
     url = job["input_ref"]
     containment_events = []
@@ -95,6 +113,8 @@ async def lifespan(app: FastAPI):
     finally:
         task.cancel()
         await asyncio.gather(task, return_exceptions=True)
+        if _bill_tasks:
+            await asyncio.wait(_bill_tasks, timeout=30)
         await asyncio.to_thread(pool.close)
 
 
@@ -105,6 +125,7 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Content-Type", "Authorization"],
 )
+app.include_router(bill_router)
 
 
 class IntakeReq(BaseModel):

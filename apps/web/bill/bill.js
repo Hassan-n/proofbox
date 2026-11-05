@@ -3,6 +3,9 @@
 // Everything shown here comes from documents users upload, so it is only ever written with textContent.
 const params = new URLSearchParams(location.search);
 const API_BASE = (params.get("api") || location.origin).replace(/\/+$/, "");
+if (params.get("api")) {
+  document.querySelectorAll('a[href="../"]').forEach((a) => { a.href = `../?api=${encodeURIComponent(params.get("api"))}`; });
+}
 const MAX_PDF_BYTES = 5 * 1024 * 1024;
 const MAX_HISTORY_BYTES = 256 * 1024;
 const $ = (selector) => document.querySelector(selector);
