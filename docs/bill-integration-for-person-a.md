@@ -1,70 +1,66 @@
-# Bill Lens: how to plug it into the Proofbox app (for Person A)
+# Bill Lens integration (for Person A)
 
-Bill Lens is complete on `feat/day3-bill-lens`. It covers upload, sandboxed parsing, extraction, checks, the analyst, the dispute letter and the result page. None of your files were changed: everything lives in Bill-owned modules. To wire it in, you add **5 lines in the API, 2 in the worker, 1 in the worker Dockerfile and 1 in the web Dockerfile**, plus one image build and one env var.
+Bill Lens is merged and wired into the app on **`test_merge`**, which is your `link_lens` (`c90349d`) plus `feat/day3-bill-lens` (`d3b0f3b`). In code, nothing is left to wire. The only remaining steps are deploy steps: build one image and set a few env vars (sections 4 and 5).
 
-## 0. Status (5 Nov, 20:50)
+## 0. Status (5 Nov, 21:10)
 
-| Branch | Head | What is new |
-|--------|------|-------------|
-| `origin/link_lens` (A) | `c90349d` | `5d929ff`: `gateway.py` no longer reads `config/models.yaml`; `MODELS_CFG` is hard-coded with `roles` only (no `defaults`). `c90349d`: `apps/web/Dockerfile` (nginx, copies `index.html` only) |
-| `origin/feat/day3-bill-lens` (B) | `fe8f9fe` | Upload page, `/api/bill/*` routes, `process_bill_job`, worker `/run-bill`, dev server, 20 integration tests, this doc |
+| Branch | Head | Contents |
+|--------|------|----------|
+| `origin/link_lens` (A) | `c90349d` | `5d929ff` hard-codes `MODELS_CFG` (roles only); `c90349d` adds the nginx `apps/web/Dockerfile` |
+| `origin/feat/day3-bill-lens` (B) | `d3b0f3b` | Bill Lens, upload page, `/api/bill/*`, `process_bill_job`, worker `/run-bill`, dev server, tests |
+| `test_merge` | merge + wiring commit | Both of the above, plus the wiring changes in section 2 |
 
-Checked against both heads:
+- The merge had **no conflicts**. **201 tests pass**: 196 Bill tests plus 5 wiring tests in `tests/bill/test_wiring.py`.
+- Your gateway change works with Bill. The Bill caller uses `gateway.client`, `MODELS_CFG["roles"]`, `MODELS_CFG.get("defaults", {})` and `_log_call` with the same signature, and turns thinking off itself.
+- The earlier `parents[2]` `IndexError` in `gateway.py` is fixed by `5d929ff`.
 
-- `git merge-tree` of the two branches is **clean** (no conflicts).
-- The full test suite on the merged tree passes: **196 passed**.
-- Your gateway change works with Bill. The Bill caller reads `MODELS_CFG["roles"]` and `MODELS_CFG.get("defaults", {})`, and calls `_log_call(job_id, role, model, response, latency_ms, outcome)` with the same signature. It turns thinking off itself, so losing the `/no_think` prefix does not affect Bill.
-- **New action from `c90349d`:** the web image only copies `index.html`, so `/bill/` would return 404. See section 6.
-- **Resolved:** the earlier `parents[2]` `IndexError` warning no longer applies.
-
-## 1. What is on the branch
+## 1. Bill-owned files
 
 | Path | What it does |
 |------|--------------|
 | `apps/api/lenses/bill/router.py` | `POST /api/bill/intake` and `GET /api/bill/receipts/{id}` |
 | `apps/api/lenses/bill/job.py` | `process_bill_job(job)`, the queue entry point for `lens == "bill"` |
-| `apps/api/lenses/bill/store.py` | `PostgresStore` built on your `db.pool` / `db.add_event` and the existing `jobs`, `job_events` and `receipts` tables (no schema change) |
+| `apps/api/lenses/bill/store.py` | `PostgresStore` on your `db.pool` / `db.add_event` and the existing `jobs`, `job_events` and `receipts` tables (no schema change) |
 | `apps/api/lenses/bill/worker_client.py` | Calls the worker's `/run-bill` and forwards container lifecycle events |
-| `apps/api/lenses/bill/model_caller.py` | Uses your `gateway.client`, `MODELS_CFG` and `_log_call`, with thinking turned off (D-B12) |
+| `apps/api/lenses/bill/model_caller.py` | Your gateway client with thinking turned off (D-B12) |
+| `apps/api/tariffs/tariff_v1.json` | Copy of `tariffs/tariff_v1.json` inside the API build context, so the image ships it at `/app/tariffs/`. A test keeps the two files identical |
 | `apps/worker/bill_modes.py` | Worker `POST /run-bill`: the no-network gVisor sandbox for PDF parsing and analyst code |
 | `sandbox/code/` | Image `proofbox-parse:latest` (pdfplumber + parse script) |
-| `apps/web/bill/` | Bill page in plain HTML/CSS/JS: upload, live progress, results, receipts, letter |
+| `apps/web/bill/` | Bill page (plain HTML/CSS/JS): upload, live progress, results, receipts, letter |
 | `scripts/bill_dev_server.py` | Local full-stack dev server (in memory, dev only) |
 
-## 2. API: `apps/api/main.py` (5 lines)
+## 2. Changes made to your files on `test_merge`
 
-```python
-# with the other imports
-from lenses.bill.router import router as bill_router
-from lenses.bill.job import process_bill_job
+**`apps/api/main.py`**
+- Imports `process_bill_job` and `bill_router`.
+- Calls `app.include_router(bill_router)` after the CORS middleware.
+- At the top of `process_job`: a job with `lens == "bill"` waits for one of `BILL_JOBS_PARALLEL` slots (default 2), then starts `process_bill_job` as a background task and returns. The queue loop goes straight back to claiming jobs, so a Bill job (~20 s with live models) never holds up Link jobs. The concurrency check (J5) needs this.
+- On shutdown, the API waits up to 30 s for running Bill jobs before closing the DB pool.
+- Link Lens code is unchanged.
 
-# after app = FastAPI(...) and the CORS middleware
-app.include_router(bill_router)
+**`apps/worker/main.py`**
+- `from bill_modes import router as bill_router` and `app.include_router(bill_router)`.
+- `/run`, `JobRequest` and `JOB_LOCK` are untouched. `/run-bill` has its own limit (`BILL_SANDBOX_PARALLEL`, default 2).
 
-# first lines inside process_job(job)
-    if job["lens"] == "bill":
-        await process_bill_job(job)
-        return
-```
+**`apps/worker/Dockerfile`**
+- `COPY bill_modes.py .`
 
-Your `claim_next_job` already marks the job `running`. After that, `process_bill_job` handles everything itself: it emits events, then sets `completed` with `result_json`, or `failed`. It runs in a thread, so the event loop is never blocked. It reuses your `/api/jobs/{id}` and `/api/jobs/{id}/events` (SSE) endpoints unchanged.
+**`apps/web/Dockerfile`**
+- `COPY bill /usr/share/nginx/html/bill`
 
-## 3. Worker (2 lines + 1 Dockerfile line)
+**`apps/web/index.html`**
+- A "Check a water bill →" link in the masthead goes to `bill/`, and carries `?api=` over when it is set.
+- The Bill page's links back to `../` carry `?api=` the same way.
 
-`apps/worker/main.py`:
+The Bill sandbox follows the same pattern as Link: it bind-mounts a temporary directory under `/tmp` and calls `docker run`. Every Bill sandbox runs with `--runtime=runsc --network none --read-only --cap-drop=ALL --security-opt no-new-privileges --memory 512m --cpus 0.5 --pids-limit 64`, a tmpfs `/tmp`, and the inputs mounted read-only at `/inputs`. The temporary directory is deleted afterwards.
 
-```python
-from bill_modes import router as bill_router
-app.include_router(bill_router)
-```
+## 3. API routes
 
-`apps/worker/Dockerfile`, next to `COPY main.py .`:
-
-```dockerfile
-COPY bill_modes.py .
-```
-
-Bill uses its own `/run-bill` route because your `JobRequest` has no `inputs` field. The route uses the same bearer `WORKER_TOKEN`. Every sandbox it starts runs with `--runtime=runsc --network none --read-only --cap-drop=ALL --security-opt no-new-privileges --memory 512m --cpus 0.5 --pids-limit 64`, a tmpfs `/tmp`, and the input files mounted read-only at `/inputs`. The temporary directory is deleted afterwards.
+| Route | Body / result |
+|-------|---------------|
+| `POST /api/bill/intake` | JSON `{filename, pdf_base64, history?, session_id?}` (base64, because the API has no `python-multipart`). PDF at most 5 MB, must start with `%PDF-`. History at most 256 KB. Returns `{job_id, status:"queued"}`. Errors: 413 too big, 415 not a PDF, 422 bad input |
+| `GET /api/bill/receipts/{id}` | `{receipt:{id, job_id, kind, sha256, content, meta}}`. Only receipts of bill jobs; never returns the PDF blob |
+| `GET /api/jobs/{id}`, `GET /api/jobs/{id}/events` | Your existing endpoints, used unchanged by the Bill page |
 
 ## 4. Build the sandbox image (on the worker VM)
 
@@ -76,32 +72,23 @@ docker build -t proofbox-parse:latest sandbox/code
 
 | Variable | Where | Required | Default / note |
 |----------|-------|----------|----------------|
-| `PROOFBOX_TARIFF_PATH` | API | **yes** | The API build context is `apps/api`, so the repo's `tariffs/` folder is not in the image. Mount it, for example `-v $PWD/tariffs:/tariffs:ro -e PROOFBOX_TARIFF_PATH=/tariffs/tariff_v1.json` |
 | `WORKER_URL`, `WORKER_TOKEN` | API | already set | Same values Link Lens uses |
 | `WORKER_TOKEN` | worker | already set | |
-| `BILL_MODEL_WRITER` | API | recommended | `deepseek-v4.1-flash-1017`. Your hard-coded `MODELS_CFG` still maps `writer` to `glm-5.3`, which is slow and needs `max_tokens` ≥ 4000 (D-B14). Any role can be overridden with `BILL_MODEL_<ROLE>` |
-| `BILL_SANDBOX_RUNTIME` | worker | no | `runsc` (set to `runc` only if gVisor is missing; record it as a fallback) |
+| `BILL_MODEL_WRITER` | API | recommended | `deepseek-v4.1-flash-1017`. `MODELS_CFG` maps `writer` to `glm-5.3`, which takes ~17 s per letter (D-B14). Any role can be overridden with `BILL_MODEL_<ROLE>` |
+| `BILL_JOBS_PARALLEL` | API | no | `2` Bill jobs at a time |
+| `PROOFBOX_TARIFF_PATH` | API | no | Defaults to `/app/tariffs/tariff_v1.json`, which is shipped in the image |
+| `BILL_SANDBOX_RUNTIME` | worker | no | `runsc`. Use `runc` only if gVisor is missing, and record it as a fallback |
 | `BILL_SANDBOX_IMAGE` | worker | no | `proofbox-parse:latest` |
 | `BILL_SANDBOX_TIMEOUT_S` / `BILL_SANDBOX_PARALLEL` | worker | no | `20` / `2` |
-| `BILL_WORK_DIR` | worker | no | `/tmp`. It must be a path the Docker daemon can bind-mount |
+| `BILL_WORK_DIR` | worker | no | `/tmp` (same as Link's `/tmp/job_*` directories) |
 | `BILL_USE_SHARED_GATEWAY=1` | API | no | Use `gateway.call_model` as is, if you add thinking-off there yourself |
-| `CORS_ORIGINS` | API | only if the web app is on another origin | |
+| `CORS_ORIGINS` | API | only if set | The default is `*`. If you restrict it, include the web origin |
 
-## 6. Web (1 line in `apps/web/Dockerfile`)
+## 6. Web
 
-Your nginx image only copies `index.html`. Add the Bill folder:
-
-```dockerfile
-FROM nginx:alpine
-COPY index.html /usr/share/nginx/html/index.html
-COPY bill /usr/share/nginx/html/bill
-EXPOSE 80
-```
-
-- The Bill page is `apps/web/bill/` (`index.html`, `bill.css`, `bill.js`, `samples/`). Its nav links back to your page with `../`, and your page can link to it with `bill/` (or `bill/?job={id}` for a bill job).
-- Both pages pick the API the same way: `?api=` if given, otherwise `location.origin`. Because nginx serves the web app on a different origin from the API, open `http://<web-host>/bill/?api=http://<api-host>:8000`. Your API's CORS default is `*`; if you set `CORS_ORIGINS`, include the web origin.
-- The Bill nav link back to `../` does not carry `?api=` over, so on your page add `?api=` again (or put a reverse proxy for `/api/` in nginx, so `location.origin` works for both pages).
-- Upload is JSON with base64 content (your API has no `python-multipart`): `{filename, pdf_base64, history?, session_id?}`. The limits are 5 MB, the file must start with `%PDF-`, and the optional history JSON is capped at 256 KB.
+- nginx serves `/` (Link Lens) and `/bill/` (Bill Lens, including `samples/`).
+- Both pages call the API at `?api=` if given, otherwise `location.origin`. When the web app and API are on different hosts, open `http://<web-host>/?api=http://<api-host>:8000`; the nav links keep `?api=` when you switch pages. A reverse proxy for `/api/` in nginx would remove the need for `?api=`.
+- A finished Bill job can be opened with `/bill/?job=<id>`.
 
 ## 7. Smoke test after deploy
 
@@ -114,23 +101,26 @@ curl -s -X POST "$API/api/bill/intake" -H 'content-type: application/json' \
 curl -N "$API/api/jobs/<job_id>/events"
 ```
 
-Expected events: `job_queued → bill_received → container_started → container_destroyed → bill_parsed → bill_extracted → checks_completed → analyst_completed → letter_drafted → job_completed`. The result has 3 findings (`arithmetic`, `estimated_readings`, `outage_consistency`): billed R875.15, should be R740.60, difference +R134.55. A7 adds `instruction_ignored`. A5 has no findings and no letter.
+Expected events: `job_queued → bill_received → container_started → container_destroyed → bill_parsed → bill_extracted → checks_completed → analyst_completed → letter_drafted → job_completed`.
+- **A6:** 3 findings (`arithmetic`, `estimated_readings`, `outage_consistency`): billed R875.15, should be R740.60, difference +R134.55.
+- **A7:** the same findings plus `instruction_ignored`.
+- **A5:** no findings and no letter.
 
-Or open `http://<web-host>/bill/?api=http://<api-host>:8000`, click **Check my bill** with A6 and the history file, and follow the steps.
+Or open `http://<web-host>/bill/?api=http://<api-host>:8000`, drop A6 and the history file, and click **Check my bill**.
 
 ## 8. Run it locally without Docker or Postgres
 
 ```powershell
 python scripts/bill_dev_server.py --stub --port 8790   # canned model replies
 python scripts/bill_dev_server.py --port 8790          # live models (needs VULTR_INFERENCE_KEY in .env)
-# open http://127.0.0.1:8790/bill/
+# open http://127.0.0.1:8790/bill/  (Link page: /index.html)
 ```
 
 This is dev only. Parsing runs in a local process, not the sandbox, and every event says `DEV:`. A live A6 run took about 23 s, end to end.
 
 ## 9. Things to watch
 
-- ~~`gateway.py` path bug~~: fixed in `5d929ff`. `MODELS_CFG` is now hard-coded, so `config/models.yaml` is no longer read by the API; change roles in `gateway.py` or with `BILL_MODEL_<ROLE>` for Bill.
-- If you later put `defaults` (for example `system_prefix`, `temperature`) back into `MODELS_CFG`, Bill picks them up automatically.
-- Bill model calls go through your gateway client and `_log_call`, so they appear in `model_calls` with `job_id`.
-- The uploaded PDF is stored as a receipt of kind `pdf` (`blob_base64`). `/api/bill/receipts/{id}` never returns blobs and only serves receipts belonging to bill jobs.
+- If you change `tariffs/tariff_v1.json`, copy it to `apps/api/tariffs/` as well. `test_api_image_has_the_same_tariff` fails until you do.
+- If you put `defaults` (for example `system_prefix`, `temperature`) back into `MODELS_CFG`, Bill picks them up automatically.
+- Bill model calls go through your gateway client and `_log_call`, so they appear in `model_calls` with `job_id` (J6).
+- The uploaded PDF is stored as a receipt of kind `pdf` (`blob_base64`) and is never served back.

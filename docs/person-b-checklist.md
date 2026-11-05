@@ -106,7 +106,8 @@ Setup on a new machine: `pip install -r scripts/requirements-fixtures.txt`, then
 - [x] Integration modules in Bill-owned files only: `lenses/bill/{router,job,store,worker_client,model_caller}.py`, `apps/worker/bill_modes.py` (`/run-bill` sandbox). Person A adds the plug-in lines from `docs/bill-integration-for-person-a.md`.
 - [x] `scripts/bill_dev_server.py`: local full stack (stub or live). Live A6 run end to end through the page API: 3 findings, analyst agreed, writer letter, about 23 s.
 - [x] `tests/bill/test_integration.py`: 20 tests (intake limits, receipts, job runner, worker client, model caller, worker modes). Full suite: 196 passed.
-- [ ] **Person A:** add the plug-in lines (API 5, worker 2, Dockerfile 1), build `proofbox-parse:latest`, set `PROOFBOX_TARIFF_PATH`.
+- [x] Wiring on `test_merge` (link_lens + bill): API dispatch (Bill jobs in the background, at most 2), `include_router` in the API and worker, worker and web Dockerfiles, tariff shipped in the API image, Link ↔ Bill nav links. `tests/bill/test_wiring.py` (5 tests); 201 passed.
+- [ ] Deploy: build `proofbox-parse:latest` on the worker VM, set `BILL_MODEL_WRITER=deepseek-v4.1-flash-1017`.
 - [ ] **Person A:** writer `max_tokens` must be ≥ 4000 for `glm-5.3`, or switch the writer role to `deepseek-v4.1-flash-1017` (D-B14).
 - [ ] **Gate 4:** all features merged.
 
