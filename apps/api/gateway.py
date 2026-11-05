@@ -1,30 +1,22 @@
 import json
 import os
 import time
-from pathlib import Path
 from typing import Type
 
-import yaml
 from openai import OpenAI
 from pydantic import BaseModel
 
 from db import pool
 
-CONFIG_PATH = Path(__file__).resolve().parents[2] / "config" / "models.yaml"
-if CONFIG_PATH.exists():
-    with CONFIG_PATH.open(encoding="utf-8") as config_file:
-        MODELS_CFG = yaml.safe_load(config_file)
-else:
-    MODELS_CFG = {
-        "roles": {
-            "router": "deepseek-v4.1-flash-1017",
-            "extractor": "qwen3.8-27b",
-            "analyst_coder": "deepseek-v4.1-flash-1017",
-            "writer": "glm-5.3",
-            "vision_verifier": "mimo-v2.6-pro",
-        },
-        "defaults": {"temperature": 0.0, "system_prefix": "/no_think "},
+MODELS_CFG = {
+    "roles": {
+        "router": "deepseek-v4.1-flash-1017",
+        "extractor": "qwen3.8-27b",
+        "analyst_coder": "deepseek-v4.1-flash-1017",
+        "writer": "glm-5.3",
+        "vision_verifier": "mimo-v2.6-pro",
     }
+}
 
 client = OpenAI(
     api_key=os.getenv("VULTR_INFERENCE_KEY", "missing-key"),
@@ -41,7 +33,7 @@ def call_model(
     image_base64_webp: str | None = None,
     max_tokens: int = 1500,
 ) -> dict | str:
-    model_name = MODELS_CFG["roles"].get(role, MODELS_CFG["roles"]["router"])
+    model_name = MODELS_CFG["roles"].get(role, "deepseek-v4.1-flash-1017")
     defaults = MODELS_CFG.get("defaults", {})
     system = defaults.get("system_prefix", "") + system_prompt
     system += (
@@ -111,6 +103,7 @@ def call_model(
 
 
 def _log_call(job_id, role, model, response, latency_ms, outcome) -> None:
+    model_name = model or MODELS_CFG["roles"].get(role, "deepseek-v4.1-flash-1017")
     usage = getattr(response, "usage", None) if response else None
     prompt_tokens = getattr(usage, "prompt_tokens", 0) if usage else 0
     completion_tokens = getattr(usage, "completion_tokens", 0) if usage else 0
@@ -119,5 +112,5 @@ def _log_call(job_id, role, model, response, latency_ms, outcome) -> None:
             """INSERT INTO model_calls
                (job_id, role, model, prompt_tokens, completion_tokens, latency_ms, outcome)
                VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-            (job_id, role, model, prompt_tokens, completion_tokens, latency_ms, outcome),
+            (job_id, role, model_name, prompt_tokens, completion_tokens, latency_ms, outcome),
         )
