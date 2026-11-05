@@ -7,6 +7,8 @@ Status at the start of this plan:
 - `main` @ `3c4cb50` is the merge base of both branches.
 - A test merge of both branches is **clean**. `git merge-tree` reports no conflicts, because neither branch touches the other's files.
 
+> **Update (5 Nov, 20:50):** heads are now `origin/feat/day3-bill-lens` @ `fe8f9fe` (integration work) and `origin/link_lens` @ `c90349d` (`5d929ff` hard-codes `MODELS_CFG` in `gateway.py`; `c90349d` adds the nginx `apps/web/Dockerfile`). The merge is still clean, and 196 tests pass on the merged tree. One new action for A: add `COPY bill /usr/share/nginx/html/bill` to `apps/web/Dockerfile` (see the integration doc, section 6).
+>
 > **Update (Step 4 done by B):** the wiring now exists in Bill-owned files, and 196 tests pass. Upload is `POST /api/bill/intake` (JSON base64, replacing the multipart proposal in K1). Receipts are served at `/api/bill/receipts/{id}` (K5). The worker sandbox is a separate `/run-bill` router (replacing K4's change to `/run`). The dispatch hook is `process_bill_job` (K3). Person A only adds the plug-in lines in **[bill-integration-for-person-a.md](bill-integration-for-person-a.md)**. Sections below that propose changes to A's files are superseded by that doc wherever they conflict.
 
 The problem is not merge conflicts. The two halves are not wired together yet. Bill Lens is a library: `run_bill_lens()` exists, but nothing in the API, worker or intake calls it.
