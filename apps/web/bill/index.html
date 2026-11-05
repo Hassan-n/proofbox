@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofbox · Bill Lens</title>
+  <link rel="stylesheet" href="bill.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="mark" aria-hidden="true">P</span><span>Proofbox</span><span class="lens">Bill Lens</span></div>
+    <p class="tagline">Your municipal water bill, recomputed from the published tariff, with a receipt for every finding.</p>
+  </header>
+
+  <main>
+    <section class="panel" aria-labelledby="load-title">
+      <h2 id="load-title">Load a result</h2>
+      <div class="load-row">
+        <div class="samples" role="group" aria-label="Sample bills">
+          <button type="button" data-sample="A5">Clean bill</button>
+          <button type="button" data-sample="A6">Bill with errors</button>
+          <button type="button" data-sample="A7">Bill with hidden instruction</button>
+        </div>
+        <label class="file-pick">Open result JSON<input type="file" id="file" accept="application/json,.json"></label>
+      </div>
+      <p class="hint">Bill uploads will go through intake once the shared intake endpoint accepts the bill lens. A finished job opens with <code>?job=&lt;id&gt;</code>.</p>
+      <p class="status-line" id="status-line" role="status" aria-live="polite"></p>
+    </section>
+
+    <div id="result" hidden>
+      <section class="panel summary" aria-labelledby="summary-title">
+        <div class="summary-head">
+          <h2 id="summary-title">Summary</h2>
+          <span class="badge" id="badge"></span>
+        </div>
+        <dl class="totals">
+          <div><dt>Billed total</dt><dd id="billed-total"></dd></div>
+          <div><dt>Recomputed total</dt><dd id="recomputed-total"></dd></div>
+          <div><dt>Difference</dt><dd id="total-diff"></dd></div>
+        </dl>
+        <p class="meta" id="meta"></p>
+      </section>
+
+      <section class="notice" id="containment" hidden aria-labelledby="containment-title">
+        <h2 id="containment-title">Hidden instruction ignored</h2>
+        <p>The document contained text addressed to an AI system. It was removed before any model read the bill and had no effect on the checks.</p>
+        <ul id="containment-list"></ul>
+      </section>
+
+      <section class="panel" aria-labelledby="findings-title">
+        <h2 id="findings-title">Findings</h2>
+        <p class="empty" id="no-findings" hidden>No discrepancies found. The billed amounts match the published tariff.</p>
+        <div class="table-wrap" id="findings-wrap">
+          <table>
+            <thead>
+              <tr><th scope="col">#</th><th scope="col">Check</th><th scope="col" class="num">Billed</th><th scope="col" class="num">Recomputed</th><th scope="col" class="num">Difference</th><th scope="col">Receipts</th></tr>
+            </thead>
+            <tbody id="findings-body"></tbody>
+          </table>
+        </div>
+        <p class="analyst" id="analyst"></p>
+      </section>
+
+      <section class="panel" id="skipped-panel" hidden aria-labelledby="skipped-title">
+        <h2 id="skipped-title">Checks not run</h2>
+        <ul id="skipped-list"></ul>
+      </section>
+
+      <section class="panel letter" id="letter-panel" hidden aria-labelledby="letter-title">
+        <div class="summary-head">
+          <h2 id="letter-title">Dispute letter</h2>
+          <span class="source" id="letter-source"></span>
+        </div>
+        <pre id="letter-text"></pre>
+        <div class="actions">
+          <button type="button" id="copy-letter">Copy letter</button>
+          <button type="button" id="download-letter">Download .txt</button>
+        </div>
+      </section>
+
+      <section class="panel">
+        <details>
+          <summary>What we read from the bill</summary>
+          <p class="meta" id="unreadable"></p>
+          <dl class="extracted" id="extracted"></dl>
+        </details>
+      </section>
+
+      <p class="disclaimer" id="disclaimer"></p>
+    </div>
+  </main>
+
+  <dialog id="receipt-dialog" aria-labelledby="receipt-title">
+    <div class="dialog-head">
+      <h2 id="receipt-title">Receipt</h2>
+      <button type="button" id="close-receipt" aria-label="Close receipt">Close</button>
+    </div>
+    <p class="meta" id="receipt-meta"></p>
+    <pre id="receipt-content"></pre>
+  </dialog>
+
+  <script src="bill.js"></script>
+</body>
+</html>

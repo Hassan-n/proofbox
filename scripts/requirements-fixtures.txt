@@ -1,0 +1,5 @@
+# Person B dev tooling for scripts/generate_fixtures.py and Bill Lens tests.
+# Kept separate from apps/api/requirements.txt (owned by Person A).
+fpdf2==2.8.3
+pdfplumber==0.11.4
+pytest>=8

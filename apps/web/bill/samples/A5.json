@@ -1,0 +1,195 @@
+{
+  "lens": "bill",
+  "status": "ok",
+  "tariff_id": "karoo-bay-metro-water-v1",
+  "extracted": {
+    "municipality": "Karoo Bay Metro",
+    "account_number": "1002 3345 01",
+    "account_holder": "N. Example",
+    "service_address": "14 Sample Road, Karoo Bay",
+    "invoice_number": "KBM-876669",
+    "issue_date": "2026-10-05",
+    "billing_period": {
+      "start": "2026-09-01",
+      "end": "2026-09-30"
+    },
+    "meter_number": "KBM-WM-40217",
+    "meter_readings": [
+      {
+        "date": "2026-07-31",
+        "reading_kl": "1104.0",
+        "type": "actual"
+      },
+      {
+        "date": "2026-08-31",
+        "reading_kl": "1119.5",
+        "type": "actual"
+      },
+      {
+        "date": "2026-09-30",
+        "reading_kl": "1137.5",
+        "type": "actual"
+      }
+    ],
+    "consumption_kl": "18.0",
+    "tariff_lines": [
+      {
+        "description": "Water 0-6 kl",
+        "quantity_kl": "6.0",
+        "rate_per_kl": "15.00",
+        "amount": "90.00"
+      },
+      {
+        "description": "Water 6-15 kl",
+        "quantity_kl": "9.0",
+        "rate_per_kl": "25.00",
+        "amount": "225.00"
+      },
+      {
+        "description": "Water above 15 kl",
+        "quantity_kl": "3.0",
+        "rate_per_kl": "38.00",
+        "amount": "114.00"
+      }
+    ],
+    "fixed_charges": [
+      {
+        "description": "Water service charge",
+        "amount": "120.00"
+      },
+      {
+        "description": "Refuse removal",
+        "amount": "95.00"
+      }
+    ],
+    "subtotal": "644.00",
+    "vat_rate": "0.15",
+    "vat": "96.60",
+    "total_due": "740.60"
+  },
+  "unreadable_fields": [],
+  "notes": [],
+  "summary": {
+    "findings": 0,
+    "billed_total": "740.60",
+    "recomputed_total": "740.60"
+  },
+  "findings": [],
+  "skipped_checks": [
+    {
+      "check": "outage_consistency",
+      "reason": "No outage log was provided"
+    }
+  ],
+  "checks_run": [
+    "arithmetic",
+    "estimated_readings",
+    "meter_sanity",
+    "line_items"
+  ],
+  "recomputation": {
+    "tariff_id": "karoo-bay-metro-water-v1",
+    "tariff_version": 1,
+    "currency": "ZAR",
+    "consumption_kl": "18.0",
+    "water_lines": [
+      {
+        "code": "water_tier_1",
+        "description": "Water 0-6 kl",
+        "quantity_kl": "6",
+        "rate_per_kl": "15.00",
+        "amount": "90.00"
+      },
+      {
+        "code": "water_tier_2",
+        "description": "Water 6-15 kl",
+        "quantity_kl": "9",
+        "rate_per_kl": "25.00",
+        "amount": "225.00"
+      },
+      {
+        "code": "water_tier_3",
+        "description": "Water above 15 kl",
+        "quantity_kl": "3.0",
+        "rate_per_kl": "38.00",
+        "amount": "114.00"
+      }
+    ],
+    "fixed_lines": [
+      {
+        "code": "water_service",
+        "description": "Water service charge",
+        "quantity_kl": null,
+        "rate_per_kl": null,
+        "amount": "120.00"
+      },
+      {
+        "code": "refuse",
+        "description": "Refuse removal",
+        "quantity_kl": null,
+        "rate_per_kl": null,
+        "amount": "95.00"
+      }
+    ],
+    "water_total": "429.00",
+    "subtotal": "644.00",
+    "vat_rate": "0.15",
+    "vat": "96.60",
+    "total": "740.60"
+  },
+  "analyst": {
+    "status": "agreed",
+    "attempts": 1,
+    "comparison": {
+      "subtotal": {
+        "engine": "644.00",
+        "analyst": "644.00",
+        "agree": true
+      },
+      "vat": {
+        "engine": "96.60",
+        "analyst": "96.60",
+        "agree": true
+      },
+      "total": {
+        "engine": "740.60",
+        "analyst": "740.60",
+        "agree": true
+      }
+    }
+  },
+  "dispute_letter": null,
+  "events": [],
+  "receipts": {
+    "rcpt-1": {
+      "kind": "extract",
+      "label": "Bill text",
+      "sha256": "3a2b9889e8d8c36aa3172263e3d388fc5f3e0321f2d9f2eb76a832e6040a3639",
+      "content": "{\n  \"document_text\": \"--- page 1 ---\\nKaroo Bay Metro - Municipal Account\\nAccount number: 1002 3345 01\\nAccount holder: N. Example\\nService address: 14 Sample Road, Karoo Bay\\nInvoice number: KBM-876669\\nIssue date: 2026-10-05\\nBilling period: 2026-09-01 to 2026-09-30\\nMeter number: KBM-WM-40217\\nMeter readings\\nReading date Reading (kl) Type\\n2026-07-31 1104.0 Actual\\n2026-08-31 1119.5 Actual\\n2026-09-30 1137.5 Actual\\nConsumption this period: 18.0 kl\\nCharges\\nDescription Quantity (kl) Rate (R/kl) Amount (R)\\nWater 0-6 kl 6.0 15.00 90.00\\nWater 6-15 kl 9.0 25.00 225.00\\nWater above 15 kl 3.0 38.00 114.00\\nWater service charge 120.00\\nRefuse removal 95.00\\nSubtotal R 644.00\\nVAT 15% R 96.60\\nTotal due R 740.60\\nPayment is due within 30 days of the issue date. Queries: accounts@karoobay.example\\nSynthetic demo document - page 1\",\n  \"extracted\": {\n    \"municipality\": \"Karoo Bay Metro\",\n    \"account_number\": \"1002 3345 01\",\n    \"account_holder\": \"N. Example\",\n    \"service_address\": \"14 Sample Road, Karoo Bay\",\n    \"invoice_number\": \"KBM-876669\",\n    \"issue_date\": \"2026-10-05\",\n    \"billing_period\": {\n      \"start\": \"2026-09-01\",\n      \"end\": \"2026-09-30\"\n    },\n    \"meter_number\": \"KBM-WM-40217\",\n    \"meter_readings\": [\n      {\n        \"date\": \"2026-07-31\",\n        \"reading_kl\": \"1104.0\",\n        \"type\": \"actual\"\n      },\n      {\n        \"date\": \"2026-08-31\",\n        \"reading_kl\": \"1119.5\",\n        \"type\": \"actual\"\n      },\n      {\n        \"date\": \"2026-09-30\",\n        \"reading_kl\": \"1137.5\",\n        \"type\": \"actual\"\n      }\n    ],\n    \"consumption_kl\": \"18.0\",\n    \"tariff_lines\": [\n      {\n        \"description\": \"Water 0-6 kl\",\n        \"quantity_kl\": \"6.0\",\n        \"rate_per_kl\": \"15.00\",\n        \"amount\": \"90.00\"\n      },\n      {\n        \"description\": \"Water 6-15 kl\",\n        \"quantity_kl\": \"9.0\",\n        \"rate_per_kl\": \"25.00\",\n        \"amount\": \"225.00\"\n      },\n      {\n        \"description\": \"Water above 15 kl\",\n        \"quantity_kl\": \"3.0\",\n        \"rate_per_kl\": \"38.00\",\n        \"amount\": \"114.00\"\n      }\n    ],\n    \"fixed_charges\": [\n      {\n        \"description\": \"Water service charge\",\n        \"amount\": \"120.00\"\n      },\n      {\n        \"description\": \"Refuse removal\",\n        \"amount\": \"95.00\"\n      }\n    ],\n    \"subtotal\": \"644.00\",\n    \"vat_rate\": \"0.15\",\n    \"vat\": \"96.60\",\n    \"total_due\": \"740.60\"\n  }\n}"
+    },
+    "rcpt-2": {
+      "kind": "recompute",
+      "label": "Tariff recompute",
+      "sha256": "d5c779b94ed66f719445426735d9388c310c1d8352e2367ca434d185f697f089",
+      "content": "{\n  \"tariff_id\": \"karoo-bay-metro-water-v1\",\n  \"findings\": [],\n  \"skipped_checks\": [\n    {\n      \"check\": \"outage_consistency\",\n      \"reason\": \"No outage log was provided\"\n    }\n  ],\n  \"checks_run\": [\n    \"arithmetic\",\n    \"estimated_readings\",\n    \"meter_sanity\",\n    \"line_items\"\n  ],\n  \"recomputation\": {\n    \"tariff_id\": \"karoo-bay-metro-water-v1\",\n    \"tariff_version\": 1,\n    \"currency\": \"ZAR\",\n    \"consumption_kl\": \"18.0\",\n    \"water_lines\": [\n      {\n        \"code\": \"water_tier_1\",\n        \"description\": \"Water 0-6 kl\",\n        \"quantity_kl\": \"6\",\n        \"rate_per_kl\": \"15.00\",\n        \"amount\": \"90.00\"\n      },\n      {\n        \"code\": \"water_tier_2\",\n        \"description\": \"Water 6-15 kl\",\n        \"quantity_kl\": \"9\",\n        \"rate_per_kl\": \"25.00\",\n        \"amount\": \"225.00\"\n      },\n      {\n        \"code\": \"water_tier_3\",\n        \"description\": \"Water above 15 kl\",\n        \"quantity_kl\": \"3.0\",\n        \"rate_per_kl\": \"38.00\",\n        \"amount\": \"114.00\"\n      }\n    ],\n    \"fixed_lines\": [\n      {\n        \"code\": \"water_service\",\n        \"description\": \"Water service charge\",\n        \"quantity_kl\": null,\n        \"rate_per_kl\": null,\n        \"amount\": \"120.00\"\n      },\n      {\n        \"code\": \"refuse\",\n        \"description\": \"Refuse removal\",\n        \"quantity_kl\": null,\n        \"rate_per_kl\": null,\n        \"amount\": \"95.00\"\n      }\n    ],\n    \"water_total\": \"429.00\",\n    \"subtotal\": \"644.00\",\n    \"vat_rate\": \"0.15\",\n    \"vat\": \"96.60\",\n    \"total\": \"740.60\"\n  }\n}"
+    },
+    "rcpt-3": {
+      "kind": "code",
+      "label": "Sandbox code",
+      "sha256": "d4709ade6cd15d841ff07a6955dc7f32157abcbcae40208101cd737d4ea18714",
+      "content": "INPUT_DIR = '/inputs'\nimport json\nfrom decimal import Decimal, ROUND_HALF_UP\nfrom datetime import date\n\ndef load(name):\n    try:\n        with open(f\"{INPUT_DIR}/{name}\", encoding=\"utf-8\") as fh:\n            return json.load(fh)\n    except FileNotFoundError:\n        return None\n\ndef dec(v):\n    if v is None:\n        return None\n    if isinstance(v, str) and v.strip().lower() == \"unreadable\":\n        return None\n    try:\n        return Decimal(str(v))\n    except Exception:\n        return None\n\ndef cents(d):\n    return d.quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n\ndef parse_date(s):\n    if not isinstance(s, str):\n        return None\n    try:\n        return date.fromisoformat(s)\n    except Exception:\n        return None\n\nbill = load(\"bill.json\") or {}\ntariff = load(\"tariff.json\") or {}\nhistory = load(\"history.json\")\n\nsubtotal = None\nvat = None\ntotal = None\n\nconsumption = dec(bill.get(\"consumption_kl\"))\ntiers = tariff.get(\"water_tiers\")\nvat_rate = dec(tariff.get(\"vat_rate\"))\nfixed = tariff.get(\"fixed_charges\")\n\nif consumption is not None and isinstance(tiers, list) and vat_rate is not None and isinstance(fixed, list):\n    lines = []\n    ok = True\n    for t in tiers:\n        f = dec(t.get(\"from_kl\"))\n        to = t.get(\"to_kl\")\n        rate = dec(t.get(\"rate_per_kl\"))\n        if f is None or rate is None:\n            ok = False\n            break\n        upper = None if to is None else dec(to)\n        if to is not None and upper is None:\n            ok = False\n            break\n        if upper is None:\n            band = consumption - f\n        else:\n            band = min(consumption, upper) - f\n        if band < 0:\n            band = Decimal(0)\n        lines.append(cents(band * rate))\n    if ok:\n        for fc in fixed:\n            amt = dec(fc.get(\"amount\"))\n            if amt is None:\n                ok = False\n                break\n            lines.append(cents(amt))\n    if ok:\n        subtotal = sum(lines, Decimal(0))\n        vat = cents(subtotal * vat_rate)\n        total = subtotal + vat\n\nnormal_kl = None\nimplied_kl = None\n\nperiod_days = None\noutage_days = None\nsupplied_days = None\n\nbp = bill.get(\"billing_period\") or {}\nstart = parse_date(bp.get(\"start\"))\nend = parse_date(bp.get(\"end\"))\nif start is not None and end is not None and end >= start:\n    period_days = (end - start).days + 1\n\nif isinstance(history, dict):\n    acct_match = history.get(\"account_number\") == bill.get(\"account_number\")\n    prev = history.get(\"previous_bills\")\n    normal_avg = None\n    if acct_match and isinstance(prev, list):\n        vals = []\n        for p in prev:\n            c = dec(p.get(\"consumption_kl\"))\n            if c is not None:\n                vals.append(c)\n        if len(vals) >= 2:\n            normal_avg = sum(vals, Decimal(0)) / Decimal(len(vals))\n            normal_kl = normal_avg.quantize(Decimal(\"0.1\"), rounding=ROUND_HALF_UP)\n    if start is not None and end is not None and end >= start:\n        log = history.get(\"outage_log\")\n        if isinstance(log, list):\n            dates = set()\n            for e in log:\n                if e.get(\"supply\") == \"none\":\n                    d = parse_date(e.get(\"date\"))\n                    if d is not None and start <= d <= end:\n                        dates.add(d)\n            outage_days = len(dates)\n            if period_days is not None:\n                supplied_days = period_days - outage_days\n                if normal_avg is not None and period_days > 0:\n                    implied = normal_avg * Decimal(supplied_days) / Decimal(period_days)\n                    implied_kl = implied.quantize(Decimal(\"0.1\"), rounding=ROUND_HALF_UP)\n\nout = {\n    \"subtotal\": None if subtotal is None else str(cents(subtotal)),\n    \"vat\": None if vat is None else str(cents(vat)),\n    \"total\": None if total is None else str(cents(total)),\n    \"normal_kl\": None if normal_kl is None else str(normal_kl),\n    \"period_days\": period_days,\n    \"outage_days\": outage_days,\n    \"supplied_days\": supplied_days,\n    \"implied_kl\": None if implied_kl is None else str(implied_kl),\n}\nprint(json.dumps(out))"
+    },
+    "rcpt-4": {
+      "kind": "output",
+      "label": "Sandbox output",
+      "sha256": "7c3ac504413799e3f1a159a12df0d51a158499e7e8e54df7e4767bb0b0b68eeb",
+      "content": "{\"subtotal\": \"644.00\", \"vat\": \"96.60\", \"total\": \"740.60\", \"normal_kl\": null, \"period_days\": 30, \"outage_days\": null, \"supplied_days\": null, \"implied_kl\": null}\n"
+    }
+  },
+  "disclaimer": "Figures are recomputed from the published tariff and the details read from your bill. This is not legal advice. Check each point before you send the letter.",
+  "sample": {
+    "id": "A5",
+    "document": "A5_bill_clean.pdf",
+    "mode": "live"
+  }
+}
