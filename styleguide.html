@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofbox · Design System Styleguide</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: var(--s3);
+      margin: var(--s3) 0 var(--s5);
+    }
+    .swatch {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      font-size: var(--text-xs);
+      background-color: var(--surface);
+    }
+    .swatch-color {
+      height: 54px;
+      width: 100%;
+    }
+    .swatch-info {
+      padding: var(--s2);
+    }
+    .swatch-name {
+      font-weight: 700;
+    }
+    .swatch-hex {
+      color: var(--ink-muted);
+      font-family: var(--font-mono);
+    }
+    .section-divider {
+      border: 0;
+      border-top: 1px solid var(--line);
+      margin: var(--s6) 0;
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Persistent App Shell -->
+  <header class="topbar">
+    <div class="topbar-banner">
+      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>
+      <span>Synthetic data only. Please do not upload real documents.</span>
+    </div>
+    <div class="topbar-inner">
+      <a class="brand" href="./" aria-label="Proofbox Home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>Proofbox</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Primary Navigation">
+        <a href="./" aria-current="page">Styleguide</a>
+        <a href="index.html">Chat &amp; Link Lens</a>
+        <a href="bill/">Bill Lens</a>
+        <a href="letter/">Letter Lens</a>
+        <a href="case/">Case File</a>
+        <a href="vultr.html">Vultr Judges Page</a>
+      </nav>
+      <div class="lang-picker">
+        <label for="styleguide-lang" class="sr-only">Language</label>
+        <select id="styleguide-lang" class="lang-select">
+          <option value="en">English</option>
+          <option value="zu">isiZulu</option>
+          <option value="af">Afrikaans</option>
+          <option value="st">Sesotho</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="app-main app-container">
+    <header style="margin-bottom: var(--s5);">
+      <span class="eyebrow">Design System &amp; Component Testbench</span>
+      <h1>Proofbox Central Styleguide</h1>
+      <p class="text-muted" style="max-width: 680px;">
+        Brand line: <em>Open nothing unsafely. Believe nothing unproven. Fight with receipts.</em>
+        A trustworthy forensic notebook aesthetic engineered with zero external dependencies, WCAG AA compliance, and full keyboard navigation.
+      </p>
+    </header>
+
+    <!-- SECTION 1: DESIGN TOKENS -->
+    <section aria-labelledby="tokens-title">
+      <h2 id="tokens-title">1. Design Tokens &amp; Surfaces</h2>
+
+      <h3>Surfaces &amp; Lines</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background: var(--paper);"></div><div class="swatch-info"><div class="swatch-name">Paper</div><div class="swatch-hex">#F7F5F0</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--surface);"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#FFFFFF</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--surface-sunken);"></div><div class="swatch-info"><div class="swatch-name">Sunken</div><div class="swatch-hex">#EFECE4</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--line);"></div><div class="swatch-info"><div class="swatch-name">Line</div><div class="swatch-hex">#D9D4C7</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--ink);"></div><div class="swatch-info"><div class="swatch-name" style="color: #fff; background: #14202B;">Ink</div><div class="swatch-hex">#14202B</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--ink-muted);"></div><div class="swatch-info"><div class="swatch-name">Ink Muted</div><div class="swatch-hex">#4B5966</div></div></div>
+      </div>
+
+      <h3>Brand &amp; Containment Chamber</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background: var(--brand);"></div><div class="swatch-info"><div class="swatch-name">Brand Teal</div><div class="swatch-hex">#0F6B64</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--brand-strong);"></div><div class="swatch-info"><div class="swatch-name">Brand Strong</div><div class="swatch-hex">#0A4F4A</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--brand-tint);"></div><div class="swatch-info"><div class="swatch-name">Brand Tint</div><div class="swatch-hex">#E2F1EF</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--chamber-bg);"></div><div class="swatch-info"><div class="swatch-name" style="color: #fff; background: #0B1620;">Chamber BG</div><div class="swatch-hex">#0B1620</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--chamber-surface);"></div><div class="swatch-info"><div class="swatch-name" style="color: #fff; background: #12212E;">Chamber Surface</div><div class="swatch-hex">#12212E</div></div></div>
+      </div>
+
+      <h3>Status Colors (Contrast Verified)</h3>
+      <div class="swatch-grid">
+        <div class="swatch"><div class="swatch-color" style="background: var(--danger);"></div><div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-hex">#B42318</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--warn);"></div><div class="swatch-info"><div class="swatch-name">Warn</div><div class="swatch-hex">#A15C07</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--info);"></div><div class="swatch-info"><div class="swatch-name">Info (No Issue)</div><div class="swatch-hex">#1F5F99</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--ok);"></div><div class="swatch-info"><div class="swatch-name">Ok (Process)</div><div class="swatch-hex">#1B6B3A</div></div></div>
+        <div class="swatch"><div class="swatch-color" style="background: var(--neutral);"></div><div class="swatch-info"><div class="swatch-name">Neutral</div><div class="swatch-hex">#5A6672</div></div></div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 2: BUTTONS -->
+    <section aria-labelledby="buttons-title">
+      <h2 id="buttons-title">2. Buttons &amp; Interactive Actions (Min 48px Touch Target)</h2>
+      <div class="flex-row" style="margin-bottom: var(--s4);">
+        <button type="button" class="btn btn-primary">Primary Action</button>
+        <button type="button" class="btn btn-secondary">Secondary Action</button>
+        <button type="button" class="btn btn-quiet">Quiet / Ghost</button>
+        <button type="button" class="btn btn-danger">Danger Action</button>
+        <button type="button" class="btn btn-redteam">Try to break it</button>
+      </div>
+
+      <div class="flex-row" style="margin-bottom: var(--s4);">
+        <button type="button" class="btn btn-primary btn-sm">Small Button</button>
+        <button type="button" class="btn btn-primary">Standard Button</button>
+        <button type="button" class="btn btn-primary btn-lg">Large Button</button>
+      </div>
+
+      <div class="flex-row">
+        <button type="button" class="btn btn-primary is-loading" disabled>Loading Action</button>
+        <button type="button" class="btn btn-secondary" disabled>Disabled State</button>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 3: STATUS CHIPS -->
+    <section aria-labelledby="status-title">
+      <h2 id="status-title">3. Status Chips (Always Word + Icon)</h2>
+      <p class="text-sm text-muted">WCAG AA Rule: Status must never be conveyed by color alone.</p>
+      <div class="flex-row" style="margin-bottom: var(--s3);">
+        <span class="status-chip status-chip--dangerous">
+          <span aria-hidden="true">▲</span> Dangerous
+        </span>
+        <span class="status-chip status-chip--suspicious">
+          <span aria-hidden="true">●</span> Suspicious
+        </span>
+        <span class="status-chip status-chip--no_issue_found">
+          <span aria-hidden="true">ℹ</span> No Issue Found
+        </span>
+        <span class="status-chip status-chip--could_not_check">
+          <span aria-hidden="true">?</span> Could Not Check
+        </span>
+      </div>
+
+      <div class="flex-row" style="margin-bottom: var(--s3);">
+        <span class="status-chip status-chip--upcoming"><span aria-hidden="true">○</span> Upcoming</span>
+        <span class="status-chip status-chip--due_soon"><span aria-hidden="true">◷</span> Due Soon</span>
+        <span class="status-chip status-chip--overdue"><span aria-hidden="true">!</span> Overdue</span>
+        <span class="status-chip status-chip--met"><span aria-hidden="true">✓</span> Met</span>
+        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Verified</span>
+      </div>
+
+      <div class="flex-row">
+        <span class="status have">✓ Have document</span>
+        <span class="status missing">✕ Missing document</span>
+        <span class="status needs_fixing">! Needs fixing</span>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 4: CONTAINMENT PANEL (HERO) -->
+    <section aria-labelledby="chamber-title">
+      <h2 id="chamber-title">4. Hero Containment Panel (Dark Chamber Zone)</h2>
+      <p class="text-sm text-muted">The sealed execution zone that runs untrusted links, letters, and bills.</p>
+
+      <div class="containment-panel">
+        <div class="containment-header">
+          <div class="containment-title-group">
+            <span class="containment-badge">Sandbox</span>
+            <span class="font-mono text-xs">job-7c3a4f1e</span>
+          </div>
+          <div class="flex-row">
+            <span class="containment-live-pill">
+              <span class="containment-live-dot" aria-hidden="true"></span>
+              <span>RUNNING</span>
+            </span>
+            <span class="containment-timer">24s remaining</span>
+          </div>
+        </div>
+
+        <div class="containment-summary">
+          <div class="containment-summary-item">
+            <span>Blocked:</span> <span class="containment-summary-count">2</span>
+          </div>
+          <div class="containment-summary-item">
+            <span>Quarantined:</span> <span class="containment-summary-count">1</span>
+          </div>
+          <div class="containment-summary-item">
+            <span>Ignored:</span> <span class="containment-summary-count">1</span>
+          </div>
+        </div>
+
+        <ol class="containment-events" aria-live="polite">
+          <li class="containment-event-row" style="border-left-color: #38BDF8;">
+            <span class="containment-event-time">21:10:02</span>
+            <div class="containment-event-body">
+              <span class="containment-event-tag">QUEUED</span>
+              <span>Container initialized in isolated sandbox with zero host access.</span>
+            </div>
+          </li>
+          <li class="containment-event-row" style="border-left-color: #F87171;">
+            <span class="containment-event-time">21:10:05</span>
+            <div class="containment-event-body">
+              <span class="containment-event-tag tag-blocked">BLOCKED</span>
+              <span>Blocked: tried to reach internal network 10.0.0.5:8080</span>
+            </div>
+          </li>
+          <li class="containment-event-row" style="border-left-color: #FBBF24;">
+            <span class="containment-event-time">21:10:08</span>
+            <div class="containment-event-body">
+              <span class="containment-event-tag tag-quarantined">QUARANTINED</span>
+              <span>Download intercepted: payload.bin (14.2 KB, sha256: 7f8a...c91) never opened.</span>
+            </div>
+          </li>
+          <li class="containment-event-row" style="border-left-color: #60A5FA;">
+            <span class="containment-event-time">21:10:11</span>
+            <div class="containment-event-body">
+              <span class="containment-event-tag tag-ignored">IGNORED</span>
+              <span>Prompt injection instruction removed from document; did not change the result.</span>
+            </div>
+          </li>
+          <li class="containment-event-row" style="border-left-color: #34D399;">
+            <span class="containment-event-time">21:10:14</span>
+            <div class="containment-event-body">
+              <span class="containment-event-tag tag-destroyed">DESTROYED</span>
+              <span>Container destroyed. Job job-7c3a4f1e closed.</span>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 5: VERDICT CARD -->
+    <section aria-labelledby="verdict-title-sec">
+      <h2 id="verdict-title-sec">5. Verdict Card &amp; Mandatory Honest Wording</h2>
+
+      <div class="grid-equal-2col">
+        <!-- Dangerous Verdict -->
+        <article class="verdict-card">
+          <span class="status-chip status-chip--dangerous">
+            <span aria-hidden="true">▲</span> Dangerous
+          </span>
+          <h3 class="verdict-heading">Do not enter personal details on this link.</h3>
+
+          <div class="verdict-confidence-box">
+            <span>Confidence: High</span>
+            <div class="confidence-bar" role="progressbar" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100">
+              <div class="confidence-bar-fill" style="width: 94%;"></div>
+            </div>
+          </div>
+
+          <div class="verdict-advice-box">
+            <p class="verdict-advice-text">Navigate directly to the official portal for Kingfisher Bank at your verified bookmark or app.</p>
+          </div>
+
+          <ul class="verdict-reasons-list">
+            <li>The site domain is registered to an unknown third party.</li>
+            <li>The login form submits credentials to an unverified IP address.</li>
+          </ul>
+
+          <div class="verdict-caveat-box">
+            <strong>What this does not mean:</strong> Proofbox evaluates observable technical signals. It is not legal or regulatory advice.
+          </div>
+        </article>
+
+        <!-- No Issue Found Verdict (Info Blue, Never Green Safe) -->
+        <article class="verdict-card">
+          <span class="status-chip status-chip--no_issue_found">
+            <span aria-hidden="true">ℹ</span> No Issue Found
+          </span>
+          <h3 class="verdict-heading">No signs of tampering or unauthorized network calls.</h3>
+
+          <div class="verdict-confidence-box">
+            <span>Confidence: Medium</span>
+            <div class="confidence-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+              <div class="confidence-bar-fill" style="width: 75%; background-color: var(--info);"></div>
+            </div>
+          </div>
+
+          <div class="verdict-advice-box" style="border-left-color: var(--info);">
+            <p class="verdict-advice-text">Verify any payment request by checking your account balance directly through official banking channels.</p>
+          </div>
+
+          <ul class="verdict-reasons-list">
+            <li>Page certificate matches the published Karoo Bay Metro authority.</li>
+            <li>No network requests were blocked or redirected during sandbox inspection.</li>
+          </ul>
+
+          <div class="verdict-caveat-box">
+            <strong>What this does not mean:</strong> <em>No issue found does not mean safe.</em> New phishing campaigns can appear before automated detection updates.
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 6: CHAT INTAKE BUBBLES -->
+    <section aria-labelledby="chat-title">
+      <h2 id="chat-title">6. Chat Intake &amp; Router Bubbles</h2>
+
+      <div class="card">
+        <div class="chat-container">
+          <div class="chat-bubble chat-proofbox">
+            Hello! I can help you inspect suspicious links, bills, or official letters safely in a sealed sandbox. Paste text, enter a link, or tap one of the examples below.
+          </div>
+
+          <div class="prompt-chips">
+            <button type="button" class="prompt-chip">
+              <span aria-hidden="true">📱</span> Suspicious SMS with payment link
+            </button>
+            <button type="button" class="prompt-chip">
+              <span aria-hidden="true">💧</span> Unexpected municipal water bill
+            </button>
+            <button type="button" class="prompt-chip">
+              <span aria-hidden="true">📄</span> Agency grant deadline letter
+            </button>
+          </div>
+
+          <div class="chat-bubble chat-user">
+            I got an SMS from Karoo Bay Metro saying my water will be disconnected: https://karoo-bay.pay-water.fake/pay
+          </div>
+
+          <div class="chat-bubble chat-router">
+            <span class="chat-router-tag">Router Action</span>
+            <div>I'm routing this to <strong>Link Lens</strong>. I will open the URL in an isolated headless browser with no credentials, verify SSL certs, and monitor network requests.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 7: DISCREPANCY TABLE (BILL LENS) -->
+    <section aria-labelledby="table-title">
+      <h2 id="table-title">7. Discrepancy Table (Reflows to Cards at 360px)</h2>
+
+      <div class="discrepancy-table-wrap">
+        <table class="discrepancy-table">
+          <thead>
+            <tr>
+              <th scope="col">Charge Description</th>
+              <th scope="col">Billed</th>
+              <th scope="col">Recomputed</th>
+              <th scope="col">Difference</th>
+              <th scope="col">Receipt</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Water Consumption (Step 3: >15kl)</th>
+              <td data-label="Billed">R 840.50</td>
+              <td data-label="Recomputed">R 620.00</td>
+              <td data-label="Difference">
+                <span class="discrepancy-diff">
+                  <span aria-hidden="true">▲</span> +R 220.50
+                </span>
+              </td>
+              <td data-label="Receipt">
+                <button type="button" class="receipt-chip">[E1] Tariff R28.18/kl</button>
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">Fixed Infrastructure Levy</th>
+              <td data-label="Billed">R 125.00</td>
+              <td data-label="Recomputed">R 125.00</td>
+              <td data-label="Difference">
+                <span class="text-muted">R 0.00</span>
+              </td>
+              <td data-label="Receipt">
+                <button type="button" class="receipt-chip">[E2] Gazetted Levy</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 8: CASE TIMELINE & NEXT ACTION -->
+    <section aria-labelledby="timeline-sec-title">
+      <h2 id="timeline-sec-title">8. Case Timeline &amp; Next Action Card</h2>
+
+      <div class="next-action-card" style="margin-bottom: var(--s4);">
+        <div class="next-action-title">
+          <span aria-hidden="true">★</span> Next Required Action
+        </div>
+        <div class="next-action-body">
+          Deliver the formal dispute letter to Karoo Bay Metro customer center before the 14-day statutory clock runs out.
+        </div>
+      </div>
+
+      <div class="timeline">
+        <article class="timeline-node">
+          <div class="timeline-dot" aria-hidden="true">1</div>
+          <div class="timeline-card">
+            <div class="flex-between">
+              <strong>Water Bill Checked</strong>
+              <span class="status-chip status-chip--verified">✓ Verified</span>
+            </div>
+            <p class="text-sm text-muted">A6 water bill recomputed against published Karoo Bay Metro 2026 tariff gazette.</p>
+            <div class="flex-row">
+              <button type="button" class="receipt-chip">[E1] Recomputed Totals</button>
+              <button type="button" class="receipt-chip">[E2] Outage Log Consistency</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="timeline-node">
+          <div class="timeline-dot" aria-hidden="true">2</div>
+          <div class="timeline-card">
+            <div class="flex-between">
+              <strong>Letter Generated</strong>
+              <span class="status-chip status-chip--verified">✓ Verified</span>
+            </div>
+            <p class="text-sm text-muted">Dispute letter drafted with code-verified claim amounts.</p>
+            <div class="flex-row">
+              <button type="button" class="receipt-chip">[E3] Letter Draft</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <hr class="section-divider">
+
+    <!-- SECTION 9: DIALOG TEST -->
+    <section aria-labelledby="dialog-sec-title">
+      <h2 id="dialog-sec-title">9. Accessible Dialog / Modal (Focus Trap &amp; Esc)</h2>
+      <button type="button" class="btn btn-primary" id="open-demo-dialog">Open Sample Receipt Modal</button>
+
+      <dialog id="sample-receipt-dialog" aria-labelledby="dialog-sample-title">
+        <div class="dialog-head">
+          <div>
+            <span class="eyebrow">Evidence Receipt</span>
+            <h3 id="dialog-sample-title" style="margin: 0;">Receipt · tariff_engine</h3>
+          </div>
+          <button type="button" class="btn btn-quiet btn-sm" id="close-demo-dialog" aria-label="Close dialog">✕</button>
+        </div>
+        <p class="font-mono text-xs text-muted">SHA-256: 4f1a8c9b2e7d3a5f6e8b1c4d9a2e3f5b7c8d9e0a1b2c3d4e5f6a7b8c9d0e1f2a</p>
+        <pre>{
+  "receipt_id": "rcpt-8f12a9b4",
+  "engine": "tariff_v2026_1",
+  "verified": true,
+  "rate_tier": "step_3_water",
+  "discrepancy_detected": 220.50
+}</pre>
+        <div style="margin-top: var(--s4); text-align: right;">
+          <button type="button" class="btn btn-secondary" id="confirm-demo-dialog">Done</button>
+        </div>
+      </dialog>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>Proofbox · Forensic Inspection Notebook</div>
+      <div>Synthetic test data only. Not legal advice.</div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { setupAccessibleDialog, showToast } from "./js/common.js";
+
+    const dialog = document.querySelector("#sample-receipt-dialog");
+    const openBtn = document.querySelector("#open-demo-dialog");
+    const closeBtn = document.querySelector("#close-demo-dialog");
+    const doneBtn = document.querySelector("#confirm-demo-dialog");
+
+    const dialogController = setupAccessibleDialog(dialog, openBtn);
+
+    openBtn.addEventListener("click", () => {
+      dialogController.open(openBtn);
+    });
+
+    closeBtn.addEventListener("click", () => dialogController.close());
+    doneBtn.addEventListener("click", () => {
+      dialogController.close();
+      showToast("Receipt modal closed");
+    });
+  </script>
+</body>
+</html>

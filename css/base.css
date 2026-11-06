@@ -1,0 +1,255 @@
+/* ==========================================================================
+   Proofbox Central Design System · Base & Primitives
+   Reset, Typography, Layout Primitives, Accessibility Defaults
+   ========================================================================== */
+
+/* Universal Reset & Box Sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  tab-size: 4;
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--s6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  line-height: var(--leading);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Typography Hierarchy */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-weight: 700;
+  line-height: var(--leading-tight);
+  margin-top: 0;
+  margin-bottom: var(--s3);
+  letter-spacing: -0.015em;
+  overflow-wrap: break-word;
+}
+
+h1 {
+  font-size: clamp(1.75rem, 5vw, 2.5rem);
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+}
+
+h3 {
+  font-size: var(--text-lg);
+}
+
+h4 {
+  font-size: var(--text-md);
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: var(--s4);
+}
+
+p:last-child {
+  margin-bottom: 0;
+}
+
+small, .text-sm {
+  font-size: var(--text-sm);
+}
+
+.text-xs {
+  font-size: var(--text-xs);
+}
+
+.text-muted {
+  color: var(--ink-muted);
+}
+
+/* Monospace & Code */
+code, kbd, samp, pre, .font-mono {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+pre {
+  margin: 0;
+  padding: var(--s4);
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow-x: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+/* Links */
+a {
+  color: var(--brand);
+  text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px;
+  transition: color var(--dur) var(--ease);
+}
+
+a:hover {
+  color: var(--brand-strong);
+}
+
+/* Images & Media */
+img, svg, video, canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Keyboard Focus Defaults */
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+  border-radius: 4px;
+}
+
+/* Skip Navigation Link */
+.skip-link {
+  position: absolute;
+  top: var(--s2);
+  left: var(--s2);
+  background: var(--surface);
+  color: var(--brand);
+  font-weight: 700;
+  padding: var(--s3) var(--s4);
+  border: 2px solid var(--brand);
+  border-radius: var(--radius-sm);
+  z-index: 1000;
+  transform: translateY(-200%);
+  transition: transform var(--dur) var(--ease);
+  box-shadow: var(--shadow-2);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Screen Reader Only Utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Layout Primitives */
+.app-container {
+  width: 100%;
+  max-width: 1120px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: var(--s4);
+  padding-right: var(--s4);
+}
+
+.app-main {
+  flex: 1 0 auto;
+  padding-top: var(--s5);
+  padding-bottom: var(--s7);
+}
+
+/* Responsive Grid Primitives (Mobile First: stacks at 360px, splits on desktop) */
+.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s5);
+}
+
+@media (min-width: 840px) {
+  .grid-2col {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    align-items: start;
+  }
+}
+
+.grid-equal-2col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s4);
+}
+
+@media (min-width: 640px) {
+  .grid-equal-2col {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.grid-3col {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--s4);
+}
+
+@media (min-width: 680px) {
+  .grid-3col {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* Flexbox Helpers */
+.flex-row {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s3);
+}
+
+/* Plain Language Eyebrow Label */
+.eyebrow {
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  margin-bottom: var(--s2);
+}

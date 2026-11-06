@@ -1,0 +1,1327 @@
+/* ==========================================================================
+   Proofbox Central Design System · Components
+   Consistent, accessible, low-data UI components for all Proofbox screens
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. App Shell: Topbar, Navigation, Demo Banner, Footer
+   -------------------------------------------------------------------------- */
+.topbar {
+  background-color: var(--surface);
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-1);
+}
+
+.topbar-banner {
+  background-color: var(--warn-tint);
+  border-bottom: 1px solid var(--line);
+  padding: var(--s2) var(--s4);
+  font-size: var(--text-xs);
+  color: var(--warn-strong);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+}
+
+.topbar-banner-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.topbar-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--s3) var(--s4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  color: var(--ink);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: var(--text-md);
+  letter-spacing: -0.01em;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  background-color: var(--brand);
+  color: #FFFFFF;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-serif);
+  font-weight: 800;
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.topbar-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  flex-wrap: wrap;
+}
+
+.topbar-nav a {
+  color: var(--ink-muted);
+  text-decoration: none;
+  padding: var(--s2) var(--s3);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  transition: all var(--dur) var(--ease);
+  min-height: 36px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.topbar-nav a:hover {
+  color: var(--brand);
+  background-color: var(--brand-tint);
+}
+
+.topbar-nav a[aria-current="page"] {
+  background-color: var(--brand);
+  color: #FFFFFF;
+}
+
+.lang-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s1);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+.lang-select {
+  height: 34px;
+  padding: 0 var(--s2);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background-color: var(--surface);
+  color: var(--ink);
+}
+
+.site-footer {
+  border-top: 1px solid var(--line);
+  background-color: var(--surface);
+  padding: var(--s5) var(--s4);
+  margin-top: auto;
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+.site-footer-inner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  text-align: center;
+}
+
+@media (min-width: 640px) {
+  .site-footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   2. Cards & Surfaces
+   -------------------------------------------------------------------------- */
+.card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--s4);
+  box-shadow: var(--shadow-1);
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: var(--s5);
+  }
+}
+
+.card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s4);
+  flex-wrap: wrap;
+}
+
+/* --------------------------------------------------------------------------
+   3. Buttons
+   -------------------------------------------------------------------------- */
+.btn, button.primary, button.secondary, button.danger, button.ghost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s2);
+  min-height: var(--tap);
+  padding: var(--s2) var(--s4);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color var(--dur) var(--ease),
+              border-color var(--dur) var(--ease),
+              transform 60ms var(--ease);
+  user-select: none;
+  white-space: nowrap;
+}
+
+.btn:active:not(:disabled),
+button.primary:active:not(:disabled),
+button.secondary:active:not(:disabled) {
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* Primary Button */
+.btn-primary, button.primary {
+  background-color: var(--brand);
+  color: #FFFFFF;
+  border-color: var(--brand);
+}
+
+.btn-primary:hover:not(:disabled),
+button.primary:hover:not(:disabled) {
+  background-color: var(--brand-strong);
+  border-color: var(--brand-strong);
+}
+
+/* Secondary Button */
+.btn-secondary, button.secondary {
+  background-color: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+.btn-secondary:hover:not(:disabled),
+button.secondary:hover:not(:disabled) {
+  border-color: var(--line-strong);
+  background-color: var(--surface-sunken);
+}
+
+/* Quiet / Ghost Button */
+.btn-quiet, button.ghost {
+  background-color: transparent;
+  color: var(--brand);
+  border-color: transparent;
+}
+
+.btn-quiet:hover:not(:disabled),
+button.ghost:hover:not(:disabled) {
+  background-color: var(--brand-tint);
+  border-color: var(--brand-tint);
+}
+
+/* Danger Button */
+.btn-danger, button.danger {
+  background-color: var(--danger);
+  color: #FFFFFF;
+  border-color: var(--danger);
+}
+
+.btn-danger:hover:not(:disabled),
+button.danger:hover:not(:disabled) {
+  background-color: var(--danger-strong);
+  border-color: var(--danger-strong);
+}
+
+/* Button Sizes */
+.btn-sm, button.small {
+  min-height: 38px;
+  padding: var(--s1) var(--s3);
+  font-size: var(--text-xs);
+}
+
+.btn-lg {
+  min-height: 52px;
+  padding: var(--s3) var(--s5);
+  font-size: var(--text-md);
+}
+
+/* Red Team Safe Action Button */
+.btn-redteam {
+  background-color: var(--chamber-surface);
+  color: var(--chamber-text);
+  border: 1px solid var(--chamber-line);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-redteam:hover:not(:disabled) {
+  background-color: var(--chamber-line);
+  border-color: var(--brand);
+}
+
+/* Loading Spinner on Buttons */
+.btn.is-loading, button.busy {
+  position: relative;
+  color: transparent !important;
+}
+
+.btn.is-loading::after, button.busy::after {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -9px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: btn-spin 0.7s linear infinite;
+  color: inherit;
+}
+
+.btn-primary.is-loading::after, button.primary.busy::after {
+  border-color: #FFFFFF;
+  border-right-color: transparent;
+}
+
+@keyframes btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Form Controls & Dropzone
+   -------------------------------------------------------------------------- */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+  margin-bottom: var(--s4);
+}
+
+.form-label, label {
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ink);
+  display: block;
+}
+
+.form-hint, .input-help {
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  margin-top: var(--s1);
+}
+
+.form-error, .input-error {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  color: var(--danger);
+  margin-top: var(--s1);
+}
+
+input[type="text"],
+input[type="url"],
+input[type="date"],
+input[type="file"],
+select,
+textarea {
+  width: 100%;
+  min-height: var(--tap);
+  padding: var(--s2) var(--s3);
+  font-family: var(--font-sans);
+  font-size: var(--text-md);
+  color: var(--ink);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  transition: border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+
+input:hover, select:hover, textarea:hover {
+  border-color: var(--line-strong);
+}
+
+input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+  border-color: var(--brand);
+}
+
+input.is-invalid, textarea.is-invalid {
+  border-color: var(--danger);
+}
+
+/* File Dropzone */
+.dropzone {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  text-align: center;
+  padding: var(--s6) var(--s4);
+  border: 2px dashed var(--line);
+  border-radius: var(--radius-md);
+  background-color: var(--paper);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+}
+
+.dropzone:hover, .dropzone.dragging {
+  border-color: var(--brand);
+  background-color: var(--brand-tint);
+}
+
+.dropzone.has-file {
+  border-style: solid;
+  border-color: var(--brand);
+  background-color: var(--brand-tint);
+}
+
+.dropzone.invalid {
+  border-color: var(--danger);
+  background-color: var(--danger-tint);
+}
+
+.dropzone input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.dropzone-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  display: grid;
+  place-items: center;
+  color: var(--brand);
+  margin-bottom: var(--s2);
+}
+
+.dropzone-title {
+  font-weight: 700;
+  font-size: var(--text-md);
+  color: var(--ink);
+}
+
+.dropzone-hint {
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+/* --------------------------------------------------------------------------
+   5. Chat Intake & Bubbles
+   -------------------------------------------------------------------------- */
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.chat-bubble {
+  max-width: min(85%, 600px);
+  padding: var(--s3) var(--s4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-md);
+  line-height: var(--leading);
+  word-break: break-word;
+  box-shadow: var(--shadow-1);
+}
+
+.chat-bubble.chat-user {
+  align-self: flex-end;
+  background-color: var(--brand);
+  color: #FFFFFF;
+  border-bottom-right-radius: var(--s1);
+}
+
+.chat-bubble.chat-proofbox {
+  align-self: flex-start;
+  background-color: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-bottom-left-radius: var(--s1);
+}
+
+.chat-bubble.chat-router {
+  align-self: flex-start;
+  background-color: var(--brand-tint);
+  border: 1px solid var(--brand);
+  color: var(--brand-strong);
+  border-bottom-left-radius: var(--s1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s1);
+}
+
+.chat-router-tag {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brand-strong);
+}
+
+.chat-bubble.chat-system {
+  align-self: center;
+  background-color: var(--surface-sunken);
+  color: var(--ink-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+  border: 1px solid var(--line);
+}
+
+/* Example Prompt Chips */
+.prompt-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s2);
+  margin-top: var(--s3);
+}
+
+.prompt-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  padding: var(--s2) var(--s3);
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  color: var(--ink);
+  cursor: pointer;
+  transition: all var(--dur) var(--ease);
+  min-height: var(--tap);
+}
+
+.prompt-chip:hover {
+  border-color: var(--brand);
+  background-color: var(--brand-tint);
+  color: var(--brand-strong);
+}
+
+/* Chat Composer (Sticky on Mobile) */
+.chat-composer {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: var(--s2);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: var(--s2);
+  align-items: center;
+  box-shadow: var(--shadow-2);
+}
+
+@media (max-width: 600px) {
+  .chat-composer-sticky {
+    position: sticky;
+    bottom: var(--s3);
+    z-index: 90;
+  }
+}
+
+.chat-composer input {
+  border: none;
+  box-shadow: none;
+  min-height: 42px;
+  padding: 0 var(--s2);
+}
+
+.chat-composer input:focus-visible {
+  box-shadow: none;
+}
+
+/* --------------------------------------------------------------------------
+   6. Status Chips (Icon + Plain Word + Tint; NEVER color alone)
+   -------------------------------------------------------------------------- */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+}
+
+.status-chip svg, .status-chip .chip-icon {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+}
+
+/* Dangerous: Red */
+.status-chip--dangerous, .badge.dangerous {
+  background-color: var(--danger-tint);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+/* Suspicious: Amber / Warn */
+.status-chip--suspicious, .badge.suspicious {
+  background-color: var(--warn-tint);
+  color: var(--warn);
+  border-color: var(--warn);
+}
+
+/* No Issue Found: Info Blue (NEVER styled as green safe) */
+.status-chip--no_issue_found, .badge.no_issue_found {
+  background-color: var(--info-tint);
+  color: var(--info);
+  border-color: var(--info);
+}
+
+/* Could Not Check / Neutral */
+.status-chip--could_not_check, .badge.could_not_check, .status-chip--neutral {
+  background-color: var(--neutral-tint);
+  color: var(--neutral);
+  border-color: var(--neutral);
+}
+
+/* Verified Milestone: Green (Process state only) */
+.status-chip--verified, .status-chip--met, .state.met {
+  background-color: var(--ok-tint);
+  color: var(--ok);
+  border-color: var(--ok);
+}
+
+/* Clocks states */
+.status-chip--overdue, .state.overdue {
+  background-color: var(--danger-tint);
+  color: var(--danger);
+  border-color: var(--danger);
+}
+
+.status-chip--due_soon, .state.due_soon {
+  background-color: var(--warn-tint);
+  color: var(--warn);
+  border-color: var(--warn);
+}
+
+.status-chip--upcoming, .state.upcoming {
+  background-color: var(--neutral-tint);
+  color: var(--neutral);
+  border-color: var(--neutral);
+}
+
+/* Letter Lens Checklist Statuses */
+.status.have {
+  background-color: var(--ok-tint);
+  color: var(--ok);
+  border: 1px solid var(--ok);
+  border-radius: var(--radius-pill);
+  padding: 3px 8px;
+  font-weight: 700;
+  font-size: var(--text-xs);
+}
+
+.status.missing {
+  background-color: var(--danger-tint);
+  color: var(--danger);
+  border: 1px solid var(--danger);
+  border-radius: var(--radius-pill);
+  padding: 3px 8px;
+  font-weight: 700;
+  font-size: var(--text-xs);
+}
+
+.status.needs_fixing {
+  background-color: var(--warn-tint);
+  color: var(--warn);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius-pill);
+  padding: 3px 8px;
+  font-weight: 700;
+  font-size: var(--text-xs);
+}
+
+/* --------------------------------------------------------------------------
+   7. Hero Containment Panel (The Dark Instrument Chamber)
+   -------------------------------------------------------------------------- */
+.containment-panel {
+  background-color: var(--chamber-bg);
+  border: 1px solid var(--chamber-line);
+  border-radius: var(--radius-md);
+  color: var(--chamber-text);
+  overflow: hidden;
+  box-shadow: var(--shadow-2);
+  display: flex;
+  flex-direction: column;
+}
+
+.containment-header {
+  background-color: var(--chamber-surface);
+  border-bottom: 1px solid var(--chamber-line);
+  padding: var(--s3) var(--s4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s3);
+  flex-wrap: wrap;
+}
+
+.containment-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+}
+
+.containment-badge {
+  background-color: var(--chamber-line);
+  color: var(--chamber-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.containment-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: #72E0D4;
+}
+
+.containment-live-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #2CD6C5;
+  box-shadow: 0 0 8px #2CD6C5;
+  animation: pulse-dot 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .containment-live-dot { animation: none; }
+}
+
+.containment-timer {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--chamber-muted);
+}
+
+/* Summary Row (shown after sandbox run) */
+.containment-summary {
+  background-color: var(--chamber-surface);
+  border-bottom: 1px solid var(--chamber-line);
+  padding: var(--s2) var(--s4);
+  display: flex;
+  gap: var(--s4);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  flex-wrap: wrap;
+}
+
+.containment-summary-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.containment-summary-count {
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+/* Event Stream List */
+.containment-events {
+  list-style: none;
+  margin: 0;
+  padding: var(--s3);
+  max-height: 420px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+.containment-event-row {
+  background-color: var(--chamber-surface);
+  border: 1px solid var(--chamber-line);
+  border-left: 4px solid var(--chamber-muted);
+  border-radius: 4px;
+  padding: var(--s2) var(--s3);
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--s2);
+  align-items: baseline;
+  animation: event-slide-in var(--dur) var(--ease);
+}
+
+@keyframes event-slide-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .containment-event-row { animation: none; }
+}
+
+.containment-event-time {
+  color: var(--chamber-muted);
+  font-size: 0.75rem;
+}
+
+.containment-event-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  overflow-wrap: anywhere;
+}
+
+.containment-event-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  color: var(--chamber-text);
+}
+
+.containment-event-tag.tag-blocked {
+  color: #F87171;
+}
+
+.containment-event-tag.tag-quarantined {
+  color: #FBBF24;
+}
+
+.containment-event-tag.tag-ignored {
+  color: #60A5FA;
+}
+
+.containment-event-tag.tag-destroyed {
+  color: #34D399;
+}
+
+.containment-kill-bar {
+  display: block;
+  height: 6px;
+  background-color: var(--chamber-line);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 4px;
+}
+
+.containment-kill-bar-fill {
+  height: 100%;
+  background-color: #F87171;
+}
+
+/* Collapsible wrapper for Mobile */
+.containment-collapsible details summary {
+  cursor: pointer;
+  padding: var(--s3) var(--s4);
+  background-color: var(--chamber-surface);
+  color: var(--chamber-text);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* --------------------------------------------------------------------------
+   8. Verdict Card
+   -------------------------------------------------------------------------- */
+.verdict-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--s5);
+  box-shadow: var(--shadow-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s4);
+}
+
+.verdict-heading {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0;
+  line-height: 1.15;
+}
+
+.verdict-confidence-box {
+  display: flex;
+  align-items: center;
+  gap: var(--s3);
+  font-size: var(--text-sm);
+  color: var(--ink-muted);
+}
+
+.confidence-bar {
+  flex: 1;
+  max-width: 140px;
+  height: 8px;
+  background-color: var(--surface-sunken);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+}
+
+.confidence-bar-fill {
+  height: 100%;
+  background-color: var(--brand);
+}
+
+.verdict-reasons-list {
+  padding-left: var(--s4);
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: var(--leading);
+}
+
+.verdict-reasons-list li {
+  margin-bottom: var(--s2);
+}
+
+.verdict-advice-box {
+  background-color: var(--surface-sunken);
+  border-left: 4px solid var(--brand);
+  padding: var(--s3) var(--s4);
+  border-radius: var(--radius-sm);
+}
+
+.verdict-advice-text {
+  font-size: var(--text-md);
+  font-weight: 600;
+  margin: 0;
+}
+
+.verdict-caveat-box {
+  border-top: 1px solid var(--line);
+  padding-top: var(--s3);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+}
+
+.verdict-caveat-box strong {
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   9. Discrepancy Table (Bill Lens) & Reflow Cards at 360px
+   -------------------------------------------------------------------------- */
+.discrepancy-table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.discrepancy-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
+.discrepancy-table th {
+  background-color: var(--surface-sunken);
+  padding: var(--s3);
+  font-weight: 700;
+  border-bottom: 1px solid var(--line);
+  color: var(--ink);
+}
+
+.discrepancy-table td {
+  padding: var(--s3);
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+.discrepancy-diff {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  color: var(--danger);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Responsive Table Reflow at <= 600px into stacked cards */
+@media (max-width: 600px) {
+  .discrepancy-table,
+  .discrepancy-table thead,
+  .discrepancy-table tbody,
+  .discrepancy-table th,
+  .discrepancy-table td,
+  .discrepancy-table tr {
+    display: block;
+  }
+
+  .discrepancy-table thead {
+    display: none;
+  }
+
+  .discrepancy-table tr {
+    border-bottom: 2px solid var(--line);
+    padding: var(--s3);
+  }
+
+  .discrepancy-table td {
+    padding: var(--s1) 0;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .discrepancy-table td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--ink-muted);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   10. Receipt Link & Receipt Chip
+   -------------------------------------------------------------------------- */
+.receipt-chip, .claim-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 4px 10px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  min-height: 36px;
+  transition: all var(--dur) var(--ease);
+}
+
+.receipt-chip:hover, .claim-link:hover {
+  background-color: var(--brand-tint);
+  border-color: var(--brand);
+  color: var(--brand-strong);
+}
+
+.receipt-hash-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--ink-muted);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  padding: 2px 6px;
+}
+
+.receipt-hash-copy:hover {
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   11. Timeline & Next Action Card (Case File)
+   -------------------------------------------------------------------------- */
+.next-action-card {
+  background-color: var(--brand-tint);
+  border: 2px solid var(--brand);
+  border-radius: var(--radius-md);
+  padding: var(--s4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+  box-shadow: var(--shadow-1);
+}
+
+.next-action-title {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand-strong);
+}
+
+.next-action-body {
+  font-size: var(--text-md);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.timeline {
+  position: relative;
+  padding-left: var(--s6);
+  margin: var(--s4) 0;
+}
+
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 11px;
+  width: 2px;
+  background-color: var(--line);
+}
+
+.timeline-node {
+  position: relative;
+  margin-bottom: var(--s5);
+}
+
+.timeline-node:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: calc(-1 * var(--s6) + 1px);
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--surface);
+  border: 2px solid var(--brand);
+  display: grid;
+  place-items: center;
+  color: var(--brand);
+  font-size: 11px;
+}
+
+.timeline-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--s4);
+}
+
+/* Clocks Card */
+.clock-card {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--s3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s2);
+}
+
+/* --------------------------------------------------------------------------
+   12. Pack Preview (Print-Ready Document Style)
+   -------------------------------------------------------------------------- */
+.pack-doc {
+  background-color: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: var(--s6);
+  box-shadow: var(--shadow-1);
+  font-family: var(--font-sans);
+}
+
+.pack-doc-serif h1,
+.pack-doc-serif h2,
+.pack-doc-serif .pack-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+.pack-claims-list {
+  padding-left: var(--s4);
+  line-height: 1.7;
+}
+
+.pack-claims-list li {
+  margin-bottom: var(--s3);
+}
+
+/* --------------------------------------------------------------------------
+   13. Dialog & Drawer
+   -------------------------------------------------------------------------- */
+dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-height: 85vh;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  padding: var(--s5);
+  background-color: var(--surface);
+  color: var(--ink);
+  box-shadow: var(--shadow-2);
+}
+
+dialog::backdrop {
+  background-color: rgb(11 22 32 / 0.65);
+  backdrop-filter: blur(2px);
+}
+
+.dialog-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s3);
+  margin-bottom: var(--s4);
+}
+
+/* --------------------------------------------------------------------------
+   14. Toast & Alerts
+   -------------------------------------------------------------------------- */
+.toast {
+  position: fixed;
+  bottom: var(--s5);
+  left: 50%;
+  transform: translate(-50%, 20px);
+  background-color: var(--chamber-bg);
+  color: var(--chamber-text);
+  border: 1px solid var(--chamber-line);
+  padding: var(--s2) var(--s4);
+  border-radius: var(--radius-pill);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-2);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+  z-index: 1000;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.alert-box {
+  padding: var(--s3) var(--s4);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s3);
+}
+
+.alert-box--danger {
+  background-color: var(--danger-tint);
+  border-color: var(--danger);
+  color: var(--danger-strong);
+}
+
+.alert-box--warn {
+  background-color: var(--warn-tint);
+  border-color: var(--warn);
+  color: var(--warn-strong);
+}
+
+.alert-box--info {
+  background-color: var(--info-tint);
+  border-color: var(--info);
+  color: var(--info-strong);
+}
+
+/* --------------------------------------------------------------------------
+   15. Empty & Shared States
+   -------------------------------------------------------------------------- */
+.empty-state {
+  text-align: center;
+  padding: var(--s6) var(--s4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--s3);
+}
+
+.empty-state-icon {
+  width: 48px;
+  height: 48px;
+  color: var(--ink-muted);
+}
+
+.empty-state-text {
+  font-size: var(--text-md);
+  color: var(--ink-muted);
+  max-width: 480px;
+}
+
+/* --------------------------------------------------------------------------
+   16. Print Styles
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    background-color: #FFFFFF !important;
+    color: #000000 !important;
+    font-size: 11pt !important;
+  }
+
+  .topbar,
+  .site-footer,
+  .toast,
+  .btn,
+  button,
+  .skip-link,
+  .no-print {
+    display: none !important;
+  }
+
+  .card, .pack-doc {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}
