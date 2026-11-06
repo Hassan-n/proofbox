@@ -1,0 +1,132 @@
+/* ==========================================================================
+   Proofbox Central Design System · Design Tokens
+   Brand Line: Open nothing unsafely. Believe nothing unproven. Fight with receipts.
+   All values checked against WCAG AA (>= 4.5:1 text, >= 3:1 non-text)
+   ========================================================================== */
+
+:root {
+  /* Surfaces */
+  --paper: #F7F5F0;          /* Warm notebook background */
+  --surface: #FFFFFF;        /* Cards & containers */
+  --surface-sunken: #EFECE4; /* Insets, table headers/stripes */
+  --ink: #14202B;            /* Primary readable text (contrast 14.9:1 on paper) */
+  --ink-muted: #4B5966;      /* Secondary text (contrast 6.5:1 on paper, AA pass) */
+  --line: #D9D4C7;           /* Structural borders */
+  --line-strong: #A8A193;    /* Enhanced border for active/selected items */
+
+  /* Brand */
+  --brand: #0F6B64;          /* Deep teal: primary actions, "proof" */
+  --brand-strong: #0A4F4A;   /* Pressed / hovered deep teal */
+  --brand-tint: #E2F1EF;     /* Subtle brand background */
+
+  /* Containment Panel (Hero Dark Chamber) */
+  --chamber-bg: #0B1620;      /* Dark instrument canvas */
+  --chamber-surface: #12212E; /* Instrument cards / controls */
+  --chamber-line: #24384A;    /* Instrument borders */
+  --chamber-text: #D7E3EC;    /* Readable instrument text (12.1:1 on chamber-surface) */
+  --chamber-muted: #8FA5B6;   /* Secondary instrument text (6.5:1 on chamber-surface) */
+
+  /* Status Colors (always paired with icon + plain word) */
+  --danger: #B42318;
+  --danger-strong: #8F1A12;
+  --danger-tint: #FDECEA;
+
+  --warn: #A15C07;
+  --warn-strong: #784303;
+  --warn-tint: #FFF3DC;
+
+  /* Mandatory honest wording: info is used for "no issue found", NEVER green */
+  --info: #1F5F99;
+  --info-strong: #14436E;
+  --info-tint: #E6F0FA;
+
+  /* Ok is strictly for completed/verified process milestones, NEVER for "safe" */
+  --ok: #1B6B3A;
+  --ok-strong: #124D28;
+  --ok-tint: #E4F4EA;
+
+  --neutral: #5A6672;
+  --neutral-strong: #3F4750;
+  --neutral-tint: #ECEEF0;
+
+  /* Typography: System fonts only (no web-font downloads) */
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --font-serif: Georgia, Cambria, "Times New Roman", serif;
+
+  /* Type Scale */
+  --text-xs: 0.8125rem; /* 13px */
+  --text-sm: 0.9375rem; /* 15px */
+  --text-md: 1.0625rem; /* 17px base */
+  --text-lg: 1.25rem;   /* 20px */
+  --text-xl: 1.625rem;  /* 26px */
+  --text-2xl: 2.125rem; /* 34px */
+  --leading: 1.55;
+  --leading-tight: 1.25;
+
+  /* 4px Base Spacing Scale */
+  --s1: 0.25rem; /* 4px */
+  --s2: 0.5rem;  /* 8px */
+  --s3: 0.75rem; /* 12px */
+  --s4: 1rem;    /* 16px */
+  --s5: 1.5rem;  /* 24px */
+  --s6: 2rem;    /* 32px */
+  --s7: 3rem;    /* 48px */
+
+  /* Shapes & Depth */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+  --shadow-1: 0 1px 2px rgb(20 32 43 / 0.08);
+  --shadow-2: 0 6px 20px rgb(20 32 43 / 0.10);
+
+  /* Touch & Interaction */
+  --tap: 48px; /* Minimum touch target height/width */
+  --focus: 0 0 0 3px #FFFFFF, 0 0 0 6px var(--brand);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --dur: 160ms;
+}
+
+/* Reduced Motion Override */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur: 0ms !important;
+  }
+}
+
+/* Dark Mode Token Overrides (Clean surface inversions; chamber preserves instrument look) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #0B131C;
+    --surface: #141F2B;
+    --surface-sunken: #0E1721;
+    --ink: #E6EDF2;
+    --ink-muted: #95A5B5;
+    --line: #273646;
+    --line-strong: #3F5266;
+
+    --brand: #22998F;
+    --brand-strong: #177A72;
+    --brand-tint: #103330;
+
+    --danger-tint: #381513;
+    --warn-tint: #3B2404;
+    --info-tint: #12283C;
+    --ok-tint: #10331C;
+    --neutral-tint: #1E2832;
+
+    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.40);
+    --shadow-2: 0 6px 20px rgb(0 0 0 / 0.55);
+    --focus: 0 0 0 3px #0B131C, 0 0 0 6px var(--brand);
+  }
+}
+
+/* High Contrast / Forced Colors Fallback */
+@media (forced-colors: active) {
+  :root {
+    --line: CanvasText;
+    --line-strong: Highlight;
+    --focus: 2px solid Highlight;
+  }
+}
