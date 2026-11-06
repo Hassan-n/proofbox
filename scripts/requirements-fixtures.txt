@@ -2,4 +2,5 @@
 # Kept separate from apps/api/requirements.txt (owned by Person A).
 fpdf2==2.8.3
 pdfplumber==0.11.4
+reportlab==4.5.1
 pytest>=8

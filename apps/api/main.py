@@ -1,5 +1,6 @@
 import asyncio
 import json
+import logging
 import os
 import uuid
 from contextlib import asynccontextmanager
@@ -15,12 +16,18 @@ from db import add_event, claim_next_job, init_db, pool
 from link_lens import evaluate_link, validate_inspection_url
 from lenses.bill.job import process_bill_job
 from lenses.bill.router import router as bill_router
+from lenses.letter_job import process_letter_job
+from lenses.letter_router import router as letter_router
+from casefile import purge_expired_cases, router as case_router
 
 WORKER_URL = os.getenv("WORKER_URL", "http://10.99.0.3:8080")
 WORKER_TOKEN = os.getenv("WORKER_TOKEN", "dev-secret-token")
 # Bill jobs take ~20 s with live models, so they run beside the queue instead of blocking Link jobs.
 BILL_SLOTS = asyncio.Semaphore(int(os.getenv("BILL_JOBS_PARALLEL", "2")))
+LETTER_SLOTS = asyncio.Semaphore(int(os.getenv("LETTER_JOBS_PARALLEL", "2")))
 _bill_tasks: set[asyncio.Task] = set()
+_letter_tasks: set[asyncio.Task] = set()
+log = logging.getLogger("proofbox.api")
 
 
 async def _run_bill_job(job: dict) -> None:
@@ -30,12 +37,25 @@ async def _run_bill_job(job: dict) -> None:
         BILL_SLOTS.release()
 
 
+async def _run_letter_job(job: dict) -> None:
+    try:
+        await process_letter_job(job)
+    finally:
+        LETTER_SLOTS.release()
+
+
 async def process_job(job: dict) -> None:
     if job["lens"] == "bill":
         await BILL_SLOTS.acquire()
         task = asyncio.create_task(_run_bill_job(job))
         _bill_tasks.add(task)
         task.add_done_callback(_bill_tasks.discard)
+        return
+    if job["lens"] == "letter":
+        await LETTER_SLOTS.acquire()
+        task = asyncio.create_task(_run_letter_job(job))
+        _letter_tasks.add(task)
+        task.add_done_callback(_letter_tasks.discard)
         return
     job_id = job["id"]
     url = job["input_ref"]
@@ -104,17 +124,31 @@ async def queue_worker_loop() -> None:
             await asyncio.sleep(2.0)
 
 
+async def case_expiry_loop() -> None:
+    while True:
+        await asyncio.sleep(3600)
+        try:
+            await asyncio.to_thread(purge_expired_cases)
+        except asyncio.CancelledError:
+            raise
+        except Exception:
+            log.exception("Case expiry job failed")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     await asyncio.to_thread(init_db)
     task = asyncio.create_task(queue_worker_loop())
+    expiry_task = asyncio.create_task(case_expiry_loop())
     try:
         yield
     finally:
         task.cancel()
-        await asyncio.gather(task, return_exceptions=True)
-        if _bill_tasks:
-            await asyncio.wait(_bill_tasks, timeout=30)
+        expiry_task.cancel()
+        await asyncio.gather(task, expiry_task, return_exceptions=True)
+        active_tasks = _bill_tasks | _letter_tasks
+        if active_tasks:
+            await asyncio.wait(active_tasks, timeout=30)
         await asyncio.to_thread(pool.close)
 
 
@@ -122,10 +156,12 @@ app = FastAPI(lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=os.getenv("CORS_ORIGINS", "*").split(","),
-    allow_methods=["GET", "POST"],
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["Content-Type", "Authorization"],
 )
 app.include_router(bill_router)
+app.include_router(letter_router)
+app.include_router(case_router)
 
 
 class IntakeReq(BaseModel):

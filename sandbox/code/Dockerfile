@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir -r /tmp/requirements.txt && rm /tmp/requirements.
     && useradd --create-home --uid 10001 --shell /usr/sbin/nologin runner
 
 COPY --chown=root:root --chmod=0555 parse_bill.py /app/parse_bill.py
+COPY --chown=root:root --chmod=0555 parse_document.py /app/parse_document.py
 
 USER 10001:10001
 WORKDIR /home/runner

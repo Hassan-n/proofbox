@@ -47,7 +47,7 @@ MAX_INPUT_BYTES = 12 * 1024 * 1024
 MAX_STDOUT = 4 * 1024 * 1024
 MAX_STDERR = 64 * 1024
 NAME_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,63}$")
-MODES = {"parse_bill", "code"}
+MODES = {"parse_bill", "parse_document", "code"}
 
 router = APIRouter()
 _slots: asyncio.Semaphore | None = None
@@ -92,7 +92,13 @@ def validate_request(request: BillRunRequest) -> dict[str, bytes]:
     if request.mode not in MODES:
         raise ValueError(f"Unknown Bill mode: {request.mode[:40]!r}")
     files = decode_inputs(request.inputs)
-    required = "bill.pdf" if request.mode == "parse_bill" else "main.py"
+    required = (
+        "bill.pdf"
+        if request.mode == "parse_bill"
+        else "document.pdf"
+        if request.mode == "parse_document"
+        else "main.py"
+    )
     if required not in files:
         raise ValueError(f"Missing input {required}")
     return files
@@ -113,6 +119,8 @@ def docker_command(container: str, mode: str, input_dir: Path) -> list[str]:
     ]
     if mode == "parse_bill":
         command += ["python", "/app/parse_bill.py", "/inputs/bill.pdf"]
+    elif mode == "parse_document":
+        command += ["python", "/app/parse_document.py", "/inputs/document.pdf"]
     else:
         command += ["python", "-I", "/inputs/main.py"]
     return command
@@ -133,6 +141,27 @@ def parse_result_lines(out_text: str, err_text: str, exit_code: int) -> list[str
     pages = (parsed.get("input") or {}).get("pages")
     lines.append(_line("bill_parsed", f"Read {pages} page(s) of bill text in the sandbox", {"parsed": parsed}))
     return lines
+
+
+def parse_document_result_lines(out_text: str, err_text: str, exit_code: int) -> list[str]:
+    try:
+        parsed = json.loads(out_text.strip().splitlines()[-1]) if out_text.strip() else None
+    except json.JSONDecodeError:
+        parsed = None
+    if not isinstance(parsed, dict) or parsed.get("status") != "ok":
+        reason = parsed.get("error") if isinstance(parsed, dict) else None
+        detail = reason or f"Document parser exited with code {exit_code}: {err_text[-200:]}"
+        return [_line("document_parse_failed", detail[:300])]
+    if exit_code != 0:
+        return [_line("document_parse_failed", f"Document parser exited with code {exit_code}")]
+    pages = parsed.get("pages", 0)
+    return [
+        _line(
+            "document_parsed",
+            f"Extracted text from {pages} PDF page(s) in the isolated code sandbox",
+            {"document": parsed},
+        )
+    ]
 
 
 def _cleanup(input_dir: Path) -> None:
@@ -186,6 +215,9 @@ async def run_bill_mode(request: BillRunRequest, files: dict[str, bytes]) -> Asy
 
             if request.mode == "parse_bill":
                 for line in parse_result_lines(out_text, err_text, exit_code):
+                    yield line
+            elif request.mode == "parse_document":
+                for line in parse_document_result_lines(out_text, err_text, exit_code):
                     yield line
             else:
                 yield _line(

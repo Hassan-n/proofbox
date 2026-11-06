@@ -1,0 +1,12 @@
+id: grant_review
+last_verified: null
+clocks:
+  response_deadline:
+    source: explicit_date_in_official_letter
+  appointment:
+    source: explicit_date_in_official_letter
+reminders_calendar_days_before_due: [7, 3, 1]
+notes:
+  - Dates are copied only when explicitly stated in the letter; no deadline is inferred.
+  - Required-document checks are deterministic layout checks and do not authenticate documents.
+  - Municipal procedures and external escalation routes are not verified.
