@@ -62,7 +62,7 @@
   width: 32px;
   height: 32px;
   background-color: var(--brand);
-  color: #FFFFFF;
+  color: var(--white);
   border-radius: var(--radius-sm);
   font-family: var(--font-serif);
   font-weight: 800;
@@ -97,7 +97,7 @@
 
 .topbar-nav a[aria-current="page"] {
   background-color: var(--brand);
-  color: #FFFFFF;
+  color: var(--white);
 }
 
 .lang-picker {
@@ -211,7 +211,7 @@ button:disabled {
 /* Primary Button */
 .btn-primary, button.primary {
   background-color: var(--brand);
-  color: #FFFFFF;
+  color: var(--white);
   border-color: var(--brand);
 }
 
@@ -250,7 +250,7 @@ button.ghost:hover:not(:disabled) {
 /* Danger Button */
 .btn-danger, button.danger {
   background-color: var(--danger);
-  color: #FFFFFF;
+  color: var(--white);
   border-color: var(--danger);
 }
 
@@ -311,7 +311,7 @@ button.danger:hover:not(:disabled) {
 }
 
 .btn-primary.is-loading::after, button.primary.busy::after {
-  border-color: #FFFFFF;
+  border-color: var(--white);
   border-right-color: transparent;
 }
 
@@ -467,7 +467,7 @@ input.is-invalid, textarea.is-invalid {
 .chat-bubble.chat-user {
   align-self: flex-end;
   background-color: var(--brand);
-  color: #FFFFFF;
+  color: var(--white);
   border-bottom-right-radius: var(--s1);
 }
 
@@ -726,15 +726,15 @@ input.is-invalid, textarea.is-invalid {
   font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 700;
-  color: #72E0D4;
+  color: var(--chamber-cyan-bright);
 }
 
 .containment-live-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background-color: #2CD6C5;
-  box-shadow: 0 0 8px #2CD6C5;
+  background-color: var(--chamber-cyan-glow);
+  box-shadow: 0 0 8px var(--chamber-cyan-glow);
   animation: pulse-dot 1.2s ease-in-out infinite;
 }
 
@@ -772,7 +772,7 @@ input.is-invalid, textarea.is-invalid {
 
 .containment-summary-count {
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--white);
 }
 
 /* Event Stream List */
@@ -836,19 +836,19 @@ input.is-invalid, textarea.is-invalid {
 }
 
 .containment-event-tag.tag-blocked {
-  color: #F87171;
+  color: var(--chamber-red);
 }
 
 .containment-event-tag.tag-quarantined {
-  color: #FBBF24;
+  color: var(--chamber-amber);
 }
 
 .containment-event-tag.tag-ignored {
-  color: #60A5FA;
+  color: var(--chamber-blue);
 }
 
 .containment-event-tag.tag-destroyed {
-  color: #34D399;
+  color: var(--chamber-green);
 }
 
 .containment-kill-bar {
@@ -862,7 +862,7 @@ input.is-invalid, textarea.is-invalid {
 
 .containment-kill-bar-fill {
   height: 100%;
-  background-color: #F87171;
+  background-color: var(--chamber-red);
 }
 
 /* Collapsible wrapper for Mobile */
@@ -1145,7 +1145,7 @@ input.is-invalid, textarea.is-invalid {
   display: grid;
   place-items: center;
   color: var(--brand);
-  font-size: 11px;
+  font-size: var(--text-xs);
 }
 
 .timeline-card {
@@ -1304,8 +1304,8 @@ dialog::backdrop {
    -------------------------------------------------------------------------- */
 @media print {
   body {
-    background-color: #FFFFFF !important;
-    color: #000000 !important;
+    background-color: var(--white) !important;
+    color: var(--black) !important;
     font-size: 11pt !important;
   }
 

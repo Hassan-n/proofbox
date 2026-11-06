@@ -25,6 +25,15 @@
   --chamber-line: #24384A;    /* Instrument borders */
   --chamber-text: #D7E3EC;    /* Readable instrument text (12.1:1 on chamber-surface) */
   --chamber-muted: #8FA5B6;   /* Secondary instrument text (6.5:1 on chamber-surface) */
+  --chamber-cyan: #38BDF8;    /* General sandbox info event */
+  --chamber-cyan-bright: #72E0D4; /* Live pulse text */
+  --chamber-cyan-glow: #2CD6C5;   /* Live pulse dot */
+  --chamber-red: #F87171;     /* Blocked / killed tag */
+  --chamber-amber: #FBBF24;   /* Quarantined tag */
+  --chamber-blue: #60A5FA;    /* Ignored instruction tag */
+  --chamber-green: #34D399;   /* Destroyed / complete tag */
+  --white: #FFFFFF;
+  --black: #000000;
 
   /* Status Colors (always paired with icon + plain word) */
   --danger: #B42318;

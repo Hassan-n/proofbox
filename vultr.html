@@ -85,6 +85,15 @@
       border-radius: var(--radius-sm);
       margin-bottom: var(--s2);
     }
+    .diagram-heading, .services-heading {
+      margin: 0;
+      font-size: var(--text-lg);
+    }
+    .guardrails-list {
+      padding-left: var(--s4);
+      line-height: 1.7;
+      margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -123,10 +132,10 @@
   </header>
 
   <main id="main" class="app-main app-container">
-    <section style="margin-bottom: var(--s4);">
+    <section class="mb-s4">
       <span class="eyebrow">Judges Technical Overview</span>
       <h1>How Proofbox runs on Vultr</h1>
-      <p class="text-muted" style="max-width: 720px;">
+      <p class="text-muted max-w-720">
         Proofbox combines sealed container virtualization with Vultr Serverless Inference.
         Untrusted links, scanned bills, and official letters are inspected in isolated sandboxes that protect citizens and preserve tamper-evident receipts.
       </p>
@@ -158,7 +167,7 @@
     <!-- Architecture Diagram in Inline SVG using Tokens -->
     <section aria-labelledby="diagram-title">
       <div class="flex-between">
-        <h2 id="diagram-title" style="margin: 0; font-size: var(--text-lg);">Vultr Multi-Tier Architecture</h2>
+        <h2 id="diagram-title" class="diagram-heading">Vultr Multi-Tier Architecture</h2>
         <span class="status-chip status-chip--verified">✓ VPC Isolated</span>
       </div>
 
@@ -232,8 +241,8 @@
     </section>
 
     <!-- Vultr Cloud Services Breakdown -->
-    <section aria-labelledby="services-title" style="margin-top: var(--s5);">
-      <h2 id="services-title" style="font-size: var(--text-lg);">Vultr Services Utilized</h2>
+    <section aria-labelledby="services-title" class="mt-s5">
+      <h2 id="services-title" class="services-heading">Vultr Services Utilized</h2>
       <div class="service-grid">
         <article class="service-card">
           <span class="service-tag">Vultr Cloud Compute</span>
@@ -270,10 +279,10 @@
     </section>
 
     <!-- Fictional Entity & Guardrail Declarations -->
-    <section class="card" style="margin-top: var(--s5); background-color: var(--surface-sunken);">
+    <section class="card mt-s5 bg-sunken">
       <span class="eyebrow">Evaluation Invariants &amp; Guardrails</span>
-      <h3 style="margin-top: 0;">Integrity &amp; Ethical Design Safeguards</h3>
-      <ul class="text-sm text-muted" style="padding-left: var(--s4); line-height: 1.7; margin: 0;">
+      <h3 class="m-0">Integrity &amp; Ethical Design Safeguards</h3>
+      <ul class="text-sm text-muted guardrails-list">
         <li><strong>Fictional Demo Data:</strong> All sample institutions (Kingfisher Bank, Karoo Bay Metro, Community Benefits Agency) and identity credentials are 100% fictional test records.</li>
         <li><strong>Mandatory Honest Wording:</strong> "No issue found" is intentionally styled as informational blue (never green) with the explicit declaration: <em>"No issue found does not mean safe."</em></li>
         <li><strong>Deterministic Code Supremacy:</strong> Financial totals and tariff step charges are verified exclusively by tested Python calculation engines; models never guess or hallucinate currency totals.</li>

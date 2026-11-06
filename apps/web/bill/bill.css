@@ -170,13 +170,13 @@
 .stepper li.done .step-dot {
   background-color: var(--ok);
   border-color: var(--ok);
-  color: #FFFFFF;
+  color: var(--white);
 }
 
 .stepper li.done .step-dot::after {
   content: "✓";
   font-weight: 800;
-  font-size: 13px;
+  font-size: var(--text-xs);
 }
 
 .stepper li.done::before {
@@ -260,13 +260,13 @@
 }
 
 #activity-log .ev {
-  color: #38BDF8;
+  color: var(--chamber-cyan);
   font-weight: 700;
   margin-right: 6px;
 }
 
 #activity-log .ev.bad {
-  color: #F87171;
+  color: var(--chamber-red);
 }
 
 /* Verdict Section & Totals */
