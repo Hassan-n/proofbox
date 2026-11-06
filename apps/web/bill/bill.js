@@ -399,22 +399,22 @@ function renderVerdict(result) {
   const diff = comparable ? billed - recomputed : 0;
 
   if (result.status !== "ok") {
-    badge.textContent = "Could not read bill";
-    badge.className = "badge unreadable";
-    verdict.className = "verdict";
+    badge.textContent = "? Could not read bill";
+    badge.className = "status-chip status-chip--could_not_check badge unreadable";
+    verdict.className = "verdict-bill-box verdict";
     $("#verdict-title").textContent = "We could not read enough of this bill to check it";
   } else if (count) {
-    badge.textContent = `${count} finding${count === 1 ? "" : "s"}`;
-    badge.className = "badge issues";
-    verdict.className = "verdict issues";
+    badge.textContent = `▲ ${count} finding${count === 1 ? "" : "s"}`;
+    badge.className = "status-chip status-chip--dangerous badge issues";
+    verdict.className = "verdict-bill-box verdict issues";
     $("#verdict-title").textContent = diff >= 0.05
       ? `You may have been overcharged by ${money(diff)}`
       : `We found ${count} thing${count === 1 ? "" : "s"} worth querying`;
   } else {
-    badge.textContent = "No discrepancies";
-    badge.className = "badge ok";
-    verdict.className = "verdict ok";
-    $("#verdict-title").textContent = "This bill matches the published tariff";
+    badge.textContent = "ℹ No issue found (matches tariff)";
+    badge.className = "status-chip status-chip--no_issue_found badge ok";
+    verdict.className = "verdict-bill-box verdict ok";
+    $("#verdict-title").textContent = "Billed amounts match the published tariff";
   }
 
   $("#billed-total").textContent = money(summary.billed_total);
@@ -450,7 +450,7 @@ function renderFindings(result) {
     const title = el("h3");
     title.append(el("span", `${index + 1}.`, "finding-num"), document.createTextNode(CHECK_TITLES[finding.check] || finding.check));
     head.append(title);
-    if (finding.difference) head.append(el("span", `+${amount(finding.difference, finding.unit)}`, "diff"));
+    if (finding.difference) head.append(el("span", `▲ +${amount(finding.difference, finding.unit)}`, "diff discrepancy-diff"));
     card.append(head, el("p", finding.explanation));
 
     if (finding.billed !== null && finding.billed !== undefined) {
@@ -526,12 +526,15 @@ function renderExtracted(result) {
     : "";
 }
 
+let lastActiveReceiptTrigger = null;
 async function openReceipt(id) {
+  lastActiveReceiptTrigger = document.activeElement;
   const meta = (state.current.receipts || {})[id] || {};
   $("#receipt-title").textContent = meta.label || "Receipt";
   $("#receipt-meta").textContent = [id, meta.kind, meta.sha256 && `sha256 ${meta.sha256}`].filter(Boolean).join(" · ");
   const content = $("#receipt-content");
   $("#receipt-dialog").showModal();
+  $("#close-receipt").focus();
   if (meta.content !== undefined) {
     content.textContent = typeof meta.content === "string" ? meta.content : JSON.stringify(meta.content, null, 2);
     return;
@@ -619,6 +622,11 @@ $("#result-input").addEventListener("change", async (event) => {
 $("#close-receipt").addEventListener("click", () => $("#receipt-dialog").close());
 $("#receipt-dialog").addEventListener("click", (event) => {
   if (event.target === event.currentTarget) event.currentTarget.close();
+});
+$("#receipt-dialog").addEventListener("close", () => {
+  if (lastActiveReceiptTrigger && typeof lastActiveReceiptTrigger.focus === "function") {
+    lastActiveReceiptTrigger.focus();
+  }
 });
 
 $("#copy-letter").addEventListener("click", async () => {

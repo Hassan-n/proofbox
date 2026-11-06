@@ -3,207 +3,291 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F7F5F0">
   <title>Proofbox · Bill Lens</title>
   <meta name="description" content="Upload your municipal water bill. Proofbox recomputes it from the published tariff and gives you a receipt for every finding.">
   <link rel="stylesheet" href="bill.css">
 </head>
 <body>
-  <a class="skip" href="#main">Skip to content</a>
+  <a class="skip-link" href="#main">Skip to content</a>
 
+  <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
+    <div class="topbar-banner">
+      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>
+      <span>Synthetic data only. Please do not upload real documents.</span>
+    </div>
     <div class="topbar-inner">
-      <a class="brand" href="../" aria-label="Proofbox home">
-        <span class="mark" aria-hidden="true">P</span><span>Proofbox</span>
+      <a class="brand" href="../" aria-label="Proofbox Home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>Proofbox</span>
       </a>
-      <nav class="lens-nav" aria-label="Lenses">
+      <nav class="topbar-nav" aria-label="Lenses">
         <a href="../">Link Lens</a>
         <a href="./" aria-current="page">Bill Lens</a>
+        <a href="../letter/">Letter Lens</a>
+        <a href="../case/">Case File</a>
+        <a href="../vultr.html">Vultr Judges Page</a>
       </nav>
+      <div class="lang-picker">
+        <label for="bill-lang-select" class="sr-only">Language</label>
+        <select id="bill-lang-select" class="lang-select">
+          <option value="en">English</option>
+          <option value="zu">isiZulu</option>
+          <option value="af">Afrikaans</option>
+          <option value="st">Sesotho</option>
+        </select>
+      </div>
     </div>
   </header>
 
-  <main id="main">
-    <section class="hero" aria-labelledby="hero-title">
-      <p class="eyebrow">Bill Lens</p>
+  <main id="main" class="app-main app-container">
+    <section class="bill-hero" aria-labelledby="hero-title">
+      <span class="eyebrow">Municipal Water Bill Verification</span>
       <h1 id="hero-title">Is your water bill right?</h1>
-      <p class="lede">Upload a municipal water bill. We recompute every charge from the published tariff, check your meter readings, and draft a dispute letter. Every finding links to a receipt you can check yourself.</p>
-      <ul class="chips" aria-label="How your bill is handled">
-        <li><span class="dot" aria-hidden="true"></span>PDF opened in a sealed sandbox with no network</li>
-        <li><span class="dot" aria-hidden="true"></span>Hidden instructions in the document are ignored</li>
-        <li><span class="dot" aria-hidden="true"></span>Totals recomputed by code, not guessed by AI</li>
-      </ul>
+      <p class="text-muted">
+        Upload a municipal water bill from Karoo Bay Metro or other local council.
+        We recompute every charge from the published tariff, check your meter readings, and draft a dispute letter.
+        Every finding links to a verifiable receipt.
+      </p>
+      <div class="flex-row" style="gap: var(--s2); margin-top: var(--s3);">
+        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Sealed container, no network</span>
+        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Injections stripped</span>
+        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Deterministic code calculation</span>
+      </div>
     </section>
 
-    <div class="workspace">
+    <div class="bill-workspace">
+      <!-- Upload Card -->
       <section class="card upload-card" aria-labelledby="upload-title">
         <h2 id="upload-title">Check a bill</h2>
         <form id="upload-form" novalidate>
           <label class="dropzone" id="dropzone" for="pdf-input">
             <input type="file" id="pdf-input" accept="application/pdf,.pdf">
-            <span class="drop-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9 14 3-3 3 3"/></svg>
-            </span>
-            <span class="drop-title" id="drop-title">Drop your bill PDF here</span>
-            <span class="drop-hint" id="drop-hint">or <u>browse your files</u> · PDF up to 5 MB</span>
+            <div class="dropzone-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9 14 3-3 3 3"/>
+              </svg>
+            </div>
+            <span class="dropzone-title" id="drop-title">Drop your bill PDF here</span>
+            <span class="dropzone-hint" id="drop-hint">or <u>browse your files</u> · PDF up to 5 MB</span>
           </label>
 
-          <details class="advanced">
-            <summary>Add earlier bills or an outage log <span class="optional">optional</span></summary>
-            <p class="help">Earlier readings let us spot repeated estimates. An outage log lets us check for water billed while supply was off. Use a JSON file shaped like the <a href="samples/history.json" download>example history</a>.</p>
-            <label class="file-line">
-              <span>History file (.json)</span>
-              <input type="file" id="history-input" accept="application/json,.json">
-            </label>
-            <p class="file-state" id="history-state"></p>
+          <details class="card" style="margin-top: var(--s3); padding: var(--s3);">
+            <summary style="font-weight: 600; cursor: pointer; font-size: var(--text-sm);">
+              Add earlier bills or outage log <span class="text-muted">(optional)</span>
+            </summary>
+            <p class="form-hint" style="margin: var(--s2) 0;">
+              Earlier readings reveal consecutive estimates. An outage log verifies billing during water cuts. Shape like the <a href="samples/history.json" download>example history</a>.
+            </p>
+            <label class="form-label" style="font-size: var(--text-xs);" for="history-input">History file (.json)</label>
+            <input type="file" id="history-input" accept="application/json,.json" style="margin-top: var(--s1);">
+            <p class="form-hint" id="history-state"></p>
           </details>
 
-          <button type="submit" class="primary" id="submit-btn" disabled>
-            <span class="btn-label">Check my bill</span>
-          </button>
-          <p class="form-msg" id="form-msg" role="status" aria-live="polite"></p>
+          <div style="margin-top: var(--s4);">
+            <button type="submit" class="btn btn-primary" id="submit-btn" disabled style="width: 100%;">
+              <span class="btn-label">Check my bill</span>
+            </button>
+            <p class="form-hint" id="form-msg" role="status" aria-live="polite" style="margin-top: var(--s2); min-height: 1.5em;"></p>
+          </div>
         </form>
 
-        <div class="samples-box">
-          <p class="samples-title">No bill to hand? Try a sample</p>
+        <div style="margin-top: var(--s5); border-top: 1px solid var(--line); padding-top: var(--s3);">
+          <h3 style="font-size: var(--text-sm); margin-bottom: var(--s2);">No bill to hand? Try a sample</h3>
           <div class="sample-grid">
             <article class="sample">
               <h3>Clean bill</h3>
-              <p>Everything matches the tariff.</p>
+              <p>Everything matches the gazetted tariff.</p>
               <div class="sample-actions">
-                <button type="button" class="ghost" data-sample="A5">View result</button>
-                <a href="samples/A5_bill_clean.pdf" download>PDF</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample="A5">View</button>
+                <a href="samples/A5_bill_clean.pdf" download class="text-sm">PDF</a>
               </div>
             </article>
             <article class="sample">
               <h3>Bill with errors</h3>
-              <p>Overcharge, estimate, outage.</p>
+              <p>Step overcharge, estimate, outage days.</p>
               <div class="sample-actions">
-                <button type="button" class="ghost" data-sample="A6">View result</button>
-                <a href="samples/A6_bill_errors.pdf" download>PDF</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample="A6">View</button>
+                <a href="samples/A6_bill_errors.pdf" download class="text-sm">PDF</a>
               </div>
             </article>
             <article class="sample">
-              <h3>Hidden instruction</h3>
-              <p>Tries to fool the AI.</p>
+              <h3>Hidden injection</h3>
+              <p>Contains malicious instructions ignored by sandbox.</p>
               <div class="sample-actions">
-                <button type="button" class="ghost" data-sample="A7">View result</button>
-                <a href="samples/A7_bill_injection.pdf" download>PDF</a>
+                <button type="button" class="btn btn-secondary btn-sm" data-sample="A7">View</button>
+                <a href="samples/A7_bill_injection.pdf" download class="text-sm">PDF</a>
               </div>
             </article>
           </div>
-          <label class="link-like">Open a saved result (.json)<input type="file" id="result-input" accept="application/json,.json"></label>
+          <div style="margin-top: var(--s3);">
+            <label class="btn btn-quiet btn-sm" style="cursor: pointer;">
+              Open a saved result (.json)
+              <input type="file" id="result-input" accept="application/json,.json" style="position: absolute; opacity: 0; width: 0; height: 0;">
+            </label>
+          </div>
         </div>
       </section>
 
+      <!-- Progress Stepper Card -->
       <section class="card progress-card" aria-labelledby="progress-title">
         <div class="card-head">
-          <h2 id="progress-title">What happens to your bill</h2>
-          <span class="job-id" id="job-id"></span>
+          <h2 id="progress-title" style="margin: 0; font-size: var(--text-md);">Execution steps</h2>
+          <span class="font-mono text-xs text-muted" id="job-id"></span>
         </div>
         <ol class="stepper" id="stepper">
-          <li data-step="upload"><span class="step-dot" aria-hidden="true"></span><div><strong>Upload received</strong><span>Stored as a receipt with its SHA-256 fingerprint.</span></div></li>
-          <li data-step="sandbox"><span class="step-dot" aria-hidden="true"></span><div><strong>Opened in the sandbox</strong><span>Text pulled out in a throwaway container with no network.</span></div></li>
-          <li data-step="extract"><span class="step-dot" aria-hidden="true"></span><div><strong>Bill read</strong><span>Account, readings and charges turned into structured fields.</span></div></li>
-          <li data-step="checks"><span class="step-dot" aria-hidden="true"></span><div><strong>Charges recomputed</strong><span>Five checks against the published tariff.</span></div></li>
-          <li data-step="analyst"><span class="step-dot" aria-hidden="true"></span><div><strong>Independent check</strong><span>A second program recomputes the totals in the sandbox.</span></div></li>
-          <li data-step="letter"><span class="step-dot" aria-hidden="true"></span><div><strong>Dispute letter drafted</strong><span>Every amount in it is verified by code.</span></div></li>
-          <li data-step="done"><span class="step-dot" aria-hidden="true"></span><div><strong>Result ready</strong><span>Findings, receipts and letter below.</span></div></li>
+          <li data-step="upload">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Upload received</strong><span>Stored as receipt with SHA-256 fingerprint.</span></div>
+          </li>
+          <li data-step="sandbox">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Opened in sandbox</strong><span>Parsed in throwaway container with no network.</span></div>
+          </li>
+          <li data-step="extract">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Bill read</strong><span>Account, meter readings, and charges extracted.</span></div>
+          </li>
+          <li data-step="checks">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Charges recomputed</strong><span>Five checks against published municipal tariff.</span></div>
+          </li>
+          <li data-step="analyst">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Independent check</strong><span>Second container program verifies calculation.</span></div>
+          </li>
+          <li data-step="letter">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Dispute letter drafted</strong><span>Every amount in it is verified by code.</span></div>
+          </li>
+          <li data-step="done">
+            <span class="step-dot" aria-hidden="true"></span>
+            <div><strong>Result ready</strong><span>Findings, receipts, and letter generated.</span></div>
+          </li>
         </ol>
-        <details class="activity">
-          <summary>Activity log <span class="count" id="log-count">0</span></summary>
-          <ol id="activity-log"></ol>
+
+        <!-- Containment Activity Log -->
+        <details class="activity-wrap">
+          <summary>
+            <span>Sandbox Containment Log</span>
+            <span class="containment-badge" id="log-count">0</span>
+          </summary>
+          <ol id="activity-log" aria-live="polite"></ol>
         </details>
       </section>
     </div>
 
-    <div id="result" class="result" hidden tabindex="-1">
-      <section class="verdict" id="verdict" aria-labelledby="verdict-title">
-        <div class="verdict-text">
-          <span class="badge" id="badge"></span>
-          <h2 id="verdict-title"></h2>
-          <p class="meta" id="meta"></p>
+    <!-- Results Section -->
+    <div id="result" class="result" hidden tabindex="-1" style="margin-top: var(--s6);">
+      <!-- Verdict & Totals -->
+      <section class="verdict-bill-box" id="verdict" aria-labelledby="verdict-title">
+        <div>
+          <span class="status-chip" id="badge">Finding</span>
+          <h2 id="verdict-title" style="margin-top: var(--s2);"></h2>
+          <p class="text-sm text-muted" id="meta"></p>
         </div>
         <dl class="totals">
-          <div><dt>Billed</dt><dd id="billed-total"></dd></div>
-          <div><dt>Should be</dt><dd id="recomputed-total"></dd></div>
-          <div class="diff-box"><dt>Difference</dt><dd id="total-diff"></dd></div>
+          <div><dt>Billed</dt><dd id="billed-total">–</dd></div>
+          <div><dt>Should be</dt><dd id="recomputed-total">–</dd></div>
+          <div class="diff-box"><dt>Difference</dt><dd id="total-diff">–</dd></div>
         </dl>
       </section>
 
-      <section class="alert" id="containment" hidden aria-labelledby="containment-title">
-        <span class="alert-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg>
-        </span>
+      <!-- Containment Alert (Prompt Injection Blocked) -->
+      <section class="alert-box alert-box--warn" id="containment" hidden aria-labelledby="containment-title" style="margin-bottom: var(--s4);">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;" aria-hidden="true">
+          <path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>
+        </svg>
         <div>
-          <h2 id="containment-title">Hidden instruction blocked</h2>
-          <p>This document contained text addressed to an AI. It was removed before any model read the bill, and it had no effect on the checks.</p>
-          <ul id="containment-list"></ul>
+          <h3 id="containment-title" style="margin: 0 0 var(--s1);">Hidden instruction blocked</h3>
+          <p class="text-sm" style="margin-bottom: var(--s2);">
+            This document contained untrusted prompt injection addressed to an AI. It was quarantined and stripped before model processing, and had zero effect on the deterministic tariff checks.
+          </p>
+          <ul id="containment-list" class="font-mono text-xs" style="padding-left: var(--s4); margin: 0;"></ul>
         </div>
       </section>
 
-      <section class="card" aria-labelledby="findings-title">
+      <!-- Findings Cards -->
+      <section class="card" aria-labelledby="findings-title" style="margin-bottom: var(--s4);">
         <div class="card-head">
-          <h2 id="findings-title">Findings</h2>
-          <span class="checks-run" id="checks-run"></span>
+          <h2 id="findings-title" style="margin: 0;">Findings</h2>
+          <span class="text-sm text-muted" id="checks-run"></span>
         </div>
-        <p class="empty" id="no-findings" hidden>No discrepancies found. The billed amounts match the published tariff.</p>
-        <div class="findings" id="findings"></div>
-        <div class="analyst" id="analyst" hidden></div>
+        <p class="alert-box alert-box--info" id="no-findings" hidden>
+          No discrepancies found. The billed amounts match the published Karoo Bay Metro tariff. (Note: No issue found does not mean safe from errors not covered by the tariff engine).
+        </p>
+        <div class="findings-list" id="findings"></div>
+        <div class="card" id="analyst" hidden style="margin-top: var(--s3); background-color: var(--surface-sunken);"></div>
       </section>
 
-      <section class="card" id="skipped-panel" hidden aria-labelledby="skipped-title">
-        <h2 id="skipped-title">Checks not run</h2>
-        <ul class="skipped" id="skipped-list"></ul>
+      <!-- Skipped Checks -->
+      <section class="card" id="skipped-panel" hidden aria-labelledby="skipped-title" style="margin-bottom: var(--s4);">
+        <h3 id="skipped-title" style="margin: 0 0 var(--s2);">Checks not run</h3>
+        <ul id="skipped-list" class="text-sm text-muted" style="padding-left: var(--s4); margin: 0;"></ul>
       </section>
 
-      <section class="card letter-card" id="letter-panel" hidden aria-labelledby="letter-title">
+      <!-- Dispute Letter Card -->
+      <section class="card letter-card" id="letter-panel" hidden aria-labelledby="letter-title" style="margin-bottom: var(--s4);">
         <div class="card-head">
-          <h2 id="letter-title">Your dispute letter</h2>
-          <span class="source" id="letter-source"></span>
+          <h2 id="letter-title" style="margin: 0;">Your dispute letter</h2>
+          <span class="status-chip status-chip--verified" id="letter-source"></span>
         </div>
-        <pre class="letter" id="letter-text"></pre>
-        <div class="actions">
-          <button type="button" class="primary small" id="copy-letter">Copy letter</button>
-          <button type="button" class="ghost" id="download-letter">Download .txt</button>
-          <button type="button" class="ghost" id="print-letter">Print</button>
+        <p class="text-xs text-muted">Ready to submit to the municipality. Every amount is verified by deterministic code.</p>
+        <pre class="letter-box letter" id="letter-text"></pre>
+        <div class="flex-row">
+          <button type="button" class="btn btn-primary btn-sm" id="copy-letter">Copy letter</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="download-letter">Download .txt</button>
+          <button type="button" class="btn btn-secondary btn-sm" id="print-letter">Print letter</button>
         </div>
       </section>
 
-      <section class="card" aria-labelledby="extracted-title">
-        <details class="extracted-box">
-          <summary><h2 id="extracted-title">What we read from the bill</h2></summary>
-          <p class="meta" id="unreadable"></p>
-          <dl class="extracted" id="extracted"></dl>
-          <p class="meta" id="document-meta"></p>
+      <!-- Extracted Details Accordion -->
+      <section class="card" aria-labelledby="extracted-title" style="margin-bottom: var(--s4);">
+        <details>
+          <summary style="cursor: pointer; font-weight: 700; font-size: var(--text-md);">
+            What we read from the bill
+          </summary>
+          <p class="form-hint" id="unreadable" style="margin-top: var(--s2);"></p>
+          <dl class="extracted-grid extracted" id="extracted"></dl>
+          <p class="form-hint" id="document-meta" style="margin-top: var(--s3); border-top: 1px solid var(--line); padding-top: var(--s2);"></p>
         </details>
       </section>
 
-      <div class="result-footer">
-        <p class="disclaimer" id="disclaimer"></p>
-        <div class="actions">
-          <button type="button" class="ghost" id="save-result">Save result (.json)</button>
-          <button type="button" class="ghost" id="check-another">Check another bill</button>
+      <!-- Actions & Disclaimer -->
+      <div class="flex-between" style="border-top: 1px solid var(--line); padding-top: var(--s4);">
+        <p class="text-xs text-muted" id="disclaimer" style="max-width: 620px; margin: 0;"></p>
+        <div class="flex-row">
+          <button type="button" class="btn btn-secondary btn-sm" id="save-result">Save result (.json)</button>
+          <button type="button" class="btn btn-quiet btn-sm" id="check-another">Check another bill</button>
         </div>
       </div>
     </div>
   </main>
 
   <footer class="site-footer">
-    <p>Proofbox · Bill Lens. Results are a starting point for a query with your municipality, not legal advice.</p>
+    <div class="site-footer-inner">
+      <div>Proofbox · Bill Lens</div>
+      <div>Synthetic demo documents only. Not legal advice.</div>
+    </div>
   </footer>
 
+  <!-- Receipt Dialog Modal -->
   <dialog id="receipt-dialog" aria-labelledby="receipt-title">
     <div class="dialog-head">
       <div>
-        <p class="eyebrow">Receipt</p>
-        <h2 id="receipt-title">Receipt</h2>
+        <span class="eyebrow">Cryptographic Receipt</span>
+        <h2 id="receipt-title" style="margin: 0; font-size: var(--text-lg);">Receipt</h2>
       </div>
-      <button type="button" class="icon-btn" id="close-receipt" aria-label="Close receipt">✕</button>
+      <button type="button" class="btn btn-quiet btn-sm" id="close-receipt" aria-label="Close receipt">✕</button>
     </div>
-    <p class="meta mono" id="receipt-meta"></p>
-    <pre id="receipt-content"></pre>
+    <p class="font-mono text-xs text-muted" id="receipt-meta"></p>
+    <pre id="receipt-content" style="max-height: 55vh; overflow-y: auto;"></pre>
   </dialog>
 
+  <!-- Live Status Toast -->
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script src="bill.js"></script>
