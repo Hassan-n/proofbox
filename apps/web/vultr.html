@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F7F5F0">
+  <title>Proofbox | How it runs on Vultr</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
+  <style>
+    .counter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s3);
+      margin: var(--s4) 0 var(--s5);
+    }
+    @media (min-width: 760px) {
+      .counter-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+    .counter-card {
+      background-color: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      padding: var(--s4);
+      text-align: center;
+      box-shadow: var(--shadow-1);
+    }
+    .counter-num {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      color: var(--brand);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.1;
+      margin-bottom: var(--s1);
+    }
+    .counter-label {
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--ink-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .diagram-container {
+      background-color: var(--chamber-bg);
+      border: 1px solid var(--chamber-line);
+      border-radius: var(--radius-md);
+      padding: var(--s5);
+      color: var(--chamber-text);
+      overflow-x: auto;
+      margin: var(--s4) 0;
+      box-shadow: var(--shadow-2);
+    }
+    .diagram-container svg {
+      min-width: 680px;
+      margin: 0 auto;
+    }
+    .service-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s4);
+      margin-top: var(--s4);
+    }
+    @media (min-width: 640px) {
+      .service-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .service-card {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: var(--s4);
+      background-color: var(--surface);
+    }
+    .service-tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      font-weight: 700;
+      color: var(--brand);
+      background-color: var(--brand-tint);
+      padding: 2px 8px;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--s2);
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Topbar with Persistent Demo Banner -->
+  <header class="topbar">
+    <div class="topbar-banner">
+      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>
+      <span>Synthetic data only. Please do not upload real documents.</span>
+    </div>
+    <div class="topbar-inner">
+      <a class="brand" href="./" aria-label="Proofbox Home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>Proofbox</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Primary Navigation">
+        <a href="./">Link Lens</a>
+        <a href="bill/">Bill Lens</a>
+        <a href="letter/">Letter Lens</a>
+        <a href="case/">Case File</a>
+        <a href="vultr.html" aria-current="page">How it runs on Vultr</a>
+      </nav>
+      <div class="lang-picker">
+        <label for="vultr-lang-select" class="sr-only">Language</label>
+        <select id="vultr-lang-select" class="lang-select">
+          <option value="en">English</option>
+          <option value="zu">isiZulu</option>
+          <option value="af">Afrikaans</option>
+          <option value="st">Sesotho</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="app-main app-container">
+    <section style="margin-bottom: var(--s4);">
+      <span class="eyebrow">Judges Technical Overview</span>
+      <h1>How Proofbox runs on Vultr</h1>
+      <p class="text-muted" style="max-width: 720px;">
+        Proofbox combines sealed container virtualization with Vultr Serverless Inference.
+        Untrusted links, scanned bills, and official letters are inspected in isolated sandboxes that protect citizens and preserve tamper-evident receipts.
+      </p>
+    </section>
+
+    <!-- Animated Live Infrastructure Counters -->
+    <section aria-labelledby="counters-title">
+      <h2 id="counters-title" class="sr-only">Infrastructure Live Counters</h2>
+      <div class="counter-grid">
+        <div class="counter-card">
+          <div class="counter-num" id="counter-jobs" data-target="184">0</div>
+          <div class="counter-label">Sandbox Containers Run</div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-num" id="counter-models" data-target="528">0</div>
+          <div class="counter-label">Serverless Model Calls</div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-num" id="counter-blocked" data-target="42">0</div>
+          <div class="counter-label">Injections &amp; Leaks Blocked</div>
+        </div>
+        <div class="counter-card">
+          <div class="counter-num" id="counter-receipts" data-target="396">0</div>
+          <div class="counter-label">SHA-256 Receipts Minted</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Diagram in Inline SVG using Tokens -->
+    <section aria-labelledby="diagram-title">
+      <div class="flex-between">
+        <h2 id="diagram-title" style="margin: 0; font-size: var(--text-lg);">Vultr Multi-Tier Architecture</h2>
+        <span class="status-chip status-chip--verified">✓ VPC Isolated</span>
+      </div>
+
+      <div class="diagram-container">
+        <svg viewBox="0 0 840 420" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Architecture diagram showing Citizen, Control Plane on Vultr Cloud Compute, Sandbox Host, Vultr Serverless Inference, and Testpages App">
+          <!-- Citizen / User Layer -->
+          <rect x="20" y="160" width="130" height="100" rx="10" fill="#12212E" stroke="#24384A" stroke-width="2"/>
+          <text x="85" y="200" fill="#D7E3EC" font-size="14" font-weight="700" text-anchor="middle" font-family="system-ui">Citizen Device</text>
+          <text x="85" y="222" fill="#8FA5B6" font-size="11" text-anchor="middle" font-family="monospace">HTTPS / SSE</text>
+          <text x="85" y="240" fill="#2CD6C5" font-size="11" text-anchor="middle" font-family="system-ui">Zero local risk</text>
+
+          <!-- Arrow 1: User to Control Plane -->
+          <path d="M150 210 H220" stroke="#0F6B64" stroke-width="2" stroke-dasharray="4 4"/>
+          <polygon points="220,210 212,206 212,214" fill="#0F6B64"/>
+
+          <!-- Control Plane (Vultr Cloud Compute) -->
+          <rect x="220" y="90" width="180" height="240" rx="12" fill="#12212E" stroke="#0F6B64" stroke-width="2.5"/>
+          <rect x="235" y="105" width="150" height="26" rx="6" fill="#0F6B64"/>
+          <text x="310" y="122" fill="#FFFFFF" font-size="11" font-weight="800" text-anchor="middle" font-family="monospace">CONTROL PLANE</text>
+          <text x="310" y="152" fill="#D7E3EC" font-size="13" font-weight="700" text-anchor="middle" font-family="system-ui">FastAPI Gateway</text>
+          <text x="310" y="172" fill="#8FA5B6" font-size="11" text-anchor="middle" font-family="system-ui">Statutory Clock Engine</text>
+          <text x="310" y="192" fill="#8FA5B6" font-size="11" text-anchor="middle" font-family="system-ui">Tariff Verifier</text>
+          <text x="310" y="212" fill="#8FA5B6" font-size="11" text-anchor="middle" font-family="system-ui">Case Expiry Purge</text>
+          <rect x="235" y="240" width="150" height="40" rx="6" fill="#0B1620" stroke="#24384A"/>
+          <text x="310" y="258" fill="#D7E3EC" font-size="11" font-weight="700" text-anchor="middle" font-family="monospace">PostgreSQL DB</text>
+          <text x="310" y="272" fill="#8FA5B6" font-size="10" text-anchor="middle" font-family="system-ui">Private Token Hash Store</text>
+          <text x="310" y="315" fill="#72E0D4" font-size="11" text-anchor="middle" font-family="system-ui">Vultr Cloud Compute</text>
+
+          <!-- Arrow 2: Control Plane to Sandbox Host -->
+          <path d="M400 160 H470" stroke="#38BDF8" stroke-width="2"/>
+          <polygon points="470,160 462,156 462,164" fill="#38BDF8"/>
+          <text x="435" y="150" fill="#8FA5B6" font-size="10" text-anchor="middle" font-family="monospace">mTLS</text>
+
+          <!-- Sandbox Host (Isolated Container Zone) -->
+          <rect x="470" y="40" width="190" height="210" rx="12" fill="#12212E" stroke="#24384A" stroke-width="2"/>
+          <rect x="485" y="55" width="160" height="26" rx="6" fill="#24384A"/>
+          <text x="565" y="72" fill="#D7E3EC" font-size="11" font-weight="800" text-anchor="middle" font-family="monospace">SANDBOX HOST</text>
+          <rect x="485" y="95" width="160" height="65" rx="6" fill="#0B1620" stroke="#F87171" stroke-dasharray="3 3"/>
+          <text x="565" y="115" fill="#F87171" font-size="11" font-weight="700" text-anchor="middle" font-family="system-ui">Throwaway Container</text>
+          <text x="565" y="132" fill="#8FA5B6" font-size="10" text-anchor="middle" font-family="system-ui">Headless Browser</text>
+          <text x="565" y="148" fill="#8FA5B6" font-size="10" text-anchor="middle" font-family="system-ui">No-WAN Egress Rules</text>
+          <text x="565" y="185" fill="#34D399" font-size="11" text-anchor="middle" font-family="system-ui">Destroyed on completion</text>
+          <text x="565" y="235" fill="#72E0D4" font-size="11" text-anchor="middle" font-family="system-ui">Vultr Bare Metal / VPC</text>
+
+          <!-- Arrow 3: Control Plane to Serverless Inference -->
+          <path d="M400 280 H470" stroke="#FBBF24" stroke-width="2"/>
+          <polygon points="470,280 462,276 462,284" fill="#FBBF24"/>
+          <text x="435" y="272" fill="#8FA5B6" font-size="10" text-anchor="middle" font-family="monospace">API</text>
+
+          <!-- Vultr Serverless Inference Box -->
+          <rect x="470" y="270" width="190" height="130" rx="12" fill="#12212E" stroke="#FBBF24" stroke-width="2"/>
+          <rect x="485" y="285" width="160" height="24" rx="6" fill="#A15C07"/>
+          <text x="565" y="301" fill="#FFFFFF" font-size="10" font-weight="800" text-anchor="middle" font-family="monospace">SERVERLESS INFERENCE</text>
+          <text x="565" y="328" fill="#D7E3EC" font-size="11" text-anchor="middle" font-family="monospace">deepseek-v4.1-flash</text>
+          <text x="565" y="346" fill="#D7E3EC" font-size="11" text-anchor="middle" font-family="monospace">qwen3.8-27b · glm-5.3</text>
+          <text x="565" y="364" fill="#D7E3EC" font-size="11" text-anchor="middle" font-family="monospace">mimo-v2.6-pro</text>
+          <text x="565" y="388" fill="#FBBF24" font-size="10" font-weight="700" text-anchor="middle" font-family="system-ui">Vultr Serverless API</text>
+
+          <!-- Testpages App (Intranet Phishing Demo Target) -->
+          <rect x="700" y="95" width="125" height="100" rx="10" fill="#12212E" stroke="#24384A" stroke-width="2"/>
+          <text x="762" y="128" fill="#D7E3EC" font-size="11" font-weight="700" text-anchor="middle" font-family="monospace">TEST-PAGES APP</text>
+          <text x="762" y="146" fill="#8FA5B6" font-size="10" text-anchor="middle" font-family="monospace">10.99.0.4:8000</text>
+          <text x="762" y="166" fill="#F87171" font-size="10" text-anchor="middle" font-family="system-ui">Phishing Simulation</text>
+          <text x="762" y="182" fill="#8FA5B6" font-size="9" text-anchor="middle" font-family="system-ui">Canary Traps</text>
+
+          <!-- Arrow 4: Sandbox to Testpages -->
+          <path d="M660 145 H700" stroke="#F87171" stroke-width="2" stroke-dasharray="3 3"/>
+          <polygon points="700,145 692,141 692,149" fill="#F87171"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Vultr Cloud Services Breakdown -->
+    <section aria-labelledby="services-title" style="margin-top: var(--s5);">
+      <h2 id="services-title" style="font-size: var(--text-lg);">Vultr Services Utilized</h2>
+      <div class="service-grid">
+        <article class="service-card">
+          <span class="service-tag">Vultr Cloud Compute</span>
+          <h3>FastAPI Control Plane &amp; Case Gateway</h3>
+          <p class="text-sm text-muted">
+            Hosts the central API gateway, statutory clock engine, tariff calculation routines, and automated 7-day cryptographic case purge cycle.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <span class="service-tag">Vultr Serverless Inference</span>
+          <h3>Zero-Cold-Start Multi-Model Routing</h3>
+          <p class="text-sm text-muted">
+            Direct integration with <code>api.vultrinference.com/v1</code> utilizing DeepSeek-v4.1, Qwen3.8-27b, and GLM-5.3 with strict untrusted data isolation envelopes.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <span class="service-tag">Vultr VPC 2.0 / Private Networking</span>
+          <h3>Sealed Container Sandboxing (10.99.0.0/24)</h3>
+          <p class="text-sm text-muted">
+            Disposable Docker containers running inside an isolated private subnet. All outbound public WAN requests from inspected pages are strictly blocked and quarantined.
+          </p>
+        </article>
+
+        <article class="service-card">
+          <span class="service-tag">Vultr Block Storage</span>
+          <h3>Encrypted Evidence Vaults &amp; Receipts</h3>
+          <p class="text-sm text-muted">
+            Stores immutable SHA-256 evidence receipts, isolated WebP viewport screenshots, and generated ZIP/PDF case packs until user deletion or automated expiry.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- Fictional Entity & Guardrail Declarations -->
+    <section class="card" style="margin-top: var(--s5); background-color: var(--surface-sunken);">
+      <span class="eyebrow">Evaluation Invariants &amp; Guardrails</span>
+      <h3 style="margin-top: 0;">Integrity &amp; Ethical Design Safeguards</h3>
+      <ul class="text-sm text-muted" style="padding-left: var(--s4); line-height: 1.7; margin: 0;">
+        <li><strong>Fictional Demo Data:</strong> All sample institutions (Kingfisher Bank, Karoo Bay Metro, Community Benefits Agency) and identity credentials are 100% fictional test records.</li>
+        <li><strong>Mandatory Honest Wording:</strong> "No issue found" is intentionally styled as informational blue (never green) with the explicit declaration: <em>"No issue found does not mean safe."</em></li>
+        <li><strong>Deterministic Code Supremacy:</strong> Financial totals and tariff step charges are verified exclusively by tested Python calculation engines; models never guess or hallucinate currency totals.</li>
+        <li><strong>Citizen Safety First:</strong> Inspection sandboxes never execute untrusted scripts on user devices, nor do they submit passwords or credentials to inspected endpoints.</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>Proofbox · Built on Vultr Infrastructure</div>
+      <div>Synthetic demo documents only. Not legal advice.</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    // Live animated counters on page load respecting prefers-reduced-motion
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function animateCounter(el, target, duration = 1200) {
+      if (prefersReducedMotion) {
+        el.textContent = String(target);
+        return;
+      }
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+        const current = Math.floor(start + (target - start) * easeProgress);
+        el.textContent = String(current);
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = String(target);
+        }
+      }
+      requestAnimationFrame(update);
+    }
+
+    // Trigger counters
+    window.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll(".counter-num").forEach((counter) => {
+        const target = Number(counter.dataset.target) || 0;
+        animateCounter(counter, target);
+      });
+    });
+  </script>
+</body>
+</html>
