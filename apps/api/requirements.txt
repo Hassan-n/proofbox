@@ -8,3 +8,5 @@ psycopg[binary]==3.2.3
 psycopg-pool==3.2.3
 pydantic==2.9.2
 tldextract==5.1.2
+tzdata==2026.6
+reportlab==4.5.1

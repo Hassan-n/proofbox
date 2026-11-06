@@ -1,0 +1,16 @@
+{
+  "check_date": "2026-11-06",
+  "synthetic_only": true,
+  "files": {
+    "A9_letter.pdf": "c21a8128a5420f685143f0cf21f0acc9755eb33ec72b6c152e68eeba4a462cf5",
+    "A10_id_copy.pdf": "cf266f8f3564f8b542aec6d4bdc6903dc3d286298985c7901a47292f8d3123c0",
+    "A10_old_proof_of_address.pdf": "28d4579d361c6ac9b30acf643f10434b9f9d41a21593f39a463db63959a20cba",
+    "A10_bank_statement.pdf": "4c05a612eaa5c1dc8ce63a6206bf1498c5514ad9ddb08fc58b7cc9c79771eb73"
+  },
+  "expected": {
+    "id_copy": "have",
+    "proof_of_address": "needs_fixing",
+    "bank_statement": "have",
+    "signed_declaration": "missing"
+  }
+}

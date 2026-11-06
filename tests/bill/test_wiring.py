@@ -45,7 +45,25 @@ def api_main(monkeypatch):
 
 def test_api_mounts_bill_routes(api_main):
     paths = set(api_main.app.openapi()["paths"])
-    assert {"/api/bill/intake", "/api/bill/receipts/{receipt_id}", "/api/intake", "/api/jobs/{job_id}"} <= paths
+    assert {
+        "/api/bill/intake",
+        "/api/bill/receipts/{receipt_id}",
+        "/api/letter/intake",
+        "/api/intake",
+        "/api/jobs/{job_id}",
+        "/api/cases",
+        "/api/cases/{case_id}",
+        "/api/cases/{case_id}/evidence",
+        "/api/cases/{case_id}/clocks/dispute-sent",
+        "/api/cases/{case_id}/replies",
+        "/api/cases/{case_id}/replies/{reply_id}/confirm",
+        "/api/cases/{case_id}/replies/{reply_id}/discard",
+        "/api/cases/{case_id}/packs",
+        "/api/packs/{pack_id}",
+        "/api/packs/{pack_id}/pdf",
+        "/api/packs/{pack_id}/zip",
+        "/api/receipts/{receipt_id}",
+    } <= paths
 
 
 def test_bill_jobs_run_beside_the_queue_with_a_limit(api_main, monkeypatch):
@@ -74,6 +92,31 @@ def test_bill_jobs_run_beside_the_queue_with_a_limit(api_main, monkeypatch):
     asyncio.run(scenario())
 
 
+def test_letter_jobs_run_beside_the_queue_with_a_limit(api_main, monkeypatch):
+    started, release = [], asyncio.Event()
+
+    async def fake_letter(job):
+        started.append(job["id"])
+        await release.wait()
+
+    monkeypatch.setattr(api_main, "process_letter_job", fake_letter)
+    api_main.LETTER_SLOTS = asyncio.Semaphore(2)
+
+    async def scenario():
+        await asyncio.wait_for(api_main.process_job({"id": "letter-1", "lens": "letter"}), 1)
+        await asyncio.wait_for(api_main.process_job({"id": "letter-2", "lens": "letter"}), 1)
+        third = asyncio.create_task(api_main.process_job({"id": "letter-3", "lens": "letter"}))
+        await asyncio.sleep(0.05)
+        assert started == ["letter-1", "letter-2"] and not third.done()
+        release.set()
+        await asyncio.wait_for(third, 1)
+        await asyncio.wait_for(asyncio.gather(*list(api_main._letter_tasks)), 1)
+        await asyncio.sleep(0)
+        assert started == ["letter-1", "letter-2", "letter-3"] and not api_main._letter_tasks
+
+    asyncio.run(scenario())
+
+
 def test_worker_mounts_run_bill(monkeypatch):
     monkeypatch.syspath_prepend(str(ROOT / "apps" / "worker"))
     worker = _load("proofbox_worker_main", ROOT / "apps" / "worker" / "main.py")
@@ -82,11 +125,26 @@ def test_worker_mounts_run_bill(monkeypatch):
     assert TestClient(worker.app).post("/run-bill", json={}).status_code in {401, 422}
 
 
+def test_worker_document_mode_requires_its_pdf(monkeypatch):
+    monkeypatch.syspath_prepend(str(ROOT / "apps" / "worker"))
+    import bill_modes
+
+    request = bill_modes.BillRunRequest(job_id="job-test", mode="parse_document", inputs=[])
+    with pytest.raises(ValueError, match="document.pdf"):
+        bill_modes.validate_request(request)
+    command = bill_modes.docker_command("pb-test", "parse_document", Path("C:\\inputs"))
+    assert command[-3:] == ["python", "/app/parse_document.py", "/inputs/document.pdf"]
+
+
 def test_dockerfiles_ship_bill_files():
     worker = (ROOT / "apps" / "worker" / "Dockerfile").read_text()
     web = (ROOT / "apps" / "web" / "Dockerfile").read_text()
+    sandbox = (ROOT / "sandbox" / "code" / "Dockerfile").read_text()
     assert "COPY bill_modes.py ." in worker
     assert "COPY bill /usr/share/nginx/html/bill" in web
+    assert "COPY case /usr/share/nginx/html/case" in web
+    assert "COPY letter /usr/share/nginx/html/letter" in web
+    assert "COPY --chown=root:root --chmod=0555 parse_document.py /app/parse_document.py" in sandbox
 
 
 def test_api_image_has_the_same_tariff():

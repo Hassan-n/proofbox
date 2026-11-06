@@ -6,7 +6,8 @@ from typing import Type
 from openai import OpenAI
 from pydantic import BaseModel
 
-from db import pool
+from db import add_event, pool
+from privacy import ensure_no_id_number
 
 MODELS_CFG = {
     "roles": {
@@ -49,13 +50,14 @@ def call_model(
     last_error = ""
 
     for attempt in range(3):
+        content = user_text
+        if attempt:
+            content += f"\nPrevious response failed validation: {last_error}. Return only valid JSON."
+        ensure_no_id_number((system, content), job_id, add_event)
         started = time.monotonic()
         response = None
         outcome = "ok"
         try:
-            content = user_text
-            if attempt:
-                content += f"\nPrevious response failed validation: {last_error}. Return only valid JSON."
             user_content = content
             if image_base64_webp:
                 user_content = [

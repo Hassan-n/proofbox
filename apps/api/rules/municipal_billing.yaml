@@ -1,0 +1,18 @@
+id: municipal_billing
+last_verified: null
+clocks:
+  response:
+    name: Response due
+    type: business_days
+    days: 10
+  follow_up:
+    name: Follow up
+    type: business_days
+    days: 15
+reminders_calendar_days_before_due: [7, 3, 1]
+escalation:
+  external_route: to be filled from official sources
+  steps: []
+notes:
+  - The response period and escalation route have not been verified against an official municipal standard.
+  - A person-confirmed sent date is the clock start; a non-business start date counts from the next business day.

@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#f3f5ef">
+  <title>Proofbox | Letter Lens</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17231e;
+      --muted: #59665f;
+      --paper: #f3f5ef;
+      --surface: #fffefa;
+      --line: #cbd4ca;
+      --green: #245c43;
+      --red: #9c2f27;
+      --amber: #7a5417;
+      --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 14px/1.6 var(--mono); }
+    header { padding: 14px max(18px, calc((100vw - 860px) / 2)); border-bottom: 1px solid var(--line); }
+    header a { color: var(--green); font-weight: 700; }
+    main { width: min(860px, 100%); margin: 0 auto; padding: 28px 18px 56px; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.15; }
+    h1 { font-size: clamp(32px, 7vw, 52px); margin: 8px 0 12px; }
+    h2 { font-size: 25px; margin: 0 0 16px; }
+    h3 { font-size: 19px; margin: 0; }
+    p { margin: 8px 0; }
+    .eyebrow, .muted, .meta { color: var(--muted); font-size: 12px; }
+    .panel, .card { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 16px 0; }
+    .error { color: var(--red); }
+    button, input { font: inherit; }
+    button, .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--green); background: var(--green); color: white; padding: 9px 16px; text-decoration: none; cursor: pointer; }
+    button.secondary, .button.secondary { background: var(--surface); color: var(--green); }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    input { width: 100%; min-height: 48px; padding: 9px 12px; background: var(--surface); border: 1px solid #87978b; color: var(--ink); }
+    input:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7bb98b; outline-offset: 3px; }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; }
+    .form { display: grid; gap: 12px; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .check { border-top: 1px solid #e2e7df; padding: 12px 0; }
+    .check:first-child { border-top: 0; padding-top: 0; }
+    .status { display: inline-block; border: 1px solid currentColor; padding: 2px 8px; font-size: 11px; font-weight: 700; }
+    .have { color: var(--green); }
+    .missing { color: var(--red); }
+    .needs_fixing { color: var(--amber); }
+    .error-box { color: var(--red); }
+    [hidden] { display: none !important; }
+    @media (min-width: 720px) { .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } }
+  </style>
+</head>
+<body>
+  <header><a href="../" aria-label="Proofbox home">PROOFBOX / LETTER LENS</a></header>
+  <main>
+    <section>
+      <p class="eyebrow">Letter review</p>
+      <h1>Read the letter. Check the paperwork.</h1>
+      <p class="muted">The letter text is used to extract dates and requests. Supporting PDFs are parsed and checked in an isolated, no-network code sandbox; they are not sent to a model. Checks are layout-based and do not authenticate documents.</p>
+    </section>
+    <section class="panel">
+      <h2>Upload PDFs</h2>
+      <form class="form" id="upload-form">
+        <div>
+          <label for="letter-file">Official letter (PDF, max 5 MB)</label>
+          <input id="letter-file" type="file" accept="application/pdf,.pdf" required>
+        </div>
+        <div>
+          <label for="supporting-files">Supporting PDFs (up to 4, max 5 MB each)</label>
+          <input id="supporting-files" type="file" accept="application/pdf,.pdf" multiple>
+        </div>
+        <p class="muted">Synthetic samples:
+          <a href="samples/A9_letter.pdf" download>A9 letter</a>,
+          <a href="samples/A10_id_copy.pdf" download>A10 ID copy</a>,
+          <a href="samples/A10_old_proof_of_address.pdf" download>A10 old address proof</a>,
+          <a href="samples/A10_bank_statement.pdf" download>A10 bank statement</a>.
+          The ID number is fictional test data.
+        </p>
+        <p class="muted">The combined upload limit is 10 MB. Scanned/image-only PDFs are not supported.</p>
+        <button id="submit-button" type="submit">Check letter</button>
+        <p id="upload-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <section id="progress-panel" class="panel" hidden aria-live="polite">
+      <h2>Check progress</h2>
+      <p id="job-status" class="muted"></p>
+      <p id="job-id"></p>
+    </section>
+    <section id="result-panel" hidden>
+      <div class="columns">
+        <section class="panel">
+          <h2>Letter details</h2>
+          <div id="letter-fields"></div>
+        </section>
+        <section class="panel">
+          <h2>Document checklist</h2>
+          <div id="checklist"></div>
+        </section>
+      </div>
+      <section class="panel">
+        <h2>Next step</h2>
+        <p class="muted">Deadlines and appointment dates appear on the case timeline after you attach this result. Verify extracted details against the original letter.</p>
+        <div class="row">
+          <button id="attach-button" type="button" hidden>Add result to this case</button>
+          <a id="open-case" class="button secondary" href="../case/" hidden>Open case</a>
+          <button id="copy-job" type="button" class="secondary">Copy job ID</button>
+        </div>
+        <p id="attach-message" role="status" aria-live="polite"></p>
+      </section>
+      <p class="muted">Not legal advice. Check every item and date yourself.</p>
+    </section>
+  </main>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const apiBase = (params.get("api") || "").replace(/\/+$/, "");
+    const caseParts = decodeURIComponent(location.hash.slice(1)).split(".");
+    const caseId = caseParts.length === 2 ? caseParts[0] : "";
+    const caseToken = caseParts.length === 2 ? caseParts[1] : "";
+    let activeJobId = "";
+    let events;
+
+    function byId(id) { return document.getElementById(id); }
+    function setText(id, value) { byId(id).textContent = value || ""; }
+    function safeFileName(file) { return file.name.split(/[\\/]/).pop(); }
+    function toBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(",", 2)[1] || "");
+        reader.onerror = () => reject(new Error("Could not read the selected file."));
+        reader.readAsDataURL(file);
+      });
+    }
+    async function request(path, options = {}) {
+      const response = await fetch(`${apiBase}${path}`, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          ...(caseToken ? { Authorization: `Bearer ${caseToken}` } : {}),
+        },
+        referrerPolicy: "no-referrer",
+      });
+      if (!response.ok) {
+        const body = await response.json().catch(() => ({}));
+        throw new Error(body.detail || `Request failed (${response.status}).`);
+      }
+      return response;
+    }
+    function addRow(parent, label, value) {
+      if (!value) return;
+      const row = document.createElement("p");
+      const strong = document.createElement("strong");
+      strong.textContent = `${label}: `;
+      row.append(strong, document.createTextNode(String(value)));
+      parent.append(row);
+    }
+    function renderResult(result) {
+      const facts = result.derived_facts || {};
+      const fields = byId("letter-fields");
+      fields.replaceChildren();
+      for (const [label, value] of [
+        ["Agency", facts.agency],
+        ["Applicant", facts.applicant_name],
+        ["Reference", facts.reference_number],
+        ["Summary", facts.summary || result.summary],
+        ["Response deadline", facts.response_deadline],
+        ["Appointment", [facts.appointment_date, facts.appointment_time, facts.appointment_place].filter(Boolean).join(" · ")],
+        ["Required documents", (facts.required_documents || []).join(", ")],
+        ["Link mentioned in letter", facts.link],
+      ]) addRow(fields, label, value);
+      if (!fields.childElementCount) fields.textContent = "The letter was unreadable; verify it manually.";
+
+      const checklist = byId("checklist");
+      checklist.replaceChildren();
+      for (const item of facts.checklist || []) {
+        const section = document.createElement("article");
+        section.className = "check";
+        const heading = document.createElement("div");
+        const title = document.createElement("strong");
+        title.textContent = item.label;
+        const badge = document.createElement("span");
+        badge.className = `status ${item.status}`;
+        badge.textContent = item.status.replaceAll("_", " ");
+        heading.append(title, document.createTextNode(" "), badge);
+        const reason = document.createElement("p");
+        reason.textContent = item.reason;
+        section.append(heading, reason);
+        checklist.append(section);
+      }
+      if (!checklist.childElementCount) checklist.textContent = "No document checks were run.";
+      byId("result-panel").hidden = false;
+      byId("attach-button").hidden = !(caseId && caseToken);
+      if (caseId && caseToken) {
+        const caseLink = byId("open-case");
+        caseLink.href = `../case/${location.search}#${encodeURIComponent(`${caseId}.${caseToken}`)}`;
+        caseLink.hidden = false;
+      }
+    }
+    async function loadResult(jobId) {
+      const response = await request(`/api/jobs/${encodeURIComponent(jobId)}`);
+      const body = await response.json();
+      const job = body.job;
+      if (job.status === "completed") {
+        if (events) events.close();
+        byId("submit-button").disabled = false;
+        setText("job-status", "Check complete. Verify the extracted details before acting.");
+        renderResult(job.result_json || {});
+      } else if (job.status === "failed") {
+        if (events) events.close();
+        byId("submit-button").disabled = false;
+        setText("job-status", "The check failed. " + (body.events?.at(-1)?.detail || "Try again or check the original document manually."));
+        byId("job-status").className = "error-box";
+      }
+    }
+    byId("upload-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const letter = byId("letter-file").files[0];
+      const supporting = [...byId("supporting-files").files];
+      const files = [letter, ...supporting].filter(Boolean);
+      if (!letter) return;
+      if (supporting.length > 4 || files.some((file) => file.size > 5 * 1024 * 1024) ||
+          files.reduce((total, file) => total + file.size, 0) > 10 * 1024 * 1024) {
+        setText("upload-message", "Choose up to four supporting PDFs, each no larger than 5 MB, with a combined total no larger than 10 MB.");
+        byId("upload-message").className = "error-box";
+        return;
+      }
+      byId("submit-button").disabled = true;
+      setText("upload-message", "Uploading PDFs…");
+      try {
+        const [letterBase64, supportingDocuments] = await Promise.all([
+          toBase64(letter),
+          Promise.all(supporting.map(async (file) => ({ filename: safeFileName(file), pdf_base64: await toBase64(file) }))),
+        ]);
+        const response = await request("/api/letter/intake", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ filename: safeFileName(letter), pdf_base64: letterBase64, supporting_documents: supportingDocuments }),
+        });
+        const body = await response.json();
+        activeJobId = body.job_id;
+        byId("progress-panel").hidden = false;
+        byId("result-panel").hidden = true;
+        setText("job-id", `Job ID: ${activeJobId}`);
+        setText("job-status", "Queued. Parsing PDFs in an isolated sandbox…");
+        setText("upload-message", "");
+        events = new EventSource(`${apiBase}/api/jobs/${encodeURIComponent(activeJobId)}/events`);
+        events.onmessage = async (message) => {
+          try {
+            const data = JSON.parse(message.data);
+            setText("job-status", data.detail || data.event);
+            if (data.event === "job_completed" || data.event === "job_failed") await loadResult(activeJobId);
+          } catch {
+            setText("job-status", "Received an unreadable progress event.");
+          }
+        };
+        events.onerror = () => {
+          loadResult(activeJobId).catch((error) => {
+            setText("job-status", error.message || "Could not load check status.");
+          });
+        };
+      } catch (error) {
+        byId("submit-button").disabled = false;
+        setText("upload-message", error.message || "Could not submit the PDFs.");
+        byId("upload-message").className = "error-box";
+      }
+    });
+    byId("attach-button").addEventListener("click", async () => {
+      if (!activeJobId) return;
+      byId("attach-button").disabled = true;
+      try {
+        await request(`/api/cases/${encodeURIComponent(caseId)}/evidence`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ job_id: activeJobId }),
+        });
+        setText("attach-message", "Letter check attached. Dates and appointments are now on the case timeline.");
+        byId("open-case").hidden = false;
+      } catch (error) {
+        setText("attach-message", error.message || "Could not attach the letter check.");
+        byId("attach-button").disabled = false;
+      }
+    });
+    byId("copy-job").addEventListener("click", async () => {
+      if (!activeJobId) return;
+      try {
+        await navigator.clipboard.writeText(activeJobId);
+        setText("attach-message", "Job ID copied.");
+      } catch {
+        setText("attach-message", `Copy this job ID: ${activeJobId}`);
+      }
+    });
+  </script>
+</body>
+</html>

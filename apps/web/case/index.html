@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#f3f5ef">
+  <title>Proofbox | Case file</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17231e;
+      --muted: #59665f;
+      --paper: #f3f5ef;
+      --surface: #fffefa;
+      --line: #cbd4ca;
+      --green: #245c43;
+      --red: #9c2f27;
+      --amber: #7a5417;
+      --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
+      --serif: Georgia, "Times New Roman", serif;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font: 14px/1.6 var(--mono); }
+    header { padding: 14px max(18px, calc((100vw - 980px) / 2)); border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; gap: 16px; }
+    header a { color: var(--green); font-weight: 700; }
+    main { width: min(980px, 100%); margin: 0 auto; padding: 28px 18px 56px; }
+    h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.15; }
+    h1 { font-size: clamp(32px, 7vw, 52px); margin: 8px 0 12px; }
+    h2 { font-size: 25px; margin: 0 0 16px; }
+    h3 { font-size: 20px; margin: 0; }
+    p { margin: 8px 0; }
+    .eyebrow, .muted, .meta { color: var(--muted); font-size: 12px; }
+    .panel, .card { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 16px 0; }
+    .intro { max-width: 720px; margin-bottom: 24px; }
+    .error { color: var(--red); }
+    button, input, select { font: inherit; }
+    button, .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--green); background: var(--green); color: white; padding: 9px 16px; text-decoration: none; cursor: pointer; }
+    button.secondary, .button.secondary { background: var(--surface); color: var(--green); }
+    button.danger { background: var(--red); border-color: var(--red); }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    input, select { width: 100%; min-height: 48px; padding: 9px 12px; background: var(--surface); border: 1px solid #87978b; color: var(--ink); }
+    label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; }
+    input:focus-visible, select:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7bb98b; outline-offset: 3px; }
+    .form { display: grid; gap: 12px; }
+    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+    .action { border-left: 5px solid var(--green); background: #e8f3e7; padding: 14px; margin: 16px 0; }
+    .action strong { display: block; font-size: 11px; text-transform: uppercase; }
+    .clocks { display: grid; gap: 10px; }
+    .clock, .evidence { border-top: 1px solid #e2e7df; padding: 14px 0; }
+    .clock:first-child, .evidence:first-child { border-top: 0; padding-top: 0; }
+    .clock-head, .evidence-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .state { display: inline-flex; align-items: center; gap: 7px; border: 1px solid currentColor; padding: 3px 8px; white-space: nowrap; font-size: 11px; font-weight: 700; }
+    .state.overdue { color: var(--red); }
+    .state.due_soon { color: var(--amber); }
+    .state.upcoming { color: var(--muted); }
+    .state.met { color: var(--green); }
+    .state-icon { font-size: 15px; line-height: 1; }
+    .claim { color: var(--green); font-weight: 700; }
+    .receipts { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 9px; }
+    .receipts button { min-height: 44px; padding: 7px 10px; font-size: 11px; }
+    textarea { width: 100%; padding: 10px; font: inherit; border: 1px solid #87978b; color: var(--ink); background: var(--surface); }
+    textarea:focus-visible { outline: 3px solid #7bb98b; outline-offset: 3px; }
+    .proposal { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 14px; }
+    .claims { list-style: none; padding: 0; }
+    .claims li { border-top: 1px solid #e2e7df; padding: 10px 0; }
+    .claim-link { min-height: 44px; padding: 0 7px; color: var(--green); border: 1px solid var(--line); background: transparent; font-weight: 700; }
+    .footer-note { border-top: 1px solid var(--line); padding-top: 12px; color: var(--muted); font-size: 12px; }
+    .error-box { color: var(--red); }
+    dialog { width: min(720px, calc(100% - 24px)); max-height: 85vh; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 18px; }
+    dialog::backdrop { background: #17231e99; }
+    dialog pre { white-space: pre-wrap; overflow-wrap: anywhere; max-height: 65vh; overflow: auto; font: 12px/1.6 var(--mono); }
+    dialog img { max-width: 100%; max-height: 65vh; object-fit: contain; }
+    [hidden] { display: none !important; }
+    @media (min-width: 760px) {
+      .case-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 16px; align-items: start; }
+      .case-grid .panel { margin: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="../" aria-label="Proofbox home">PROOFBOX / CASE FILE</a>
+    <nav aria-label="Lenses">
+      <a href="../">Link Lens</a>
+      <span aria-hidden="true"> · </span>
+      <a href="../bill/">Bill Lens</a>
+      <span aria-hidden="true"> · </span>
+      <a href="../letter/">Letter Lens</a>
+    </nav>
+  </header>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Private case timeline</p>
+      <h1 id="page-title">Keep the evidence together.</h1>
+      <p class="muted">A case link is private. Anyone with the link can see its evidence until it expires or is deleted. Do not share it publicly.</p>
+    </section>
+
+    <section id="create-panel" class="panel" aria-labelledby="create-title" hidden>
+      <h2 id="create-title">Create a case file</h2>
+      <form class="form" id="create-form">
+        <div>
+          <label for="case-title">Case name</label>
+          <input id="case-title" maxlength="120" value="New case" required>
+        </div>
+        <div>
+          <label for="rule-set">Rules</label>
+          <select id="rule-set">
+            <option value="municipal_billing">Municipal billing</option>
+            <option value="grant_review">Letter / grant review</option>
+          </select>
+        </div>
+        <button type="submit">Create private case</button>
+        <p id="create-message" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section id="case-view" hidden>
+      <div id="case-summary" class="panel"></div>
+      <div class="action" id="next-action" aria-live="polite"></div>
+      <div class="case-grid">
+        <section class="panel" aria-labelledby="clocks-title">
+          <h2 id="clocks-title">Clocks</h2>
+          <div class="clocks" id="clocks"></div>
+          <p class="footer-note"><span id="rule-status"></span><br><strong>Not legal advice.</strong></p>
+        </section>
+        <section class="panel" aria-labelledby="timeline-title">
+          <h2 id="timeline-title">Evidence timeline</h2>
+          <div id="evidence"></div>
+        </section>
+      </div>
+      <section class="panel" aria-labelledby="attach-title">
+        <h2 id="attach-title">Add a completed check</h2>
+        <p class="muted">Run a link, bill, or letter check, then enter its completed job ID to attach the result and receipts.</p>
+        <div class="row">
+          <a class="button secondary" id="link-lens" href="../">Check a link</a>
+          <a class="button secondary" id="bill-lens" href="../bill/">Check a bill</a>
+          <a class="button secondary" id="letter-lens" href="../letter/">Check a letter</a>
+        </div>
+        <form class="form" id="attach-form">
+          <div>
+            <label for="job-id">Completed job ID</label>
+            <input id="job-id" maxlength="100" required autocomplete="off">
+          </div>
+          <button type="submit">Add to case</button>
+          <p id="attach-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <section class="panel" id="sent-panel" aria-labelledby="sent-title" hidden>
+        <h2 id="sent-title">Start the dispute clocks</h2>
+        <p class="muted">Set the date you confirmed that the dispute letter was sent. The date the letter was generated is not used.</p>
+        <form class="form" id="sent-form">
+          <div>
+            <label for="sent-evidence">Dispute letter</label>
+            <select id="sent-evidence"></select>
+          </div>
+          <div>
+            <label for="sent-date">Date sent</label>
+            <input id="sent-date" type="date" required>
+          </div>
+          <button type="submit">Confirm sent date</button>
+          <p id="sent-message" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <section class="panel" aria-labelledby="reply-title">
+        <h2 id="reply-title">Log a reply</h2>
+        <p class="muted">A reply is only a proposal until you confirm it. Logging a reply does not change clocks or actions.</p>
+        <form class="form" id="reply-form">
+          <div>
+            <label for="reply-text">Reply text</label>
+            <textarea id="reply-text" rows="6" maxlength="50000" required></textarea>
+          </div>
+          <button type="submit">Review reply</button>
+          <p id="reply-message" role="status" aria-live="polite"></p>
+        </form>
+        <div id="reply-proposals"></div>
+      </section>
+      <section class="panel" aria-labelledby="pack-title">
+        <h2 id="pack-title">Evidence pack</h2>
+        <p class="muted">Generate a dated snapshot of the evidence, clock states, and receipt hashes. Packs are versioned and remain until the case is deleted.</p>
+        <div class="row">
+          <button type="button" id="generate-pack">Generate pack</button>
+          <span id="pack-status" role="status" aria-live="polite">No pack generated.</span>
+        </div>
+        <div class="row" id="pack-downloads" hidden>
+          <button type="button" class="secondary" id="download-pdf">Download PDF</button>
+          <button type="button" class="secondary" id="download-zip">Download receipts ZIP</button>
+        </div>
+        <div id="pack-preview" aria-live="polite"></div>
+      </section>
+      <section class="panel" aria-labelledby="delete-title">
+        <h2 id="delete-title">Delete this case</h2>
+        <p class="muted">Evidence, copied receipts, and case files will be removed. This cannot be undone.</p>
+        <button type="button" class="danger" id="delete-case">Delete case and evidence</button>
+      </section>
+    </section>
+    <p id="page-error" class="error-box" role="alert"></p>
+  </main>
+  <dialog id="receipt-dialog" aria-labelledby="receipt-title">
+    <div class="row" style="justify-content:space-between">
+      <h2 id="receipt-title">Receipt</h2>
+      <button type="button" class="secondary" id="close-receipt">Close</button>
+    </div>
+    <p id="receipt-hash" class="meta"></p>
+    <div id="receipt-content"></div>
+  </dialog>
+  <script>
+    "use strict";
+    const API_BASE = (new URLSearchParams(location.search).get("api") || location.origin).replace(/\/+$/, "");
+    const [caseId, accessToken] = decodeURIComponent(location.hash.slice(1)).split(".", 2);
+    const $ = (selector) => document.querySelector(selector);
+    const esc = (value) => String(value ?? "");
+    const pageError = $("#page-error");
+    const createPanel = $("#create-panel");
+    const caseView = $("#case-view");
+    let activeReceiptUrl = null;
+
+    function replaceReceiptUrl(blob) {
+      if (activeReceiptUrl) URL.revokeObjectURL(activeReceiptUrl);
+      activeReceiptUrl = URL.createObjectURL(blob);
+      return activeReceiptUrl;
+    }
+
+    function showError(message) {
+      pageError.textContent = message;
+      pageError.hidden = !message;
+    }
+
+    async function api(path, options = {}) {
+      const response = await fetch(`${API_BASE}${path}`, {
+        ...options,
+        headers: {
+          ...(options.headers || {}),
+          ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        },
+        referrerPolicy: "no-referrer",
+      });
+      if (!response.ok) {
+        let detail = "The request could not be completed.";
+        try { detail = (await response.json()).detail || detail; } catch {}
+        throw new Error(detail);
+      }
+      return response.status === 204 ? null : response;
+    }
+
+    function element(tag, text, className) {
+      const node = document.createElement(tag);
+      if (text !== undefined) node.textContent = esc(text);
+      if (className) node.className = className;
+      return node;
+    }
+
+    function fmtDate(value) {
+      return value ? new Date(value).toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" }) : "Date unavailable";
+    }
+
+    async function loadCase() {
+      if (!caseId || !accessToken) {
+        createPanel.hidden = false;
+        caseView.hidden = true;
+        return;
+      }
+      const response = await api(`/api/cases/${encodeURIComponent(caseId)}`);
+      const data = await response.json();
+      caseView.hidden = false;
+      createPanel.hidden = true;
+      $("#page-title").textContent = data.case.title;
+
+      const summary = $("#case-summary");
+      summary.replaceChildren(
+        element("p", `CASE ${data.case.id}`, "eyebrow"),
+        element("h2", data.case.title),
+        element("p", `Private link expires ${fmtDate(data.case.expires_at)}.`, "muted"),
+      );
+      const next = $("#next-action");
+      next.replaceChildren(element("strong", "Next action"), element("span", data.next_action.text));
+
+      const clocks = $("#clocks");
+      clocks.replaceChildren();
+      if (!data.clocks.length) clocks.append(element("p", "No clocks have been started.", "muted"));
+      for (const clock of data.clocks) {
+        const state = clock.computed_state;
+        const icons = { upcoming: "○", due_soon: "◷", overdue: "!", met: "✓" };
+        const labels = { upcoming: "Upcoming", due_soon: "Due soon", overdue: "Overdue", met: "Met" };
+        const item = element("article", undefined, "clock");
+        const head = element("div", undefined, "clock-head");
+        head.append(element("h3", clock.name));
+        const chip = element("span", undefined, `state ${state}`);
+        chip.append(element("span", icons[state] || "○", "state-icon"), document.createTextNode(labels[state] || "Upcoming"));
+        head.append(chip);
+        item.append(head, element("p", `Due ${fmtDate(clock.due_at)}`), element("p", `Rules: ${clock.rule_ref || "unverified"}`, "meta"));
+        const remaining = clock.days_until_due;
+        const remainingText = remaining < 0
+          ? `${Math.abs(remaining)} day(s) overdue`
+          : remaining === 0 ? "Due today" : `${remaining} day(s) left`;
+        item.append(element("p", remainingText, "meta"));
+        clocks.append(item);
+      }
+      $("#rule-status").textContent = `${data.rules.verification_text}.`;
+
+      const evidence = $("#evidence");
+      evidence.replaceChildren();
+      if (!data.evidence.length) evidence.append(element("p", "No evidence attached yet.", "muted"));
+      for (const item of data.evidence) {
+        const card = element("article", undefined, "evidence");
+        const head = element("div", undefined, "evidence-head");
+        head.append(element("h3", item.kind[0].toUpperCase() + item.kind.slice(1)));
+        head.append(element("strong", `[E${item.seq}]`, "claim"));
+        card.append(head, element("p", item.summary), element("p", fmtDate(item.created_at), "meta"));
+        const receiptRow = element("div", undefined, "receipts");
+        for (const receipt of item.receipts || []) {
+          const button = element("button", `${receipt.kind} · ${receipt.bytes} B`, "secondary");
+          button.type = "button";
+          button.addEventListener("click", () => openReceipt(receipt));
+          receiptRow.append(button);
+        }
+        if (receiptRow.childElementCount) card.append(receiptRow);
+        evidence.append(card);
+      }
+      evidence.lastElementChild?.scrollIntoView({ block: "end" });
+      renderReplies(data.replies || [], data.clocks || []);
+      const sentCandidates = data.evidence.filter((item) => item.kind === "bill" && item.derived_facts?.dispute_letter);
+      const sentPanel = $("#sent-panel");
+      sentPanel.hidden = sentCandidates.length === 0;
+      const sentSelect = $("#sent-evidence");
+      sentSelect.replaceChildren(...sentCandidates.map((item) => {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = `[E${item.seq}] ${item.summary}`;
+        return option;
+      }));
+      if (!$("#sent-date").value) {
+        $("#sent-date").value = new Intl.DateTimeFormat("sv-SE", {
+          timeZone: "Africa/Johannesburg",
+        }).format(new Date());
+      }
+      $("#link-lens").href = `../${location.search}`;
+      $("#bill-lens").href = `../bill/${location.search}`;
+      $("#letter-lens").href = `../letter/${location.search}${location.hash}`;
+      const pack = data.latest_pack;
+      if (pack) {
+        $("#pack-status").textContent = `Version ${pack.version}: ${pack.status}.`;
+        $("#generate-pack").textContent = "Regenerate pack";
+        if (pack.status === "completed") await loadPack(pack.id);
+      } else {
+        $("#pack-status").textContent = "No pack generated.";
+        $("#generate-pack").textContent = "Generate pack";
+        $("#pack-downloads").hidden = true;
+        $("#pack-preview").replaceChildren();
+      }
+    }
+
+    function renderReplies(replies, clocks) {
+      const panel = $("#reply-proposals");
+      panel.replaceChildren();
+      for (const reply of replies) {
+        const proposal = element("article", undefined, "proposal");
+        proposal.append(element("h3", `Reply proposal · ${reply.status}`));
+        if (reply.status === "proposed") {
+          const extracted = reply.extraction_json || {};
+          const effectText = reply.proposal_json?.proposed_changes || [];
+          proposal.append(element("p", effectText.length ? effectText.join("; ") : "No automatic clock change proposed.", "muted"));
+          const form = element("form", undefined, "form");
+          form.dataset.replyId = reply.id;
+          const fields = [
+            ["sender", "Sender", "text", extracted.sender],
+            ["date_received", "Date received", "date", extracted.date_received],
+            ["reference_number", "Reference number", "text", extracted.reference_number],
+            ["summary", "Summary (up to three sentences)", "text", extracted.summary],
+          ];
+          for (const [name, label, type, value] of fields) {
+            const wrapper = element("div");
+            const inputLabel = element("label", label);
+            inputLabel.htmlFor = `${reply.id}-${name}`;
+            const input = document.createElement("input");
+            input.id = `${reply.id}-${name}`;
+            input.name = name;
+            input.type = type;
+            input.value = value === "unreadable" ? "" : (value || "");
+            if (name === "date_received") input.required = true;
+            wrapper.append(inputLabel, input);
+            form.append(wrapper);
+          }
+          const typeWrap = element("div");
+          const typeLabel = element("label", "Reply type");
+          typeLabel.htmlFor = `${reply.id}-reply-type`;
+          const typeSelect = document.createElement("select");
+          typeSelect.id = `${reply.id}-reply-type`;
+          typeSelect.name = "reply_type";
+          for (const [value, label] of [
+            ["", "Choose or confirm reply type"],
+            ["acknowledgement", "Acknowledgement"],
+            ["substantive_answer", "Substantive answer"],
+            ["request_for_information", "Request for information"],
+            ["refusal", "Refusal"],
+            ["other", "Other"],
+          ]) {
+            const option = document.createElement("option");
+            option.value = value;
+            option.textContent = label;
+            typeSelect.append(option);
+          }
+          typeSelect.value = extracted.reply_type === "unreadable" ? "" : extracted.reply_type;
+          typeWrap.append(typeLabel, typeSelect);
+          form.append(typeWrap);
+
+          const clockWrap = element("div");
+          const clockLabel = element("label", "Response clock to mark met (if applicable)");
+          clockLabel.htmlFor = `${reply.id}-clock-choice`;
+          const clockSelect = document.createElement("select");
+          clockSelect.id = `${reply.id}-clock-choice`;
+          clockSelect.name = "clock_choice";
+          const noClock = document.createElement("option");
+          noClock.value = "";
+          noClock.textContent = "Leave clocks unchanged";
+          clockSelect.append(noClock);
+          for (const clock of clocks.filter((item) => item.computed_state !== "met" && /response|reply/i.test(item.name))) {
+            const option = document.createElement("option");
+            option.value = clock.id;
+            option.textContent = `${clock.name} · due ${fmtDate(clock.due_at)}`;
+            clockSelect.append(option);
+          }
+          clockSelect.value = reply.proposal_json?.clock_choice || "";
+          clockWrap.append(clockLabel, clockSelect);
+          form.append(clockWrap);
+
+          const deadlineWrap = element("div");
+          const deadlineLabel = element("label", "New deadline (optional)");
+          deadlineLabel.htmlFor = `${reply.id}-new-deadline`;
+          const deadlineInput = document.createElement("input");
+          deadlineInput.id = `${reply.id}-new-deadline`;
+          deadlineInput.name = "new_deadline";
+          deadlineInput.type = "date";
+          const proposedDeadline = reply.proposal_json?.new_deadline;
+          if (proposedDeadline && proposedDeadline !== "unreadable") deadlineInput.value = proposedDeadline;
+          deadlineWrap.append(deadlineLabel, deadlineInput);
+          form.append(deadlineWrap);
+
+          const buttons = element("div", undefined, "row");
+          const confirm = element("button", "Confirm reply");
+          confirm.type = "submit";
+          const discard = element("button", "Discard proposal", "secondary");
+          discard.type = "button";
+          discard.addEventListener("click", async () => {
+            try {
+              await api(`/api/cases/${encodeURIComponent(caseId)}/replies/${encodeURIComponent(reply.id)}/discard`, { method: "POST" });
+              await loadCase();
+            } catch (error) {
+              $("#reply-message").textContent = error.message || "Could not discard reply.";
+            }
+          });
+          buttons.append(confirm, discard);
+          form.append(buttons);
+          form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const values = Object.fromEntries(new FormData(form).entries());
+            try {
+              await api(`/api/cases/${encodeURIComponent(caseId)}/replies/${encodeURIComponent(reply.id)}/confirm`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(values),
+              });
+              $("#reply-message").textContent = "Reply confirmed and added as evidence.";
+              await loadCase();
+            } catch (error) {
+              $("#reply-message").textContent = error.message || "Could not confirm reply.";
+            }
+          });
+          proposal.append(form);
+        } else if (reply.status === "confirmed") {
+          proposal.append(element("p", `Added as [E${reply.confirmation_json?.seq}].`));
+        } else {
+          proposal.append(element("p", "The proposal was discarded.", "muted"));
+        }
+        panel.append(proposal);
+      }
+    }
+
+    async function loadPack(packId) {
+      const response = await api(`/api/packs/${encodeURIComponent(packId)}`);
+      const pack = await response.json();
+      $("#pack-status").textContent = `Version ${pack.version}: ${pack.status}.`;
+      if (pack.status !== "completed") {
+        $("#pack-downloads").hidden = true;
+        return;
+      }
+      $("#pack-downloads").hidden = false;
+      $("#download-pdf").onclick = () => downloadPack(pack.downloads.pdf, `proofbox-pack-v${pack.version}.pdf`);
+      $("#download-zip").onclick = () => downloadPack(pack.downloads.zip, `proofbox-pack-v${pack.version}.zip`);
+      const preview = $("#pack-preview");
+      preview.replaceChildren(element("h3", `Pack preview · version ${pack.version}`));
+      const claims = element("ol", undefined, "claims");
+      for (const claim of pack.snapshot?.claims || []) {
+        const item = element("li");
+        const match = claim.text.match(/\[E(\d+)\]/);
+        if (!match) {
+          item.textContent = claim.text;
+          claims.append(item);
+          continue;
+        }
+        const seq = Number(match[1]);
+        const evidenceItem = pack.snapshot.evidence.find((evidence) => evidence.seq === seq);
+        const text = claim.text.replace(/\[E\d+\]/g, "").trim();
+        item.append(document.createTextNode(`${text} `));
+        const link = element("button", `[E${seq}]`, "claim-link");
+        link.type = "button";
+        link.addEventListener("click", () => {
+          const receipt = evidenceItem?.receipts?.[0];
+          if (receipt) openReceipt(receipt);
+          else $("#pack-status").textContent = `Evidence [E${seq}] has no receipt attached.`;
+        });
+        item.append(link);
+        claims.append(item);
+      }
+      preview.append(claims);
+    }
+
+    async function downloadPack(path, filename) {
+      try {
+        const response = await api(path);
+        const blob = await response.blob();
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = filename;
+        link.click();
+        URL.revokeObjectURL(link.href);
+      } catch (error) {
+        $("#pack-status").textContent = error.message || "Could not download pack.";
+      }
+    }
+
+    async function openReceipt(receipt) {
+      const response = await api(`/api/receipts/${encodeURIComponent(receipt.id)}`);
+      const blob = await response.blob();
+      $("#receipt-title").textContent = `Receipt · ${receipt.kind}`;
+      $("#receipt-hash").textContent = `SHA-256: ${response.headers.get("X-Content-SHA256") || receipt.sha256}`;
+      const content = $("#receipt-content");
+      content.replaceChildren();
+      if (receipt.kind === "screenshot") {
+        const image = document.createElement("img");
+        image.alt = "Receipt screenshot";
+        image.src = replaceReceiptUrl(blob);
+        content.append(image);
+      } else if (receipt.kind === "pdf") {
+        const link = element("a", "Download PDF receipt", "button");
+        link.href = replaceReceiptUrl(blob);
+        link.download = `${receipt.id}.pdf`;
+        content.append(link);
+      } else {
+        content.append(element("pre", await blob.text()));
+      }
+      $("#receipt-dialog").showModal();
+    }
+
+    $("#create-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      $("#create-message").textContent = "Creating private case…";
+      try {
+        const response = await fetch(`${API_BASE}/api/cases`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ title: $("#case-title").value, rule_set: $("#rule-set").value }),
+          referrerPolicy: "no-referrer",
+        });
+        if (!response.ok) throw new Error((await response.json()).detail || "Could not create case.");
+        const created = await response.json();
+        const caseUrl = new URL(created.access_link, location.origin);
+        if (new URLSearchParams(location.search).has("api")) caseUrl.searchParams.set("api", API_BASE);
+        location.assign(caseUrl);
+      } catch (error) {
+        $("#create-message").textContent = error.message || "Could not create case.";
+      }
+    });
+
+    $("#reply-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      $("#reply-message").textContent = "Extracting a proposal…";
+      try {
+        const response = await api(`/api/cases/${encodeURIComponent(caseId)}/replies`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: $("#reply-text").value }),
+        });
+        const result = await response.json();
+        $("#reply-text").value = "";
+        $("#reply-message").textContent = result.message;
+        await loadCase();
+      } catch (error) {
+        $("#reply-message").textContent = error.message || "Could not review reply.";
+      }
+    });
+
+    $("#generate-pack").addEventListener("click", async () => {
+      const button = $("#generate-pack");
+      button.disabled = true;
+      $("#pack-status").textContent = "Generating a verified snapshot…";
+      try {
+        const response = await api(`/api/cases/${encodeURIComponent(caseId)}/packs`, { method: "POST" });
+        const pack = await response.json();
+        $("#pack-status").textContent = `Version ${pack.version}: ${pack.status}.`;
+        await loadPack(pack.pack_id);
+        await loadCase();
+      } catch (error) {
+        $("#pack-status").textContent = error.message || "Pack generation failed.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    $("#attach-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      $("#attach-message").textContent = "Attaching evidence…";
+      try {
+        await api(`/api/cases/${encodeURIComponent(caseId)}/evidence`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ job_id: $("#job-id").value.trim() }),
+        });
+        $("#job-id").value = "";
+        $("#attach-message").textContent = "Evidence added.";
+        await loadCase();
+      } catch (error) {
+        $("#attach-message").textContent = error.message || "Could not attach evidence.";
+      }
+    });
+
+    $("#sent-form").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      $("#sent-message").textContent = "Recording confirmed sent date…";
+      try {
+        await api(`/api/cases/${encodeURIComponent(caseId)}/clocks/dispute-sent`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ evidence_id: $("#sent-evidence").value, sent_at: $("#sent-date").value }),
+        });
+        $("#sent-message").textContent = "Response and follow-up clocks started.";
+        await loadCase();
+      } catch (error) {
+        $("#sent-message").textContent = error.message || "Could not start clocks.";
+      }
+    });
+
+    $("#delete-case").addEventListener("click", async () => {
+      if (!window.confirm("Delete this case? All evidence, receipts, and case files will be removed.")) return;
+      try {
+        await api(`/api/cases/${encodeURIComponent(caseId)}`, { method: "DELETE" });
+        history.replaceState(null, "", `${location.pathname}${location.search}`);
+        location.reload();
+      } catch (error) {
+        showError(error.message || "Could not delete case.");
+      }
+    });
+
+    $("#close-receipt").addEventListener("click", () => $("#receipt-dialog").close());
+    $("#receipt-dialog").addEventListener("close", () => {
+      if (activeReceiptUrl) URL.revokeObjectURL(activeReceiptUrl);
+      activeReceiptUrl = null;
+    });
+    loadCase().catch((error) => showError(error.message || "Could not load this case."));
+  </script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+weekend_days: [5, 6]
+holidays:
+  # South African national public holidays; Sunday observances are listed on Monday.
+  # Confirm against the official government calendar before enabling verified rules.
+  - 2026-01-01
+  - 2026-03-21
+  - 2026-04-03
+  - 2026-04-06
+  - 2026-04-27
+  - 2026-05-01
+  - 2026-06-16
+  - 2026-08-10
+  - 2026-09-24
+  - 2026-12-16
+  - 2026-12-25
+  - 2026-12-26
+  - 2027-01-01
+  - 2027-03-21
+  - 2027-03-22
+  - 2027-03-26
+  - 2027-03-29
+  - 2027-04-27
+  - 2027-05-01
+  - 2027-06-16
+  - 2027-08-09
+  - 2027-09-24
+  - 2027-12-16
+  - 2027-12-25
+  - 2027-12-27
+last_verified: null

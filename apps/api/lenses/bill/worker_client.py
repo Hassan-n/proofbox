@@ -87,6 +87,39 @@ class WorkerParser:
         raise SandboxError(failure or "The sandbox did not return a parse result")
 
 
+class WorkerDocumentParser:
+    """Extract text from a text-based PDF inside the no-network code sandbox."""
+
+    def __init__(
+        self,
+        client: WorkerClient,
+        job_id: str | None,
+        emit: Callable[[str, str], None] | None = None,
+    ):
+        self.client, self.job_id, self.emit = client, job_id, emit
+
+    def __call__(self, pdf: bytes) -> dict[str, Any]:
+        lines = self.client.run(self.job_id, "parse_document", {"document.pdf": pdf}, self.emit)
+        for message in lines:
+            if message.get("event") == "document_parsed":
+                document = (message.get("data") or {}).get("document")
+                if isinstance(document, dict):
+                    return document
+        failure = next(
+            (
+                message.get("detail")
+                for message in lines
+                if message.get("event") in {
+                    "document_parse_failed",
+                    "worker_error",
+                    "timeout_kill",
+                }
+            ),
+            None,
+        )
+        raise SandboxError(failure or "The sandbox did not return extracted document text")
+
+
 class WorkerCodeRunner:
     """CodeRunner backed by the worker's `code` mode. The analyst program never runs in the API."""
 
