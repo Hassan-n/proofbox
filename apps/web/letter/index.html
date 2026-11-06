@@ -39,6 +39,12 @@
       gap: var(--s2);
       flex-wrap: wrap;
     }
+    .fields-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s2);
+      font-size: var(--text-sm);
+    }
   </style>
 </head>
 <body>
@@ -76,9 +82,9 @@
     </div>
   </header>
 
-  <main id="main" class="app-main app-container" style="max-width: 880px;">
+  <main id="main" class="app-main app-container container-narrow">
     <!-- Screen Header -->
-    <section style="margin-bottom: var(--s5);">
+    <section class="mb-s5">
       <span class="eyebrow">Letter &amp; Document Review</span>
       <h1>Read the letter. Check the paperwork.</h1>
       <p class="text-muted">
@@ -90,7 +96,7 @@
 
     <!-- Upload Panel Card -->
     <section class="card" aria-labelledby="upload-heading">
-      <h2 id="upload-heading" style="margin-top: 0; font-size: var(--text-lg);">Upload PDFs</h2>
+      <h2 id="upload-heading" class="m-0 text-lg">Upload PDFs</h2>
       <form class="form" id="upload-form">
         <div class="form-group">
           <label class="form-label" for="letter-file">Official agency letter (PDF, max 5 MB)</label>
@@ -102,29 +108,29 @@
           <input id="supporting-files" type="file" accept="application/pdf,.pdf" multiple>
         </div>
 
-        <div class="card" style="background-color: var(--surface-sunken); padding: var(--s3); margin: var(--s2) 0;">
-          <p class="text-xs text-muted" style="margin-bottom: var(--s1);">
+        <div class="card bg-sunken p-s3 mt-s2 mb-s2">
+          <p class="text-xs text-muted mb-s1">
             <strong>Synthetic demo samples:</strong>
             <a href="samples/A9_letter.pdf" download>A9 agency letter</a> ·
             <a href="samples/A10_id_copy.pdf" download>A10 ID copy</a> ·
             <a href="samples/A10_old_proof_of_address.pdf" download>A10 old address proof</a> ·
             <a href="samples/A10_bank_statement.pdf" download>A10 bank statement</a>.
           </p>
-          <p class="text-xs text-muted" style="margin: 0;">
+          <p class="text-xs text-muted m-0">
             All ID numbers and names are fictional synthetic test data. Combined upload limit is 10 MB. Scanned/image-only PDFs are not supported.
           </p>
         </div>
 
-        <button id="submit-button" class="btn btn-primary" type="submit" style="width: 100%; margin-top: var(--s3);">
+        <button id="submit-button" class="btn btn-primary w-full mt-s3" type="submit">
           <span>Check letter and paperwork</span>
           <span aria-hidden="true">→</span>
         </button>
-        <p id="upload-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2); min-height: 1.5em;"></p>
+        <p id="upload-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
       </form>
     </section>
 
     <!-- Progress Panel (Dark Chamber Style) -->
-    <section id="progress-panel" class="containment-panel" hidden aria-live="polite" style="margin-top: var(--s4);">
+    <section id="progress-panel" class="containment-panel mt-s4" hidden aria-live="polite">
       <div class="containment-header">
         <div class="containment-title-group">
           <span class="containment-badge">Sandbox</span>
@@ -137,28 +143,28 @@
           </span>
         </div>
       </div>
-      <div style="padding: var(--s4);">
-        <h3 style="color: var(--chamber-text); font-size: var(--text-md); margin-bottom: var(--s2);">Check Progress</h3>
-        <p id="job-status" class="font-mono text-xs" style="color: var(--chamber-muted); margin: 0;"></p>
+      <div class="p-s4">
+        <h3 class="mb-s2 text-md text-chamber">Check Progress</h3>
+        <p id="job-status" class="font-mono text-xs m-0 text-chamber-muted"></p>
       </div>
     </section>
 
     <!-- Result Panel -->
-    <section id="result-panel" hidden style="margin-top: var(--s5);">
+    <section id="result-panel" class="mt-s5" hidden>
       <div class="letter-grid">
         <!-- Letter Details Card -->
         <article class="card" aria-labelledby="details-heading">
           <div class="card-head">
-            <h2 id="details-heading" style="margin: 0; font-size: var(--text-md);">Letter Details</h2>
+            <h2 id="details-heading" class="m-0 text-md">Letter Details</h2>
             <span class="status-chip status-chip--verified">✓ Parsed</span>
           </div>
-          <div id="letter-fields" style="display: flex; flex-direction: column; gap: var(--s2); font-size: var(--text-sm);"></div>
+          <div id="letter-fields" class="fields-col"></div>
         </article>
 
         <!-- Document Checklist Card -->
         <article class="card" aria-labelledby="checklist-heading">
           <div class="card-head">
-            <h2 id="checklist-heading" style="margin: 0; font-size: var(--text-md);">Document Checklist</h2>
+            <h2 id="checklist-heading" class="m-0 text-md">Document Checklist</h2>
             <span class="text-xs text-muted">Layout-based checks</span>
           </div>
           <div id="checklist"></div>
@@ -166,7 +172,7 @@
       </div>
 
       <!-- Next Steps & Case Linking Card -->
-      <section class="card next-action-card" style="margin-top: var(--s4);">
+      <section class="card next-action-card mt-s4">
         <div class="next-action-title">
           <span aria-hidden="true">★</span> Next Required Action
         </div>
@@ -174,16 +180,16 @@
           Deadlines and appointment dates appear on your private case timeline once you attach this result.
           Verify all extracted details against your original physical letter.
         </p>
-        <div class="flex-row" style="margin-top: var(--s2);">
+        <div class="flex-row mt-s2">
           <button id="attach-button" class="btn btn-primary btn-sm" type="button" hidden>Add result to this case file</button>
           <a id="open-case" class="btn btn-secondary btn-sm" href="../case/" hidden>Open case timeline →</a>
           <button id="copy-job" class="btn btn-quiet btn-sm" type="button">Copy job ID</button>
         </div>
-        <p id="attach-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2);"></p>
+        <p id="attach-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
       </section>
 
-      <div style="border-top: 1px solid var(--line); margin-top: var(--s4); padding-top: var(--s3); text-align: center;">
-        <p class="text-xs text-muted" style="margin: 0;">
+      <div class="border-t mt-s4 pt-s3 text-center">
+        <p class="text-xs text-muted m-0">
           <strong>Not legal advice.</strong> Check every item and date yourself against official government agency notices.
         </p>
       </div>
@@ -242,7 +248,7 @@
     function addRow(parent, label, value) {
       if (!value) return;
       const row = document.createElement("p");
-      row.style.margin = "0";
+      row.className = "m-0";
       const strong = document.createElement("strong");
       strong.textContent = `${label}: `;
       row.append(strong, document.createTextNode(String(value)));
@@ -282,8 +288,7 @@
 
         heading.append(title, badge);
         const reason = document.createElement("p");
-        reason.className = "text-sm text-muted";
-        reason.style.margin = "4px 0 0";
+        reason.className = "text-sm text-muted mt-s1 mb-0";
         reason.textContent = item.reason;
         section.append(heading, reason);
         checklist.append(section);

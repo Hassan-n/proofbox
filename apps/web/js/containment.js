@@ -125,7 +125,7 @@ export class ContainmentPanel {
 
     let tagText = "INFO";
     let tagClass = "";
-    let borderColor = "#38BDF8"; // default info cyan
+    let borderColor = "var(--chamber-cyan)"; // default info cyan
     let plainDescription = detail || type;
 
     // Map according to Step 2 specifications:
@@ -133,50 +133,50 @@ export class ContainmentPanel {
       this.counts.blocked++;
       tagText = "BLOCKED";
       tagClass = "tag-blocked";
-      borderColor = "#F87171"; // Red
+      borderColor = "var(--chamber-red)"; // Red
       plainDescription = detail ? `Blocked: tried to reach ${detail}` : "Blocked outbound network connection";
     } else if (type === "canary_read") {
       this.counts.blocked++;
       tagText = "CANARY TOUCHED";
       tagClass = "tag-blocked";
-      borderColor = "#F87171";
+      borderColor = "var(--chamber-red)";
       plainDescription = `Fake secret touched: ${detail || "canary credential read attempt"}`;
     } else if (type === "download_quarantined") {
       this.counts.quarantined++;
       tagText = "QUARANTINED";
       tagClass = "tag-quarantined";
-      borderColor = "#FBBF24"; // Amber
+      borderColor = "var(--chamber-amber)"; // Amber
       plainDescription = `Quarantined payload: ${detail || "unknown file"} (never opened)`;
     } else if (type === "instruction_ignored") {
       this.counts.ignored++;
       tagText = "IGNORED";
       tagClass = "tag-ignored";
-      borderColor = "#60A5FA"; // Blue
+      borderColor = "var(--chamber-blue)"; // Blue
       plainDescription = detail ? `Ignored prompt instruction: "${detail}" (did not change the result)` : "Ignored untrusted document instruction";
     } else if (type === "timeout_kill" || type === "memory_kill") {
       this.counts.blocked++;
       tagText = "LIMIT KILLED";
       tagClass = "tag-blocked";
-      borderColor = "#F87171";
+      borderColor = "var(--chamber-red)";
       plainDescription = `${type === "timeout_kill" ? "Timeout kill" : "Memory limit kill"}: ${detail || "Process terminated"}`;
     } else if (type === "output_truncated") {
       tagText = "TRUNCATED";
-      borderColor = "#FBBF24";
+      borderColor = "var(--chamber-amber)";
       plainDescription = `Output size truncated: ${detail || "exceeded safe buffer limit"}`;
     } else if (type === "container_destroyed") {
       tagText = "DESTROYED";
       tagClass = "tag-destroyed";
-      borderColor = "#34D399"; // Green
+      borderColor = "var(--chamber-green)"; // Green
       plainDescription = `Container destroyed. Job ${this.jobId || "closed"}.`;
     } else if (type === "job_completed") {
       tagText = "COMPLETE";
       tagClass = "tag-destroyed";
-      borderColor = "#34D399";
+      borderColor = "var(--chamber-green)";
       plainDescription = detail || "Inspection complete. Finding verified.";
     } else if (type === "job_failed") {
       tagText = "FAILED";
       tagClass = "tag-blocked";
-      borderColor = "#F87171";
+      borderColor = "var(--chamber-red)";
       plainDescription = detail || "Inspection failed.";
     }
 
@@ -229,14 +229,14 @@ export class ContainmentPanel {
     const liveDot = this.root.querySelector(".containment-live-dot");
     if (liveDot) {
       liveDot.style.animation = "none";
-      liveDot.style.backgroundColor = status === "FAILED" ? "#F87171" : "#34D399";
+      liveDot.style.backgroundColor = status === "FAILED" ? "var(--chamber-red)" : "var(--chamber-green)";
       liveDot.style.boxShadow = "none";
     }
 
     const liveText = this.root.querySelector("#chamber-live-state");
     if (liveText) {
       liveText.textContent = status;
-      liveText.style.color = status === "FAILED" ? "#F87171" : "#34D399";
+      liveText.style.color = status === "FAILED" ? "var(--chamber-red)" : "var(--chamber-green)";
     }
 
     const timer = this.root.querySelector("#chamber-timer");

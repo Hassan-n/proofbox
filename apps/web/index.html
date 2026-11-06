@@ -80,7 +80,7 @@
     <section class="card" aria-labelledby="chat-intro-heading">
       <span class="eyebrow">Citizen Intake &amp; Isolated Inspection</span>
       <h1 id="chat-intro-heading">Open nothing unsafely. Believe nothing unproven.</h1>
-      <p class="text-muted" style="max-width: 680px;">
+      <p class="text-muted max-w-680">
         Proofbox inspects suspicious links, water bills, and government letters inside a sealed sandbox.
         Observe network behavior, recompute charges, and preserve receipts for your private case file.
       </p>
@@ -162,7 +162,7 @@
           </div>
 
           <ol class="containment-events" id="chamber-events" aria-live="polite">
-            <li class="containment-event-row" style="border-left-color: var(--chamber-muted);">
+            <li class="containment-event-row">
               <span class="containment-event-time">--:--:--</span>
               <div class="containment-event-body">
                 <span class="containment-event-tag">STANDBY</span>
@@ -171,7 +171,7 @@
             </li>
           </ol>
 
-          <div style="padding: var(--s2) var(--s4); background-color: var(--chamber-surface); border-top: 1px solid var(--chamber-line); text-align: right;">
+          <div class="bg-chamber-surface border-t-chamber text-right p-s3">
             <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it" title="Test container security against simulated attack">
               Try to break it (Simulate attack)
             </button>
@@ -204,7 +204,7 @@
             <div class="verdict-confidence-box">
               <span id="confidence">Confidence: --</span>
               <div class="confidence-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div class="confidence-bar-fill" id="confidence-bar-fill" style="width: 0%;"></div>
+                <div class="confidence-bar-fill" id="confidence-bar-fill"></div>
               </div>
             </div>
           </div>
@@ -214,7 +214,7 @@
           </div>
 
           <div>
-            <h3 style="font-size: var(--text-md); margin-bottom: var(--s2);">Observed Reasons:</h3>
+            <h3 class="mb-s2">Observed Reasons:</h3>
             <ul class="verdict-reasons-list reasons" id="reasons"></ul>
           </div>
 
@@ -224,13 +224,13 @@
 
           <!-- Sandbox Screenshot (Explicit dimensions, compressed WebP) -->
           <div id="screenshot-wrapper" hidden>
-            <h4 style="font-size: var(--text-sm); margin: var(--s3) 0 var(--s1);">Sandbox Screenshot:</h4>
-            <img class="screenshot" id="screenshot" alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy" style="border: 1px solid var(--line); border-radius: var(--radius-sm); max-height: 380px; object-fit: contain; background: var(--surface-sunken);">
-            <a class="trace-btn-link" id="trace-link" href="#main" style="display: none;">See what it did (Inspect Trace Receipt) →</a>
+            <h4 class="mt-s3 mb-s1 text-sm">Sandbox Screenshot:</h4>
+            <img class="screenshot screenshot-preview" id="screenshot" alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy">
+            <a class="trace-btn-link" id="trace-link" href="#main" hidden>See what it did (Inspect Trace Receipt) →</a>
           </div>
 
           <!-- Attach to Case Link -->
-          <div style="border-top: 1px solid var(--line); padding-top: var(--s3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s2);">
+          <div class="border-t pt-s3 flex-between">
             <span class="text-xs text-muted">Attach this finding to your private case timeline</span>
             <a class="btn btn-secondary btn-sm" id="case-attach-cta" href="case/">Save finding to case file →</a>
           </div>
@@ -380,7 +380,7 @@
       if (payload.screenshot_webp) {
         image.src = `data:image/webp;base64,${payload.screenshot_webp}`;
         imageWrap.hidden = false;
-        traceLink.style.display = "inline-flex";
+        traceLink.hidden = false;
         traceLink.onclick = (e) => {
           e.preventDefault();
           showToast(`Inspecting trace for Job ${jobId}`);

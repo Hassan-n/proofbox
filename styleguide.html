@@ -40,6 +40,33 @@
       border-top: 1px solid var(--line);
       margin: var(--s6) 0;
     }
+    .swatch-paper { background: var(--paper); }
+    .swatch-surface { background: var(--surface); }
+    .swatch-sunken { background: var(--surface-sunken); }
+    .swatch-line { background: var(--line); }
+    .swatch-ink { background: var(--ink); }
+    .swatch-ink-muted { background: var(--ink-muted); }
+    .swatch-brand { background: var(--brand); }
+    .swatch-brand-strong { background: var(--brand-strong); }
+    .swatch-brand-tint { background: var(--brand-tint); }
+    .swatch-chamber-bg { background: var(--chamber-bg); }
+    .swatch-chamber-surface { background: var(--chamber-surface); }
+    .swatch-danger { background: var(--danger); }
+    .swatch-warn { background: var(--warn); }
+    .swatch-info { background: var(--info); }
+    .swatch-ok { background: var(--ok); }
+    .swatch-neutral { background: var(--neutral); }
+    .swatch-text-ink { color: var(--white); background: var(--ink); }
+    .swatch-text-chamber-bg { color: var(--white); background: var(--chamber-bg); }
+    .swatch-text-chamber-surf { color: var(--white); background: var(--chamber-surface); }
+    .event-queued { border-left-color: var(--chamber-sky); }
+    .event-blocked { border-left-color: var(--danger); }
+    .event-quarantined { border-left-color: var(--warn); }
+    .event-ignored { border-left-color: var(--chamber-sky); }
+    .event-destroyed { border-left-color: var(--chamber-emerald); }
+    .fill-94 { width: 94%; }
+    .fill-75-info { width: 75%; background-color: var(--info); }
+    .advice-border-info { border-left-color: var(--info); }
   </style>
 </head>
 <body>
@@ -79,10 +106,10 @@
   </header>
 
   <main id="main" class="app-main app-container">
-    <header style="margin-bottom: var(--s5);">
+    <header class="mb-s5">
       <span class="eyebrow">Design System &amp; Component Testbench</span>
       <h1>Proofbox Central Styleguide</h1>
-      <p class="text-muted" style="max-width: 680px;">
+      <p class="text-muted max-w-680">
         Brand line: <em>Open nothing unsafely. Believe nothing unproven. Fight with receipts.</em>
         A trustworthy forensic notebook aesthetic engineered with zero external dependencies, WCAG AA compliance, and full keyboard navigation.
       </p>
@@ -94,30 +121,30 @@
 
       <h3>Surfaces &amp; Lines</h3>
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color" style="background: var(--paper);"></div><div class="swatch-info"><div class="swatch-name">Paper</div><div class="swatch-hex">#F7F5F0</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--surface);"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#FFFFFF</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--surface-sunken);"></div><div class="swatch-info"><div class="swatch-name">Sunken</div><div class="swatch-hex">#EFECE4</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--line);"></div><div class="swatch-info"><div class="swatch-name">Line</div><div class="swatch-hex">#D9D4C7</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--ink);"></div><div class="swatch-info"><div class="swatch-name" style="color: #fff; background: #14202B;">Ink</div><div class="swatch-hex">#14202B</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--ink-muted);"></div><div class="swatch-info"><div class="swatch-name">Ink Muted</div><div class="swatch-hex">#4B5966</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-paper"></div><div class="swatch-info"><div class="swatch-name">Paper</div><div class="swatch-hex">#F7F5F0</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-surface"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#FFFFFF</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-sunken"></div><div class="swatch-info"><div class="swatch-name">Sunken</div><div class="swatch-hex">#EFECE4</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-line"></div><div class="swatch-info"><div class="swatch-name">Line</div><div class="swatch-hex">#D9D4C7</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-ink"></div><div class="swatch-info"><div class="swatch-name swatch-text-ink">Ink</div><div class="swatch-hex">#14202B</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-ink-muted"></div><div class="swatch-info"><div class="swatch-name">Ink Muted</div><div class="swatch-hex">#4B5966</div></div></div>
       </div>
 
       <h3>Brand &amp; Containment Chamber</h3>
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color" style="background: var(--brand);"></div><div class="swatch-info"><div class="swatch-name">Brand Teal</div><div class="swatch-hex">#0F6B64</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--brand-strong);"></div><div class="swatch-info"><div class="swatch-name">Brand Strong</div><div class="swatch-hex">#0A4F4A</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--brand-tint);"></div><div class="swatch-info"><div class="swatch-name">Brand Tint</div><div class="swatch-hex">#E2F1EF</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--chamber-bg);"></div><div class="swatch-info"><div class="swatch-name" style="color: #fff; background: #0B1620;">Chamber BG</div><div class="swatch-hex">#0B1620</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--chamber-surface);"></div><div class="swatch-info"><div class="swatch-name" style="color: #fff; background: #12212E;">Chamber Surface</div><div class="swatch-hex">#12212E</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-brand"></div><div class="swatch-info"><div class="swatch-name">Brand Teal</div><div class="swatch-hex">#0F6B64</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-brand-strong"></div><div class="swatch-info"><div class="swatch-name">Brand Strong</div><div class="swatch-hex">#0A4F4A</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-brand-tint"></div><div class="swatch-info"><div class="swatch-name">Brand Tint</div><div class="swatch-hex">#E2F1EF</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-chamber-bg"></div><div class="swatch-info"><div class="swatch-name swatch-text-chamber-bg">Chamber BG</div><div class="swatch-hex">#0B1620</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-chamber-surface"></div><div class="swatch-info"><div class="swatch-name swatch-text-chamber-surf">Chamber Surface</div><div class="swatch-hex">#12212E</div></div></div>
       </div>
 
       <h3>Status Colors (Contrast Verified)</h3>
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color" style="background: var(--danger);"></div><div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-hex">#B42318</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--warn);"></div><div class="swatch-info"><div class="swatch-name">Warn</div><div class="swatch-hex">#A15C07</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--info);"></div><div class="swatch-info"><div class="swatch-name">Info (No Issue)</div><div class="swatch-hex">#1F5F99</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--ok);"></div><div class="swatch-info"><div class="swatch-name">Ok (Process)</div><div class="swatch-hex">#1B6B3A</div></div></div>
-        <div class="swatch"><div class="swatch-color" style="background: var(--neutral);"></div><div class="swatch-info"><div class="swatch-name">Neutral</div><div class="swatch-hex">#5A6672</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-danger"></div><div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-hex">#B42318</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-warn"></div><div class="swatch-info"><div class="swatch-name">Warn</div><div class="swatch-hex">#A15C07</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-info"></div><div class="swatch-info"><div class="swatch-name">Info (No Issue)</div><div class="swatch-hex">#1F5F99</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-ok"></div><div class="swatch-info"><div class="swatch-name">Ok (Process)</div><div class="swatch-hex">#1B6B3A</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-neutral"></div><div class="swatch-info"><div class="swatch-name">Neutral</div><div class="swatch-hex">#5A6672</div></div></div>
       </div>
     </section>
 
@@ -126,7 +153,7 @@
     <!-- SECTION 2: BUTTONS -->
     <section aria-labelledby="buttons-title">
       <h2 id="buttons-title">2. Buttons &amp; Interactive Actions (Min 48px Touch Target)</h2>
-      <div class="flex-row" style="margin-bottom: var(--s4);">
+      <div class="flex-row mb-s4">
         <button type="button" class="btn btn-primary">Primary Action</button>
         <button type="button" class="btn btn-secondary">Secondary Action</button>
         <button type="button" class="btn btn-quiet">Quiet / Ghost</button>
@@ -134,7 +161,7 @@
         <button type="button" class="btn btn-redteam">Try to break it</button>
       </div>
 
-      <div class="flex-row" style="margin-bottom: var(--s4);">
+      <div class="flex-row mb-s4">
         <button type="button" class="btn btn-primary btn-sm">Small Button</button>
         <button type="button" class="btn btn-primary">Standard Button</button>
         <button type="button" class="btn btn-primary btn-lg">Large Button</button>
@@ -152,7 +179,7 @@
     <section aria-labelledby="status-title">
       <h2 id="status-title">3. Status Chips (Always Word + Icon)</h2>
       <p class="text-sm text-muted">WCAG AA Rule: Status must never be conveyed by color alone.</p>
-      <div class="flex-row" style="margin-bottom: var(--s3);">
+      <div class="flex-row mb-s3">
         <span class="status-chip status-chip--dangerous">
           <span aria-hidden="true">▲</span> Dangerous
         </span>
@@ -167,7 +194,7 @@
         </span>
       </div>
 
-      <div class="flex-row" style="margin-bottom: var(--s3);">
+      <div class="flex-row mb-s3">
         <span class="status-chip status-chip--upcoming"><span aria-hidden="true">○</span> Upcoming</span>
         <span class="status-chip status-chip--due_soon"><span aria-hidden="true">◷</span> Due Soon</span>
         <span class="status-chip status-chip--overdue"><span aria-hidden="true">!</span> Overdue</span>
@@ -217,35 +244,35 @@
         </div>
 
         <ol class="containment-events" aria-live="polite">
-          <li class="containment-event-row" style="border-left-color: #38BDF8;">
+          <li class="containment-event-row event-queued">
             <span class="containment-event-time">21:10:02</span>
             <div class="containment-event-body">
               <span class="containment-event-tag">QUEUED</span>
               <span>Container initialized in isolated sandbox with zero host access.</span>
             </div>
           </li>
-          <li class="containment-event-row" style="border-left-color: #F87171;">
+          <li class="containment-event-row event-blocked">
             <span class="containment-event-time">21:10:05</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-blocked">BLOCKED</span>
               <span>Blocked: tried to reach internal network 10.0.0.5:8080</span>
             </div>
           </li>
-          <li class="containment-event-row" style="border-left-color: #FBBF24;">
+          <li class="containment-event-row event-quarantined">
             <span class="containment-event-time">21:10:08</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-quarantined">QUARANTINED</span>
               <span>Download intercepted: payload.bin (14.2 KB, sha256: 7f8a...c91) never opened.</span>
             </div>
           </li>
-          <li class="containment-event-row" style="border-left-color: #60A5FA;">
+          <li class="containment-event-row event-ignored">
             <span class="containment-event-time">21:10:11</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-ignored">IGNORED</span>
               <span>Prompt injection instruction removed from document; did not change the result.</span>
             </div>
           </li>
-          <li class="containment-event-row" style="border-left-color: #34D399;">
+          <li class="containment-event-row event-destroyed">
             <span class="containment-event-time">21:10:14</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-destroyed">DESTROYED</span>
@@ -273,7 +300,7 @@
           <div class="verdict-confidence-box">
             <span>Confidence: High</span>
             <div class="confidence-bar" role="progressbar" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100">
-              <div class="confidence-bar-fill" style="width: 94%;"></div>
+              <div class="confidence-bar-fill fill-94"></div>
             </div>
           </div>
 
@@ -301,11 +328,11 @@
           <div class="verdict-confidence-box">
             <span>Confidence: Medium</span>
             <div class="confidence-bar" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-              <div class="confidence-bar-fill" style="width: 75%; background-color: var(--info);"></div>
+              <div class="confidence-bar-fill fill-75-info"></div>
             </div>
           </div>
 
-          <div class="verdict-advice-box" style="border-left-color: var(--info);">
+          <div class="verdict-advice-box advice-border-info">
             <p class="verdict-advice-text">Verify any payment request by checking your account balance directly through official banking channels.</p>
           </div>
 
@@ -410,7 +437,7 @@
     <section aria-labelledby="timeline-sec-title">
       <h2 id="timeline-sec-title">8. Case Timeline &amp; Next Action Card</h2>
 
-      <div class="next-action-card" style="margin-bottom: var(--s4);">
+      <div class="next-action-card mb-s4">
         <div class="next-action-title">
           <span aria-hidden="true">★</span> Next Required Action
         </div>
@@ -462,7 +489,7 @@
         <div class="dialog-head">
           <div>
             <span class="eyebrow">Evidence Receipt</span>
-            <h3 id="dialog-sample-title" style="margin: 0;">Receipt · tariff_engine</h3>
+            <h3 id="dialog-sample-title" class="m-0">Receipt · tariff_engine</h3>
           </div>
           <button type="button" class="btn btn-quiet btn-sm" id="close-demo-dialog" aria-label="Close dialog">✕</button>
         </div>
@@ -474,7 +501,7 @@
   "rate_tier": "step_3_water",
   "discrepancy_detected": 220.50
 }</pre>
-        <div style="margin-top: var(--s4); text-align: right;">
+        <div class="mt-s4 text-right">
           <button type="button" class="btn btn-secondary" id="confirm-demo-dialog">Done</button>
         </div>
       </dialog>

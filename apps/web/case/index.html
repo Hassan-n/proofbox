@@ -70,7 +70,7 @@
     }
     /* Pack Preview Clean Document Style */
     .pack-paper {
-      background-color: #FFFFFF;
+      background-color: var(--white);
       border: 1px solid var(--line);
       border-radius: var(--radius-sm);
       padding: var(--s6);
@@ -83,9 +83,16 @@
       font-weight: 600;
       color: var(--ink);
     }
+    .card-danger-zone {
+      border-color: var(--danger-tint);
+      background-color: var(--surface);
+    }
+    .text-danger {
+      color: var(--danger);
+    }
     @media print {
       body {
-        background: #FFFFFF !important;
+        background: var(--white) !important;
       }
       .topbar, .site-footer, .btn, button, nav, #create-panel, #attach-form, #reply-form, #sent-panel, #delete-title, #delete-case, .no-print {
         display: none !important;
@@ -134,17 +141,17 @@
   </header>
 
   <main id="main" class="app-main app-container">
-    <section class="intro" style="margin-bottom: var(--s4);">
+    <section class="intro mb-s4">
       <span class="eyebrow">Private Forensic Case File</span>
       <h1 id="page-title">Keep the evidence together.</h1>
-      <p class="text-muted" style="max-width: 680px;">
+      <p class="text-muted max-w-680">
         A case link is private. Anyone with this exact token link can view its verified evidence, statutory clocks, and receipts until it expires or is deleted.
       </p>
     </section>
 
     <!-- Create Case Form Panel (shown when no hash token is present) -->
-    <section id="create-panel" class="card" aria-labelledby="create-title" hidden style="max-width: 600px; margin: 0 auto;">
-      <h2 id="create-title" style="margin-top: 0;">Create a private case file</h2>
+    <section id="create-panel" class="card max-w-600 auto-center" aria-labelledby="create-title" hidden>
+      <h2 id="create-title" class="m-0">Create a private case file</h2>
       <p class="text-sm text-muted">Initialize an encrypted case file with statutory deadline rules.</p>
       <form class="form" id="create-form">
         <div class="form-group">
@@ -158,11 +165,11 @@
             <option value="grant_review">Agency letter / grant review (Community Benefits Agency)</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary" style="width: 100%;">
+        <button type="submit" class="btn btn-primary w-full">
           <span>Create private case</span>
           <span aria-hidden="true">→</span>
         </button>
-        <p id="create-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2);"></p>
+        <p id="create-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
       </form>
     </section>
 
@@ -172,19 +179,19 @@
       <div id="case-summary" class="case-summary-card"></div>
 
       <!-- Priority Next Action Card (Distinct at top) -->
-      <div class="next-action-card" id="next-action" aria-live="polite" style="margin-bottom: var(--s5);"></div>
+      <div class="next-action-card mb-s5" id="next-action" aria-live="polite"></div>
 
       <!-- Two-Column Grid: Clocks & Evidence Timeline -->
       <div class="case-main-grid">
         <!-- Clocks Column -->
         <section class="card" aria-labelledby="clocks-title">
           <div class="card-head">
-            <h2 id="clocks-title" style="margin: 0; font-size: var(--text-md);">Statutory Clocks</h2>
+            <h2 id="clocks-title" class="m-0 text-md">Statutory Clocks</h2>
             <span class="text-xs text-muted">Rule-driven dates</span>
           </div>
           <div class="clocks-container clocks" id="clocks"></div>
-          <div style="border-top: 1px solid var(--line); margin-top: var(--s4); padding-top: var(--s3);">
-            <p class="text-xs text-muted" style="margin: 0;">
+          <div class="border-t mt-s4 pt-s3">
+            <p class="text-xs text-muted m-0">
               <span id="rule-status"></span><br>
               <strong>Not legal advice.</strong> Verify all deadlines with official notices.
             </p>
@@ -194,7 +201,7 @@
         <!-- Timeline Column -->
         <section class="card" aria-labelledby="timeline-title">
           <div class="card-head">
-            <h2 id="timeline-title" style="margin: 0; font-size: var(--text-md);">Evidence Timeline</h2>
+            <h2 id="timeline-title" class="m-0 text-md">Evidence Timeline</h2>
             <span class="text-xs text-muted">Time-ordered receipts</span>
           </div>
           <div class="timeline-container" id="evidence"></div>
@@ -202,19 +209,19 @@
       </div>
 
       <!-- Add Completed Check as Evidence -->
-      <section class="card" aria-labelledby="attach-title" style="margin-bottom: var(--s5);">
-        <h2 id="attach-title" style="margin-top: 0; font-size: var(--text-md);">Add a completed check</h2>
+      <section class="card mb-s5" aria-labelledby="attach-title">
+        <h2 id="attach-title" class="m-0 text-md">Add a completed check</h2>
         <p class="text-sm text-muted">Run a link, bill, or letter check, then enter its completed job ID to attach the finding and receipts to this case.</p>
-        <div class="flex-row" style="margin-bottom: var(--s3);">
+        <div class="flex-row mb-s3">
           <a class="btn btn-secondary btn-sm" id="link-lens" href="../">Check a link</a>
           <a class="btn btn-secondary btn-sm" id="bill-lens" href="../bill/">Check a bill</a>
           <a class="btn btn-secondary btn-sm" id="letter-lens" href="../letter/">Check a letter</a>
         </div>
         <form class="form" id="attach-form">
-          <div class="form-group" style="margin-bottom: var(--s2);">
+          <div class="form-group mb-s2">
             <label class="form-label" for="job-id">Completed Job ID</label>
-            <div style="display: flex; gap: var(--s2); flex-wrap: wrap;">
-              <input id="job-id" maxlength="100" placeholder="e.g. job-a1b2c3d4" required autocomplete="off" style="flex: 1; min-width: 220px;">
+            <div class="flex-row">
+              <input id="job-id" class="flex-1" maxlength="100" placeholder="e.g. job-a1b2c3d4" required autocomplete="off">
               <button type="submit" class="btn btn-primary btn-sm">Add to case file</button>
             </div>
           </div>
@@ -223,8 +230,8 @@
       </section>
 
       <!-- Dispute Sent Confirmation (Starts Dispute Clocks) -->
-      <section class="card" id="sent-panel" aria-labelledby="sent-title" hidden style="margin-bottom: var(--s5); border-left: 5px solid var(--brand);">
-        <h2 id="sent-title" style="margin-top: 0; font-size: var(--text-md);">Start the dispute clocks</h2>
+      <section class="card mb-s5 border-l-brand" id="sent-panel" aria-labelledby="sent-title" hidden>
+        <h2 id="sent-title" class="m-0 text-md">Start the dispute clocks</h2>
         <p class="text-sm text-muted">
           Record the date you confirmed delivery of your dispute letter to the municipality. The statutory reply clock begins on this confirmed date.
         </p>
@@ -240,13 +247,13 @@
             </div>
           </div>
           <button type="submit" class="btn btn-primary btn-sm">Confirm sent date</button>
-          <p id="sent-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2);"></p>
+          <p id="sent-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
         </form>
       </section>
 
       <!-- Log an Institution Reply (Two-Step Review Card) -->
-      <section class="card" aria-labelledby="reply-title" style="margin-bottom: var(--s5);">
-        <h2 id="reply-title" style="margin-top: 0; font-size: var(--text-md);">Log an institution reply</h2>
+      <section class="card mb-s5" aria-labelledby="reply-title">
+        <h2 id="reply-title" class="m-0 text-md">Log an institution reply</h2>
         <p class="text-sm text-muted">
           Paste the text of an email, SMS, or letter received from Karoo Bay Metro or Community Benefits Agency.
           Proofbox generates an update proposal for your review before changing any clocks.
@@ -257,7 +264,7 @@
             <textarea id="reply-text" rows="5" maxlength="50000" placeholder="Paste the response letter or message text here..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-sm">Review reply</button>
-          <p id="reply-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2);"></p>
+          <p id="reply-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
         </form>
 
         <!-- Proposals Review Cards (Proposed changes on left, Edit/Confirm on right) -->
@@ -265,11 +272,11 @@
       </section>
 
       <!-- Evidence Pack Generation & Preview -->
-      <section class="card" aria-labelledby="pack-title" style="margin-bottom: var(--s5);">
+      <section class="card mb-s5" aria-labelledby="pack-title">
         <div class="card-head">
           <div>
-            <h2 id="pack-title" style="margin: 0; font-size: var(--text-md);">Evidence Pack</h2>
-            <p class="text-xs text-muted" style="margin: var(--s1) 0 0;">
+            <h2 id="pack-title" class="m-0 text-md">Evidence Pack</h2>
+            <p class="text-xs text-muted mt-s1 mb-0">
               Export a dated, cryptographically verified snapshot of claims, clock states, and receipt hashes.
             </p>
           </div>
@@ -278,9 +285,9 @@
           </div>
         </div>
 
-        <p id="pack-status" class="form-hint" role="status" aria-live="polite" style="margin-bottom: var(--s3);">No pack generated yet.</p>
+        <p id="pack-status" class="form-hint mb-s3" role="status" aria-live="polite">No pack generated yet.</p>
 
-        <div class="flex-row" id="pack-downloads" hidden style="margin-bottom: var(--s3);">
+        <div class="flex-row mb-s3" id="pack-downloads" hidden>
           <button type="button" class="btn btn-secondary btn-sm" id="download-pdf">Download pack PDF</button>
           <button type="button" class="btn btn-secondary btn-sm" id="download-zip">Download receipts ZIP</button>
         </div>
@@ -290,8 +297,8 @@
       </section>
 
       <!-- Delete Case Danger Zone -->
-      <section class="card" aria-labelledby="delete-title" style="border-color: var(--danger-tint); background-color: var(--surface);">
-        <h2 id="delete-title" style="margin-top: 0; font-size: var(--text-md); color: var(--danger);">Delete this case file</h2>
+      <section class="card mb-s5 card-danger-zone" aria-labelledby="delete-title">
+        <h2 id="delete-title" class="m-0 text-md text-danger">Delete this case file</h2>
         <p class="text-sm text-muted">
           All evidence, copied receipts, pack snapshots, and database records will be permanently purged. This action cannot be reversed.
         </p>
@@ -300,7 +307,7 @@
     </section>
 
     <!-- Error Banner -->
-    <p id="page-error" class="alert-box alert-box--danger" role="alert" hidden style="margin-top: var(--s4);"></p>
+    <p id="page-error" class="alert-box alert-box--danger mt-s4" role="alert" hidden></p>
   </main>
 
   <footer class="site-footer">
@@ -315,12 +322,12 @@
     <div class="dialog-head">
       <div>
         <span class="eyebrow">Evidence Receipt</span>
-        <h2 id="receipt-title" style="margin: 0; font-size: var(--text-lg);">Receipt</h2>
+        <h2 id="receipt-title" class="m-0 text-lg">Receipt</h2>
       </div>
       <button type="button" class="btn btn-quiet btn-sm" id="close-receipt" aria-label="Close receipt">✕</button>
     </div>
-    <p id="receipt-hash" class="font-mono text-xs text-muted" style="margin-bottom: var(--s3); overflow-wrap: anywhere;"></p>
-    <div id="receipt-content" style="max-height: 60vh; overflow-y: auto;"></div>
+    <p id="receipt-hash" class="font-mono text-xs text-muted mb-s3"></p>
+    <div id="receipt-content" class="modal-scroll-body"></div>
   </dialog>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -746,8 +753,7 @@
         const image = document.createElement("img");
         image.alt = "Receipt screenshot";
         image.src = replaceReceiptUrl(blob);
-        image.style.maxWidth = "100%";
-        image.style.borderRadius = "var(--radius-sm)";
+        image.className = "screenshot-preview";
         content.append(image);
       } else if (receipt.kind === "pdf") {
         const link = element("a", "Download PDF receipt", "btn btn-primary btn-sm");

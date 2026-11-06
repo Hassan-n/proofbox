@@ -52,7 +52,7 @@
         We recompute every charge from the published tariff, check your meter readings, and draft a dispute letter.
         Every finding links to a verifiable receipt.
       </p>
-      <div class="flex-row" style="gap: var(--s2); margin-top: var(--s3);">
+      <div class="flex-row mt-s3">
         <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Sealed container, no network</span>
         <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Injections stripped</span>
         <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Deterministic code calculation</span>
@@ -75,28 +75,28 @@
             <span class="dropzone-hint" id="drop-hint">or <u>browse your files</u> · PDF up to 5 MB</span>
           </label>
 
-          <details class="card" style="margin-top: var(--s3); padding: var(--s3);">
-            <summary style="font-weight: 600; cursor: pointer; font-size: var(--text-sm);">
+          <details class="card mt-s3 p-s3">
+            <summary class="font-semibold text-sm cursor-pointer">
               Add earlier bills or outage log <span class="text-muted">(optional)</span>
             </summary>
-            <p class="form-hint" style="margin: var(--s2) 0;">
+            <p class="form-hint mb-s2 mt-s2">
               Earlier readings reveal consecutive estimates. An outage log verifies billing during water cuts. Shape like the <a href="samples/history.json" download>example history</a>.
             </p>
-            <label class="form-label" style="font-size: var(--text-xs);" for="history-input">History file (.json)</label>
-            <input type="file" id="history-input" accept="application/json,.json" style="margin-top: var(--s1);">
+            <label class="form-label text-xs" for="history-input">History file (.json)</label>
+            <input type="file" id="history-input" accept="application/json,.json" class="mt-s1">
             <p class="form-hint" id="history-state"></p>
           </details>
 
-          <div style="margin-top: var(--s4);">
-            <button type="submit" class="btn btn-primary" id="submit-btn" disabled style="width: 100%;">
+          <div class="mt-s4">
+            <button type="submit" class="btn btn-primary w-full" id="submit-btn" disabled>
               <span class="btn-label">Check my bill</span>
             </button>
-            <p class="form-hint" id="form-msg" role="status" aria-live="polite" style="margin-top: var(--s2); min-height: 1.5em;"></p>
+            <p class="form-hint mt-s2" id="form-msg" role="status" aria-live="polite"></p>
           </div>
         </form>
 
-        <div style="margin-top: var(--s5); border-top: 1px solid var(--line); padding-top: var(--s3);">
-          <h3 style="font-size: var(--text-sm); margin-bottom: var(--s2);">No bill to hand? Try a sample</h3>
+        <div class="mt-s5 border-t pt-s3">
+          <h3 class="text-sm mb-s2">No bill to hand? Try a sample</h3>
           <div class="sample-grid">
             <article class="sample">
               <h3>Clean bill</h3>
@@ -123,10 +123,10 @@
               </div>
             </article>
           </div>
-          <div style="margin-top: var(--s3);">
-            <label class="btn btn-quiet btn-sm" style="cursor: pointer;">
+          <div class="mt-s3">
+            <label class="btn btn-quiet btn-sm cursor-pointer">
               Open a saved result (.json)
-              <input type="file" id="result-input" accept="application/json,.json" style="position: absolute; opacity: 0; width: 0; height: 0;">
+              <input type="file" id="result-input" accept="application/json,.json" class="file-input-hidden">
             </label>
           </div>
         </div>
@@ -135,7 +135,7 @@
       <!-- Progress Stepper Card -->
       <section class="card progress-card" aria-labelledby="progress-title">
         <div class="card-head">
-          <h2 id="progress-title" style="margin: 0; font-size: var(--text-md);">Execution steps</h2>
+          <h2 id="progress-title" class="m-0 text-md">Execution steps</h2>
           <span class="font-mono text-xs text-muted" id="job-id"></span>
         </div>
         <ol class="stepper" id="stepper">
@@ -181,12 +181,12 @@
     </div>
 
     <!-- Results Section -->
-    <div id="result" class="result" hidden tabindex="-1" style="margin-top: var(--s6);">
+    <div id="result" class="result mt-s6" hidden tabindex="-1">
       <!-- Verdict & Totals -->
       <section class="verdict-bill-box" id="verdict" aria-labelledby="verdict-title">
         <div>
           <span class="status-chip" id="badge">Finding</span>
-          <h2 id="verdict-title" style="margin-top: var(--s2);"></h2>
+          <h2 id="verdict-title" class="mt-s2"></h2>
           <p class="text-sm text-muted" id="meta"></p>
         </div>
         <dl class="totals">
@@ -197,42 +197,42 @@
       </section>
 
       <!-- Containment Alert (Prompt Injection Blocked) -->
-      <section class="alert-box alert-box--warn" id="containment" hidden aria-labelledby="containment-title" style="margin-bottom: var(--s4);">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0;" aria-hidden="true">
+      <section class="alert-box alert-box--warn mb-s4" id="containment" hidden aria-labelledby="containment-title">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="flex-shrink-0" aria-hidden="true">
           <path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>
         </svg>
         <div>
-          <h3 id="containment-title" style="margin: 0 0 var(--s1);">Hidden instruction blocked</h3>
-          <p class="text-sm" style="margin-bottom: var(--s2);">
+          <h3 id="containment-title" class="m-0 mb-s1">Hidden instruction blocked</h3>
+          <p class="text-sm mb-s2">
             This document contained untrusted prompt injection addressed to an AI. It was quarantined and stripped before model processing, and had zero effect on the deterministic tariff checks.
           </p>
-          <ul id="containment-list" class="font-mono text-xs" style="padding-left: var(--s4); margin: 0;"></ul>
+          <ul id="containment-list" class="font-mono text-xs m-0"></ul>
         </div>
       </section>
 
       <!-- Findings Cards -->
-      <section class="card" aria-labelledby="findings-title" style="margin-bottom: var(--s4);">
+      <section class="card mb-s4" aria-labelledby="findings-title">
         <div class="card-head">
-          <h2 id="findings-title" style="margin: 0;">Findings</h2>
+          <h2 id="findings-title" class="m-0">Findings</h2>
           <span class="text-sm text-muted" id="checks-run"></span>
         </div>
         <p class="alert-box alert-box--info" id="no-findings" hidden>
           No discrepancies found. The billed amounts match the published Karoo Bay Metro tariff. (Note: No issue found does not mean safe from errors not covered by the tariff engine).
         </p>
         <div class="findings-list" id="findings"></div>
-        <div class="card" id="analyst" hidden style="margin-top: var(--s3); background-color: var(--surface-sunken);"></div>
+        <div class="card bg-sunken mt-s3" id="analyst" hidden></div>
       </section>
 
       <!-- Skipped Checks -->
-      <section class="card" id="skipped-panel" hidden aria-labelledby="skipped-title" style="margin-bottom: var(--s4);">
-        <h3 id="skipped-title" style="margin: 0 0 var(--s2);">Checks not run</h3>
-        <ul id="skipped-list" class="text-sm text-muted" style="padding-left: var(--s4); margin: 0;"></ul>
+      <section class="card mb-s4" id="skipped-panel" hidden aria-labelledby="skipped-title">
+        <h3 id="skipped-title" class="m-0 mb-s2">Checks not run</h3>
+        <ul id="skipped-list" class="text-sm text-muted m-0"></ul>
       </section>
 
       <!-- Dispute Letter Card -->
-      <section class="card letter-card" id="letter-panel" hidden aria-labelledby="letter-title" style="margin-bottom: var(--s4);">
+      <section class="card letter-card mb-s4" id="letter-panel" hidden aria-labelledby="letter-title">
         <div class="card-head">
-          <h2 id="letter-title" style="margin: 0;">Your dispute letter</h2>
+          <h2 id="letter-title" class="m-0">Your dispute letter</h2>
           <span class="status-chip status-chip--verified" id="letter-source"></span>
         </div>
         <p class="text-xs text-muted">Ready to submit to the municipality. Every amount is verified by deterministic code.</p>
@@ -245,20 +245,20 @@
       </section>
 
       <!-- Extracted Details Accordion -->
-      <section class="card" aria-labelledby="extracted-title" style="margin-bottom: var(--s4);">
+      <section class="card mb-s4" aria-labelledby="extracted-title">
         <details>
-          <summary style="cursor: pointer; font-weight: 700; font-size: var(--text-md);">
+          <summary class="font-bold cursor-pointer text-md">
             What we read from the bill
           </summary>
-          <p class="form-hint" id="unreadable" style="margin-top: var(--s2);"></p>
+          <p class="form-hint mt-s2" id="unreadable"></p>
           <dl class="extracted-grid extracted" id="extracted"></dl>
-          <p class="form-hint" id="document-meta" style="margin-top: var(--s3); border-top: 1px solid var(--line); padding-top: var(--s2);"></p>
+          <p class="form-hint mt-s3 border-t pt-s2" id="document-meta"></p>
         </details>
       </section>
 
       <!-- Actions & Disclaimer -->
-      <div class="flex-between" style="border-top: 1px solid var(--line); padding-top: var(--s4);">
-        <p class="text-xs text-muted" id="disclaimer" style="max-width: 620px; margin: 0;"></p>
+      <div class="flex-between border-t pt-s4">
+        <p class="text-xs text-muted max-w-620 m-0" id="disclaimer"></p>
         <div class="flex-row">
           <button type="button" class="btn btn-secondary btn-sm" id="save-result">Save result (.json)</button>
           <button type="button" class="btn btn-quiet btn-sm" id="check-another">Check another bill</button>
@@ -279,12 +279,12 @@
     <div class="dialog-head">
       <div>
         <span class="eyebrow">Cryptographic Receipt</span>
-        <h2 id="receipt-title" style="margin: 0; font-size: var(--text-lg);">Receipt</h2>
+        <h2 id="receipt-title" class="m-0 text-lg">Receipt</h2>
       </div>
       <button type="button" class="btn btn-quiet btn-sm" id="close-receipt" aria-label="Close receipt">✕</button>
     </div>
     <p class="font-mono text-xs text-muted" id="receipt-meta"></p>
-    <pre id="receipt-content" style="max-height: 55vh; overflow-y: auto;"></pre>
+    <pre id="receipt-content" class="modal-scroll-body"></pre>
   </dialog>
 
   <!-- Live Status Toast -->
