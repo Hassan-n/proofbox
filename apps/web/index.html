@@ -3,209 +3,463 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f3f5ef">
-  <title>Proofbox | Link Lens</title>
+  <meta name="theme-color" content="#F7F5F0">
+  <title>Proofbox | Chat Intake &amp; Link Lens</title>
+  <link rel="stylesheet" href="css/tokens.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/components.css">
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #17231e;
-      --muted: #59665f;
-      --paper: #f3f5ef;
-      --surface: #fffefa;
-      --line: #cbd4ca;
-      --green: #245c43;
-      --green-bright: #a7e6a1;
-      --red: #9c2f27;
-      --amber: #7a5417;
-      --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-      --serif: Georgia, "Times New Roman", serif;
+    .workspace-two-zone {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s5);
+      margin-top: var(--s5);
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: var(--paper); font-family: var(--mono); }
-    .masthead { border-bottom: 1px solid var(--line); padding: 18px max(24px, calc((100vw - 1200px) / 2)); display: flex; justify-content: space-between; align-items: center; gap: 20px; }
-    .brand { display: flex; align-items: center; gap: 11px; font-size: 15px; font-weight: 700; }
-    .mark { width: 30px; aspect-ratio: 1; background: var(--green); color: var(--green-bright); display: grid; place-items: center; font: bold 18px var(--serif); }
-    .masthead-note { color: var(--muted); font-size: 11px; text-transform: uppercase; }
-    .masthead-link { margin-left: auto; min-height: 44px; display: inline-flex; align-items: center; color: var(--green); font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid var(--line); padding: 8px 12px; border-radius: 2px; background: var(--surface); }
-    .masthead-link:hover, .masthead-link:focus-visible { border-color: var(--green); }
-    .case-link { min-height: 44px; display: inline-flex; align-items: center; color: var(--green); font-size: 12px; font-weight: 700; }
-    main { max-width: 1200px; margin: 0 auto; padding: 44px 24px 64px; }
-    .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(240px, 360px); gap: 40px; align-items: end; border-bottom: 1px solid var(--line); padding-bottom: 30px; }
-    .eyebrow { color: var(--green); font-size: 11px; font-weight: 700; text-transform: uppercase; }
-    h1 { font: 400 56px/.98 var(--serif); letter-spacing: 0; margin: 12px 0; max-width: 650px; }
-    .intro p { color: var(--muted); font-size: 12px; line-height: 1.7; margin: 0; }
-    .form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 10px; margin: 26px 0 22px; }
-    .form label { grid-column: 1 / -1; color: var(--muted); font-size: 11px; }
-    input { min-width: 0; height: 50px; border: 1px solid #87978b; border-radius: 2px; padding: 0 14px; background: var(--surface); color: var(--ink); font: 13px var(--mono); }
-    input:focus-visible, button:focus-visible { outline: 3px solid #7bb98b; outline-offset: 2px; }
-    button { border: 0; border-radius: 2px; background: var(--green); color: white; font: 700 12px var(--mono); padding: 0 22px; cursor: pointer; }
-    button:disabled { opacity: .6; cursor: wait; }
-    .grid { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.08fr); border: 1px solid var(--line); background: var(--surface); }
-    section { min-width: 0; padding: 22px; }
-    section + section { border-left: 1px solid var(--line); }
-    h2 { font: 400 22px var(--serif); margin: 0 0 20px; }
-    .panel-label { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
-    .state { color: var(--muted); font-size: 10px; text-transform: uppercase; }
-    .events { list-style: none; padding: 0; margin: 0; max-height: 460px; overflow: auto; }
-    .events li { padding: 13px 0; border-bottom: 1px solid #e2e7df; font-size: 11px; line-height: 1.6; overflow-wrap: anywhere; }
-    .tag { display: inline-block; margin-right: 7px; color: var(--green); font-weight: 700; text-transform: uppercase; }
-    .tag.blocked { color: var(--red); }
-    .empty { color: #78827b; font-size: 12px; line-height: 1.6; padding: 18px 0; }
-    .verdict { display: none; }
-    .verdict.visible { display: block; }
-    .badge { display: inline-flex; gap: 9px; align-items: center; padding: 11px 13px; border: 1px solid currentColor; font-size: 12px; font-weight: 700; text-transform: uppercase; }
-    .badge.dangerous { color: var(--red); background: #fae9e5; }
-    .badge.suspicious { color: var(--amber); background: #f6f0dc; }
-    .badge.no_issue_found { color: var(--green); background: #e8f3e7; }
-    .badge.could_not_check { color: var(--muted); background: #eef0ea; }
-    .confidence { font-weight: 400; text-transform: none; }
-    .advice { font: 20px/1.4 var(--serif); margin: 19px 0; }
-    .reasons { font-size: 11px; line-height: 1.7; padding-left: 18px; }
-    .reasons li { margin: 6px 0; }
-    .caveat { border-top: 1px solid var(--line); margin-top: 18px; padding-top: 12px; font-size: 10px; line-height: 1.6; color: var(--muted); }
-    .screenshot { display: block; width: 100%; max-height: 400px; object-fit: contain; object-position: top; border: 1px solid var(--line); margin-top: 18px; background: #e9ece5; }
-    .error { display: none; margin: 0 0 18px; color: var(--red); font-size: 12px; }
-    .error.visible { display: block; }
-    @media (max-width: 760px) {
-      .masthead { padding: 15px 18px; }
-      .masthead-note { display: none; }
-      main { padding: 34px 18px 48px; }
-      h1 { font-size: 40px; }
-      .intro { grid-template-columns: 1fr; gap: 10px; }
-      .grid { grid-template-columns: 1fr; }
-      section + section { border-left: 0; border-top: 1px solid var(--line); }
-      .form { grid-template-columns: 1fr; }
-      .form label { grid-column: auto; }
-      button { height: 48px; }
+    @media (min-width: 960px) {
+      .workspace-two-zone {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        align-items: start;
+      }
+    }
+    .chat-bubble-container {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s3);
+      margin: var(--s4) 0;
+    }
+    .composer-wrap {
+      margin: var(--s4) 0 var(--s5);
+    }
+    .trace-btn-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--s1);
+      margin-top: var(--s2);
+      font-size: var(--text-xs);
+      font-weight: 600;
     }
   </style>
 </head>
 <body>
-  <header class="masthead">
-    <div class="brand"><span class="mark" aria-hidden="true">P</span><span>PROOFBOX / LINK LENS</span></div>
-    <a class="masthead-link" id="bill-link" href="bill/">Check a water bill <span aria-hidden="true">→</span></a>
-    <div class="masthead-note">Sandboxed inspection · Observe, never submit</div>
-  </header>
-  <main>
-    <div class="intro">
-      <div><div class="eyebrow">Link inspection</div><h1>Look closer before you trust a link.</h1></div>
-      <p>Inspect a page in an isolated browser. Link Lens records visible evidence and blocked activity; it does not enter information into forms.</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Persistent App Shell Header -->
+  <header class="topbar">
+    <div class="topbar-banner">
+      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>
+      <span>Synthetic data only. Please do not upload real documents.</span>
     </div>
-    <form class="form" id="inspect-form">
-      <label for="url">URL to inspect</label>
-      <input id="url" name="url" type="url" placeholder="https://example.com" required autocomplete="url">
-      <button id="submit" type="submit">INSPECT LINK <span aria-hidden="true">→</span></button>
-    </form>
-    <p><a class="case-link" id="case-link" href="case/">Create a private case file</a></p>
-    <p class="error" id="error" role="alert"></p>
-    <div class="grid">
-      <section aria-labelledby="activity-heading">
-        <div class="panel-label"><h2 id="activity-heading">Sandbox activity</h2><span class="state" id="job-state">Waiting</span></div>
-        <ol class="events" id="events" aria-live="polite"><li class="empty">Activity will appear here when an inspection starts.</li></ol>
+    <div class="topbar-inner">
+      <a class="brand" href="./" aria-label="Proofbox Home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span id="app-brand-name">Proofbox</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Lenses">
+        <a href="./" aria-current="page">Link Lens</a>
+        <a id="bill-link" href="bill/">Bill Lens</a>
+        <a id="letter-link" href="letter/">Letter Lens</a>
+        <a id="case-link" href="case/">Case File</a>
+        <a id="vultr-link" href="vultr.html">Vultr Judges Page</a>
+      </nav>
+      <div class="lang-picker">
+        <label for="lang-select" class="sr-only">Choose language</label>
+        <select id="lang-select" class="lang-select">
+          <option value="en">English</option>
+          <option value="zu">isiZulu</option>
+          <option value="af">Afrikaans</option>
+          <option value="st">Sesotho</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="app-main app-container">
+    <!-- Screen Intro -->
+    <section class="card" aria-labelledby="chat-intro-heading">
+      <span class="eyebrow">Citizen Intake &amp; Isolated Inspection</span>
+      <h1 id="chat-intro-heading">Open nothing unsafely. Believe nothing unproven.</h1>
+      <p class="text-muted" style="max-width: 680px;">
+        Proofbox inspects suspicious links, water bills, and government letters inside a sealed sandbox.
+        Observe network behavior, recompute charges, and preserve receipts for your private case file.
+      </p>
+
+      <!-- Chat Bubbles & Router Guidance -->
+      <div class="chat-bubble-container" id="chat-log" role="log" aria-live="polite">
+        <div class="chat-bubble chat-proofbox">
+          <strong>Proofbox:</strong> What would you like to inspect today? Choose an example below or enter a link or question.
+        </div>
+      </div>
+
+      <!-- Quick Example Chips -->
+      <div class="prompt-chips" aria-label="Example prompts">
+        <button type="button" class="prompt-chip" id="chip-sms" data-url="http://10.99.0.4:8000/a1">
+          <span aria-hidden="true">📱</span>
+          <span>Suspicious SMS (Kingfisher Bank alert)</span>
+        </button>
+        <button type="button" class="prompt-chip" id="chip-bill">
+          <span aria-hidden="true">💧</span>
+          <span>Water bill with overcharges (Karoo Bay Metro)</span>
+        </button>
+        <button type="button" class="prompt-chip" id="chip-letter">
+          <span aria-hidden="true">📄</span>
+          <span>Grant review letter (Community Benefits Agency)</span>
+        </button>
+      </div>
+
+      <!-- Main Input Composer Form -->
+      <form class="form composer-wrap" id="inspect-form">
+        <label for="url" class="form-label">Link or message to inspect</label>
+        <div class="chat-composer chat-composer-sticky">
+          <input id="url" name="url" type="url" placeholder="Paste link here, e.g. https://karoo-bay.pay-water.fake" required autocomplete="url">
+          <button id="submit" class="btn btn-primary" type="submit">
+            <span>Inspect link</span>
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <p class="form-hint">Links are opened in a headless browser with network isolation. No passwords or form data are submitted.</p>
+      </form>
+
+      <p class="alert-box alert-box--danger" id="error" role="alert" hidden></p>
+    </section>
+
+    <!-- Two-Zone Execution Workspace: Containment Panel + Finding Report -->
+    <div class="workspace-two-zone">
+      <!-- Zone 1: Hero Containment Panel -->
+      <section id="containment-chamber-container" aria-labelledby="activity-heading">
+        <h2 id="activity-heading" class="sr-only">Sandbox Activity</h2>
+        <!-- Legacy hook preservation -->
+        <span class="sr-only" id="job-state">Waiting</span>
+        <ol class="sr-only" id="events" aria-live="polite"></ol>
+
+        <!-- Modern Hero Containment Panel Component -->
+        <div class="containment-panel" id="hero-containment">
+          <div class="containment-header">
+            <div class="containment-title-group">
+              <span class="containment-badge">Sandbox</span>
+              <span class="font-mono text-xs" id="job-id">Ready</span>
+            </div>
+            <div class="flex-row">
+              <span class="containment-live-pill">
+                <span class="containment-live-dot" aria-hidden="true"></span>
+                <span id="chamber-live-label">WAITING</span>
+              </span>
+              <span class="containment-timer" id="chamber-timer-val">40s limit</span>
+            </div>
+          </div>
+
+          <div class="containment-summary" id="hero-summary" hidden>
+            <div class="containment-summary-item">
+              <span>Blocked:</span> <span class="containment-summary-count" id="count-blocked-val">0</span>
+            </div>
+            <div class="containment-summary-item">
+              <span>Quarantined:</span> <span class="containment-summary-count" id="count-quar-val">0</span>
+            </div>
+            <div class="containment-summary-item">
+              <span>Ignored:</span> <span class="containment-summary-count" id="count-ign-val">0</span>
+            </div>
+          </div>
+
+          <ol class="containment-events" id="chamber-events" aria-live="polite">
+            <li class="containment-event-row" style="border-left-color: var(--chamber-muted);">
+              <span class="containment-event-time">--:--:--</span>
+              <div class="containment-event-body">
+                <span class="containment-event-tag">STANDBY</span>
+                <span>Sandbox ready. Enter a URL or choose an example to begin sealed inspection.</span>
+              </div>
+            </li>
+          </ol>
+
+          <div style="padding: var(--s2) var(--s4); background-color: var(--chamber-surface); border-top: 1px solid var(--chamber-line); text-align: right;">
+            <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it" title="Test container security against simulated attack">
+              Try to break it (Simulate attack)
+            </button>
+          </div>
+        </div>
       </section>
+
+      <!-- Zone 2: Finding Report / Verdict Card -->
       <section aria-labelledby="result-heading">
-        <div class="panel-label"><h2 id="result-heading">Finding</h2><span class="state" id="job-id"></span></div>
-        <div class="empty" id="result-empty">No inspection result yet.</div>
-        <div class="verdict" id="verdict" aria-live="polite">
-          <div class="badge" id="badge"><span id="verdict-name"></span><span class="confidence" id="confidence"></span></div>
-          <p class="advice" id="advice"></p>
-          <ul class="reasons" id="reasons"></ul>
-          <p class="caveat"><strong>What this does not mean:</strong> <span id="caveat"></span></p>
-          <img class="screenshot" id="screenshot" alt="Isolated screenshot of the inspected page" hidden>
+        <h2 id="result-heading" class="sr-only">Finding Report</h2>
+
+        <!-- Empty State before Inspection -->
+        <div class="card empty-state" id="result-empty">
+          <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <h3>No inspection result yet</h3>
+          <p class="empty-state-text">
+            When an inspection finishes, your verdict, confidence score, observed actions, and safe advice will appear here with cryptographic receipts.
+          </p>
+        </div>
+
+        <!-- Populated Verdict Card -->
+        <div class="verdict-card" id="verdict" aria-live="polite" hidden>
+          <div class="flex-between">
+            <div class="badge status-chip" id="badge">
+              <span aria-hidden="true">●</span>
+              <span id="verdict-name">Finding</span>
+            </div>
+            <div class="verdict-confidence-box">
+              <span id="confidence">Confidence: --</span>
+              <div class="confidence-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                <div class="confidence-bar-fill" id="confidence-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="verdict-advice-box">
+            <p class="verdict-advice-text" id="advice"></p>
+          </div>
+
+          <div>
+            <h3 style="font-size: var(--text-md); margin-bottom: var(--s2);">Observed Reasons:</h3>
+            <ul class="verdict-reasons-list reasons" id="reasons"></ul>
+          </div>
+
+          <div class="verdict-caveat-box">
+            <strong>What this does not mean:</strong> <span id="caveat"></span>
+          </div>
+
+          <!-- Sandbox Screenshot (Explicit dimensions, compressed WebP) -->
+          <div id="screenshot-wrapper" hidden>
+            <h4 style="font-size: var(--text-sm); margin: var(--s3) 0 var(--s1);">Sandbox Screenshot:</h4>
+            <img class="screenshot" id="screenshot" alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy" style="border: 1px solid var(--line); border-radius: var(--radius-sm); max-height: 380px; object-fit: contain; background: var(--surface-sunken);">
+            <a class="trace-btn-link" id="trace-link" href="#main" style="display: none;">See what it did (Inspect Trace Receipt) →</a>
+          </div>
+
+          <!-- Attach to Case Link -->
+          <div style="border-top: 1px solid var(--line); padding-top: var(--s3); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--s2);">
+            <span class="text-xs text-muted">Attach this finding to your private case timeline</span>
+            <a class="btn btn-secondary btn-sm" id="case-attach-cta" href="case/">Save finding to case file →</a>
+          </div>
         </div>
       </section>
     </div>
   </main>
-  <script>
-    const API_BASE = new URLSearchParams(location.search).get("api") || location.origin;
-    if (new URLSearchParams(location.search).get("api")) {
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>Proofbox · Fictional Demo Testing Environment</div>
+      <div>Synthetic demo documents only. Not legal advice.</div>
+    </div>
+  </footer>
+
+  <script type="module">
+    import { PROOFBOX_NAME, BRAND_LINE, el, showToast } from "./js/common.js";
+    import { ContainmentPanel } from "./js/containment.js";
+
+    // Set brand constants
+    document.querySelector("#app-brand-name").textContent = PROOFBOX_NAME;
+
+    const params = new URLSearchParams(location.search);
+    const API_BASE = (params.get("api") || location.origin).replace(/\/+$/, "");
+    if (params.get("api")) {
       document.querySelector("#bill-link").href = `bill/?api=${encodeURIComponent(API_BASE)}`;
+      document.querySelector("#letter-link").href = `letter/?api=${encodeURIComponent(API_BASE)}`;
       document.querySelector("#case-link").href = `case/?api=${encodeURIComponent(API_BASE)}`;
+      document.querySelector("#vultr-link").href = `vultr.html?api=${encodeURIComponent(API_BASE)}`;
     }
+
     const form = document.querySelector("#inspect-form");
     const input = document.querySelector("#url");
     const submit = document.querySelector("#submit");
     const errorBox = document.querySelector("#error");
-    const eventList = document.querySelector("#events");
-    let activeStream;
+    const chatLog = document.querySelector("#chat-log");
+
+    // Initialize Hero Containment Panel controller
+    const chamberEl = document.querySelector("#hero-containment");
+    let containmentController = new ContainmentPanel({
+      rootElement: chamberEl,
+      jobId: "",
+      wallClockSeconds: 35,
+      onBreakIt: () => {
+        // Red-team simulated attack demonstration
+        input.value = "http://10.99.0.4:8000/a3";
+        form.dispatchEvent(new Event("submit"));
+      }
+    });
+
+    let activeStream = null;
 
     function showError(message) {
       errorBox.textContent = message;
-      errorBox.classList.add("visible");
+      errorBox.hidden = false;
     }
-    function addEvent(item) {
-      if (eventList.querySelector(".empty")) eventList.replaceChildren();
-      const row = document.createElement("li");
-      const tag = document.createElement("span");
-      const isBlocked = ["network_blocked", "download_quarantined", "request_blocked", "timeout_kill", "memory_kill"].includes(item.event);
-      tag.className = `tag${isBlocked ? " blocked" : ""}`;
-      tag.textContent = `${isBlocked ? "BLOCKED" : "INFO"} · ${item.event}`;
-      row.append(tag, document.createTextNode(item.detail || ""));
-      eventList.append(row);
-      row.scrollIntoView({ block: "nearest" });
+
+    function addChatBubble(sender, text, isRouter = false) {
+      const bubble = el("div", {
+        className: `chat-bubble ${isRouter ? "chat-router" : sender === "user" ? "chat-user" : "chat-proofbox"}`
+      });
+      if (isRouter) {
+        bubble.appendChild(el("span", { className: "chat-router-tag", text: "Router Action" }));
+      }
+      bubble.appendChild(el("div", { text }));
+      chatLog.appendChild(bubble);
+      bubble.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
-    function showResult(payload) {
+
+    // Tappable Chips Handlers
+    document.querySelector("#chip-sms").addEventListener("click", () => {
+      const url = document.querySelector("#chip-sms").dataset.url || "http://10.99.0.4:8000/a1";
+      input.value = url;
+      addChatBubble("user", "Payment overdue for Karoo Bay Metro: " + url);
+      addChatBubble("proofbox", "This looks like a suspicious payment link. I'll open it safely in the isolated sandbox with no network leaks or credential exposure.", true);
+      setTimeout(() => form.dispatchEvent(new Event("submit")), 400);
+    });
+
+    document.querySelector("#chip-bill").addEventListener("click", () => {
+      addChatBubble("user", "I received a municipal water bill from Karoo Bay Metro that seems too high.");
+      addChatBubble("proofbox", "Routing to Bill Lens. We'll recompute the charges against the published tariff and check for unannounced estimates or outage days.", true);
+      setTimeout(() => {
+        location.href = `bill/${params.get("api") ? `?api=${encodeURIComponent(API_BASE)}` : ""}`;
+      }, 900);
+    });
+
+    document.querySelector("#chip-letter").addEventListener("click", () => {
+      addChatBubble("user", "I received a grant review letter from Community Benefits Agency requiring paperwork.");
+      addChatBubble("proofbox", "Routing to Letter Lens. We'll check the required documents, response deadlines, and verify supporting files in an isolated container.", true);
+      setTimeout(() => {
+        location.href = `letter/${params.get("api") ? `?api=${encodeURIComponent(API_BASE)}` : ""}`;
+      }, 900);
+    });
+
+    function showResult(payload, jobId) {
       const result = payload?.verdict;
       if (!result) return;
+
       document.querySelector("#result-empty").hidden = true;
-      document.querySelector("#verdict").classList.add("visible");
+      const verdictCard = document.querySelector("#verdict");
+      verdictCard.hidden = false;
+
       const badge = document.querySelector("#badge");
-      badge.className = `badge ${result.verdict}`;
-      document.querySelector("#verdict-name").textContent = result.verdict.replaceAll("_", " ");
-      document.querySelector("#confidence").textContent = `Confidence: ${result.confidence}`;
-      document.querySelector("#advice").textContent = result.advice || "Review the evidence and verify through an official channel.";
-      document.querySelector("#caveat").textContent = result.what_this_does_not_mean || "No automated check can guarantee a site's status.";
-      const reasons = document.querySelector("#reasons");
-      reasons.replaceChildren(...(result.reasons || []).map((reason) => {
-        const li = document.createElement("li"); li.textContent = reason; return li;
+      const verdictName = result.verdict || "could_not_check";
+      badge.className = `status-chip status-chip--${verdictName}`;
+      
+      const iconMap = {
+        dangerous: "▲",
+        suspicious: "●",
+        no_issue_found: "ℹ",
+        could_not_check: "?"
+      };
+      const iconText = iconMap[verdictName] || "●";
+      badge.innerHTML = `<span aria-hidden="true">${iconText}</span> <span>${verdictName.replaceAll("_", " ")}</span>`;
+
+      // Confidence score & bar
+      const conf = result.confidence || "Unknown";
+      document.querySelector("#confidence").textContent = `Confidence: ${conf}`;
+      const confNum = conf.toLowerCase() === "high" ? 95 : conf.toLowerCase() === "medium" ? 70 : 40;
+      const confBar = document.querySelector("#confidence-bar-fill");
+      confBar.style.width = `${confNum}%`;
+      confBar.style.backgroundColor = verdictName === "no_issue_found" ? "var(--info)" : verdictName === "dangerous" ? "var(--danger)" : "var(--warn)";
+
+      // Advice pointing only to official channel
+      document.querySelector("#advice").textContent = result.advice || "Verify through official municipal or banking channels. Never call phone numbers printed on suspicious websites.";
+
+      // Mandatory honest wording
+      let caveatText = result.what_this_does_not_mean || "Automated check of observable signals only. Not legal advice.";
+      if (verdictName === "no_issue_found") {
+        caveatText = "No issue found does not mean safe. " + caveatText;
+      }
+      document.querySelector("#caveat").textContent = caveatText;
+
+      // Reasons list
+      const reasonsList = document.querySelector("#reasons");
+      reasonsList.replaceChildren(...(result.reasons || []).map((reason) => {
+        const li = document.createElement("li");
+        li.textContent = reason;
+        return li;
       }));
+
+      // Screenshot & Trace link
+      const imageWrap = document.querySelector("#screenshot-wrapper");
       const image = document.querySelector("#screenshot");
-      if (payload.screenshot_webp) { image.src = `data:image/webp;base64,${payload.screenshot_webp}`; image.hidden = false; }
-      else { image.removeAttribute("src"); image.hidden = true; }
+      const traceLink = document.querySelector("#trace-link");
+      if (payload.screenshot_webp) {
+        image.src = `data:image/webp;base64,${payload.screenshot_webp}`;
+        imageWrap.hidden = false;
+        traceLink.style.display = "inline-flex";
+        traceLink.onclick = (e) => {
+          e.preventDefault();
+          showToast(`Inspecting trace for Job ${jobId}`);
+        };
+      } else {
+        imageWrap.hidden = true;
+      }
+
+      // Update case attach CTA
+      const caseCta = document.querySelector("#case-attach-cta");
+      caseCta.href = `case/${params.get("api") ? `?api=${encodeURIComponent(API_BASE)}` : ""}#attach=${encodeURIComponent(jobId)}`;
+
+      verdictCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
+
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      errorBox.classList.remove("visible");
+      errorBox.hidden = true;
       if (activeStream) activeStream.close();
-      eventList.replaceChildren();
-      document.querySelector("#verdict").classList.remove("visible");
+
+      containmentController.clear();
+      document.querySelector("#verdict").hidden = true;
       document.querySelector("#result-empty").hidden = false;
-      document.querySelector("#job-id").textContent = "";
+      document.querySelector("#job-id").textContent = "Queuing...";
       document.querySelector("#job-state").textContent = "Queuing";
       submit.disabled = true;
+
+      const targetUrl = input.value.trim();
+      addChatBubble("user", targetUrl);
+      addChatBubble("proofbox", `Queuing inspection for ${targetUrl}. Opening sealed sandbox container...`, true);
+
       try {
         const response = await fetch(`${API_BASE}/api/intake`, {
-          method: "POST", headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ lens: "link", input_ref: input.value.trim() })
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ lens: "link", input_ref: targetUrl })
         });
-        if (!response.ok) throw new Error((await response.json()).detail || "Could not queue inspection.");
+        if (!response.ok) {
+          const errData = await response.json().catch(() => ({}));
+          throw new Error(errData.detail || "Could not queue inspection.");
+        }
         const { job_id: jobId } = await response.json();
+        containmentController.setJobId(jobId);
         document.querySelector("#job-id").textContent = jobId;
         document.querySelector("#job-state").textContent = "Inspecting";
-        activeStream = new EventSource(`${API_BASE}/api/jobs/${jobId}/events`);
+
+        activeStream = new EventSource(`${API_BASE}/api/jobs/${encodeURIComponent(jobId)}/events`);
         activeStream.onmessage = async (message) => {
           const item = JSON.parse(message.data);
-          addEvent(item);
+          containmentController.addEvent(item.event, item.detail);
+
           if (item.event === "job_completed" || item.event === "job_failed") {
             activeStream.close();
-            document.querySelector("#job-state").textContent = item.event === "job_completed" ? "Complete" : "Failed";
-            if (item.event === "job_completed") {
-              const jobResponse = await fetch(`${API_BASE}/api/jobs/${jobId}`);
+            const isSuccess = item.event === "job_completed";
+            containmentController.finish(isSuccess ? "DESTROYED" : "FAILED");
+            document.querySelector("#job-state").textContent = isSuccess ? "Complete" : "Failed";
+
+            if (isSuccess) {
+              const jobResponse = await fetch(`${API_BASE}/api/jobs/${encodeURIComponent(jobId)}`);
               if (!jobResponse.ok) throw new Error("Could not retrieve inspection result.");
               const jobData = await jobResponse.json();
-              showResult(jobData.job.result_json);
-            } else showError(item.detail || "Inspection failed.");
+              showResult(jobData.job.result_json, jobId);
+            } else {
+              showError(item.detail || "Inspection failed in the sandbox container.");
+            }
             submit.disabled = false;
           }
         };
+
         activeStream.onerror = () => {
           activeStream.close();
+          containmentController.finish("TERMINATED");
           document.querySelector("#job-state").textContent = "Connection lost";
           submit.disabled = false;
-          showError("The live event connection ended before a final result arrived.");
+          showError("The live event connection ended before a final result arrived. Reload to retry.");
         };
       } catch (requestError) {
         submit.disabled = false;
+        containmentController.finish("FAILED");
         document.querySelector("#job-state").textContent = "Could not start";
         showError(requestError.message || "Could not start inspection.");
       }
