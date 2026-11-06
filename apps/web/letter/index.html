@@ -4,116 +4,204 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#f3f5ef">
+  <meta name="theme-color" content="#F7F5F0">
   <title>Proofbox | Letter Lens</title>
+  <link rel="stylesheet" href="../css/tokens.css">
+  <link rel="stylesheet" href="../css/base.css">
+  <link rel="stylesheet" href="../css/components.css">
   <style>
-    :root {
-      color-scheme: light;
-      --ink: #17231e;
-      --muted: #59665f;
-      --paper: #f3f5ef;
-      --surface: #fffefa;
-      --line: #cbd4ca;
-      --green: #245c43;
-      --red: #9c2f27;
-      --amber: #7a5417;
-      --mono: "Cascadia Code", "SFMono-Regular", Consolas, monospace;
-      --serif: Georgia, "Times New Roman", serif;
+    .letter-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--s4);
+      margin-top: var(--s4);
     }
-    * { box-sizing: border-box; }
-    body { margin: 0; color: var(--ink); background: var(--paper); font: 14px/1.6 var(--mono); }
-    header { padding: 14px max(18px, calc((100vw - 860px) / 2)); border-bottom: 1px solid var(--line); }
-    header a { color: var(--green); font-weight: 700; }
-    main { width: min(860px, 100%); margin: 0 auto; padding: 28px 18px 56px; }
-    h1, h2, h3 { font-family: var(--serif); font-weight: 400; line-height: 1.15; }
-    h1 { font-size: clamp(32px, 7vw, 52px); margin: 8px 0 12px; }
-    h2 { font-size: 25px; margin: 0 0 16px; }
-    h3 { font-size: 19px; margin: 0; }
-    p { margin: 8px 0; }
-    .eyebrow, .muted, .meta { color: var(--muted); font-size: 12px; }
-    .panel, .card { background: var(--surface); border: 1px solid var(--line); padding: 18px; margin: 16px 0; }
-    .error { color: var(--red); }
-    button, input { font: inherit; }
-    button, .button { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid var(--green); background: var(--green); color: white; padding: 9px 16px; text-decoration: none; cursor: pointer; }
-    button.secondary, .button.secondary { background: var(--surface); color: var(--green); }
-    button:disabled { opacity: .6; cursor: not-allowed; }
-    input { width: 100%; min-height: 48px; padding: 9px 12px; background: var(--surface); border: 1px solid #87978b; color: var(--ink); }
-    input:focus-visible, button:focus-visible, a:focus-visible { outline: 3px solid #7bb98b; outline-offset: 3px; }
-    label { display: block; font-size: 12px; color: var(--muted); margin: 12px 0 6px; }
-    .form { display: grid; gap: 12px; }
-    .row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
-    .check { border-top: 1px solid #e2e7df; padding: 12px 0; }
-    .check:first-child { border-top: 0; padding-top: 0; }
-    .status { display: inline-block; border: 1px solid currentColor; padding: 2px 8px; font-size: 11px; font-weight: 700; }
-    .have { color: var(--green); }
-    .missing { color: var(--red); }
-    .needs_fixing { color: var(--amber); }
-    .error-box { color: var(--red); }
-    [hidden] { display: none !important; }
-    @media (min-width: 720px) { .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; } }
+    @media (min-width: 760px) {
+      .letter-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      }
+    }
+    .check-item {
+      border-bottom: 1px solid var(--line);
+      padding: var(--s3) 0;
+    }
+    .check-item:first-child {
+      padding-top: 0;
+    }
+    .check-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+    .check-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--s2);
+      flex-wrap: wrap;
+    }
   </style>
 </head>
 <body>
-  <header><a href="../" aria-label="Proofbox home">PROOFBOX / LETTER LENS</a></header>
-  <main>
-    <section>
-      <p class="eyebrow">Letter review</p>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Topbar with Persistent Demo Banner -->
+  <header class="topbar">
+    <div class="topbar-banner">
+      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      </svg>
+      <span>Synthetic data only. Please do not upload real documents.</span>
+    </div>
+    <div class="topbar-inner">
+      <a class="brand" href="../" aria-label="Proofbox Home">
+        <span class="brand-mark" aria-hidden="true">P</span>
+        <span>Proofbox</span>
+      </a>
+      <nav class="topbar-nav" aria-label="Lenses">
+        <a href="../">Link Lens</a>
+        <a href="../bill/">Bill Lens</a>
+        <a href="./" aria-current="page">Letter Lens</a>
+        <a href="../case/">Case File</a>
+        <a href="../vultr.html">Vultr Judges Page</a>
+      </nav>
+      <div class="lang-picker">
+        <label for="letter-lang-select" class="sr-only">Language</label>
+        <select id="letter-lang-select" class="lang-select">
+          <option value="en">English</option>
+          <option value="zu">isiZulu</option>
+          <option value="af">Afrikaans</option>
+          <option value="st">Sesotho</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="app-main app-container" style="max-width: 880px;">
+    <!-- Screen Header -->
+    <section style="margin-bottom: var(--s5);">
+      <span class="eyebrow">Letter &amp; Document Review</span>
       <h1>Read the letter. Check the paperwork.</h1>
-      <p class="muted">The letter text is used to extract dates and requests. Supporting PDFs are parsed and checked in an isolated, no-network code sandbox; they are not sent to a model. Checks are layout-based and do not authenticate documents.</p>
+      <p class="text-muted">
+        Letter text is analyzed to extract dates, references, and required paperwork.
+        Supporting PDFs are inspected in a sealed code sandbox with zero network access; they are never sent to a model.
+        Checks are layout-based and do not authenticate documents.
+      </p>
     </section>
-    <section class="panel">
-      <h2>Upload PDFs</h2>
+
+    <!-- Upload Panel Card -->
+    <section class="card" aria-labelledby="upload-heading">
+      <h2 id="upload-heading" style="margin-top: 0; font-size: var(--text-lg);">Upload PDFs</h2>
       <form class="form" id="upload-form">
-        <div>
-          <label for="letter-file">Official letter (PDF, max 5 MB)</label>
+        <div class="form-group">
+          <label class="form-label" for="letter-file">Official agency letter (PDF, max 5 MB)</label>
           <input id="letter-file" type="file" accept="application/pdf,.pdf" required>
         </div>
-        <div>
-          <label for="supporting-files">Supporting PDFs (up to 4, max 5 MB each)</label>
+
+        <div class="form-group">
+          <label class="form-label" for="supporting-files">Supporting documents (up to 4 PDFs, max 5 MB each)</label>
           <input id="supporting-files" type="file" accept="application/pdf,.pdf" multiple>
         </div>
-        <p class="muted">Synthetic samples:
-          <a href="samples/A9_letter.pdf" download>A9 letter</a>,
-          <a href="samples/A10_id_copy.pdf" download>A10 ID copy</a>,
-          <a href="samples/A10_old_proof_of_address.pdf" download>A10 old address proof</a>,
-          <a href="samples/A10_bank_statement.pdf" download>A10 bank statement</a>.
-          The ID number is fictional test data.
-        </p>
-        <p class="muted">The combined upload limit is 10 MB. Scanned/image-only PDFs are not supported.</p>
-        <button id="submit-button" type="submit">Check letter</button>
-        <p id="upload-message" role="status" aria-live="polite"></p>
+
+        <div class="card" style="background-color: var(--surface-sunken); padding: var(--s3); margin: var(--s2) 0;">
+          <p class="text-xs text-muted" style="margin-bottom: var(--s1);">
+            <strong>Synthetic demo samples:</strong>
+            <a href="samples/A9_letter.pdf" download>A9 agency letter</a> ·
+            <a href="samples/A10_id_copy.pdf" download>A10 ID copy</a> ·
+            <a href="samples/A10_old_proof_of_address.pdf" download>A10 old address proof</a> ·
+            <a href="samples/A10_bank_statement.pdf" download>A10 bank statement</a>.
+          </p>
+          <p class="text-xs text-muted" style="margin: 0;">
+            All ID numbers and names are fictional synthetic test data. Combined upload limit is 10 MB. Scanned/image-only PDFs are not supported.
+          </p>
+        </div>
+
+        <button id="submit-button" class="btn btn-primary" type="submit" style="width: 100%; margin-top: var(--s3);">
+          <span>Check letter and paperwork</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <p id="upload-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2); min-height: 1.5em;"></p>
       </form>
     </section>
-    <section id="progress-panel" class="panel" hidden aria-live="polite">
-      <h2>Check progress</h2>
-      <p id="job-status" class="muted"></p>
-      <p id="job-id"></p>
-    </section>
-    <section id="result-panel" hidden>
-      <div class="columns">
-        <section class="panel">
-          <h2>Letter details</h2>
-          <div id="letter-fields"></div>
-        </section>
-        <section class="panel">
-          <h2>Document checklist</h2>
-          <div id="checklist"></div>
-        </section>
-      </div>
-      <section class="panel">
-        <h2>Next step</h2>
-        <p class="muted">Deadlines and appointment dates appear on the case timeline after you attach this result. Verify extracted details against the original letter.</p>
-        <div class="row">
-          <button id="attach-button" type="button" hidden>Add result to this case</button>
-          <a id="open-case" class="button secondary" href="../case/" hidden>Open case</a>
-          <button id="copy-job" type="button" class="secondary">Copy job ID</button>
+
+    <!-- Progress Panel (Dark Chamber Style) -->
+    <section id="progress-panel" class="containment-panel" hidden aria-live="polite" style="margin-top: var(--s4);">
+      <div class="containment-header">
+        <div class="containment-title-group">
+          <span class="containment-badge">Sandbox</span>
+          <span class="font-mono text-xs" id="job-id"></span>
         </div>
-        <p id="attach-message" role="status" aria-live="polite"></p>
+        <div class="flex-row">
+          <span class="containment-live-pill">
+            <span class="containment-live-dot" aria-hidden="true"></span>
+            <span>RUNNING</span>
+          </span>
+        </div>
+      </div>
+      <div style="padding: var(--s4);">
+        <h3 style="color: var(--chamber-text); font-size: var(--text-md); margin-bottom: var(--s2);">Check Progress</h3>
+        <p id="job-status" class="font-mono text-xs" style="color: var(--chamber-muted); margin: 0;"></p>
+      </div>
+    </section>
+
+    <!-- Result Panel -->
+    <section id="result-panel" hidden style="margin-top: var(--s5);">
+      <div class="letter-grid">
+        <!-- Letter Details Card -->
+        <article class="card" aria-labelledby="details-heading">
+          <div class="card-head">
+            <h2 id="details-heading" style="margin: 0; font-size: var(--text-md);">Letter Details</h2>
+            <span class="status-chip status-chip--verified">✓ Parsed</span>
+          </div>
+          <div id="letter-fields" style="display: flex; flex-direction: column; gap: var(--s2); font-size: var(--text-sm);"></div>
+        </article>
+
+        <!-- Document Checklist Card -->
+        <article class="card" aria-labelledby="checklist-heading">
+          <div class="card-head">
+            <h2 id="checklist-heading" style="margin: 0; font-size: var(--text-md);">Document Checklist</h2>
+            <span class="text-xs text-muted">Layout-based checks</span>
+          </div>
+          <div id="checklist"></div>
+        </article>
+      </div>
+
+      <!-- Next Steps & Case Linking Card -->
+      <section class="card next-action-card" style="margin-top: var(--s4);">
+        <div class="next-action-title">
+          <span aria-hidden="true">★</span> Next Required Action
+        </div>
+        <p class="next-action-body">
+          Deadlines and appointment dates appear on your private case timeline once you attach this result.
+          Verify all extracted details against your original physical letter.
+        </p>
+        <div class="flex-row" style="margin-top: var(--s2);">
+          <button id="attach-button" class="btn btn-primary btn-sm" type="button" hidden>Add result to this case file</button>
+          <a id="open-case" class="btn btn-secondary btn-sm" href="../case/" hidden>Open case timeline →</a>
+          <button id="copy-job" class="btn btn-quiet btn-sm" type="button">Copy job ID</button>
+        </div>
+        <p id="attach-message" class="form-hint" role="status" aria-live="polite" style="margin-top: var(--s2);"></p>
       </section>
-      <p class="muted">Not legal advice. Check every item and date yourself.</p>
+
+      <div style="border-top: 1px solid var(--line); margin-top: var(--s4); padding-top: var(--s3); text-align: center;">
+        <p class="text-xs text-muted" style="margin: 0;">
+          <strong>Not legal advice.</strong> Check every item and date yourself against official government agency notices.
+        </p>
+      </div>
     </section>
   </main>
-  <script>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div>Proofbox · Letter Lens</div>
+      <div>Synthetic demo documents only. Not legal advice.</div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script type="module">
+    import { copyToClipboard, showToast } from "../js/common.js";
+
     const params = new URLSearchParams(location.search);
     const apiBase = (params.get("api") || "").replace(/\/+$/, "");
     const caseParts = decodeURIComponent(location.hash.slice(1)).split(".");
@@ -125,6 +213,7 @@
     function byId(id) { return document.getElementById(id); }
     function setText(id, value) { byId(id).textContent = value || ""; }
     function safeFileName(file) { return file.name.split(/[\\/]/).pop(); }
+    
     function toBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -133,6 +222,7 @@
         reader.readAsDataURL(file);
       });
     }
+
     async function request(path, options = {}) {
       const response = await fetch(`${apiBase}${path}`, {
         ...options,
@@ -148,14 +238,17 @@
       }
       return response;
     }
+
     function addRow(parent, label, value) {
       if (!value) return;
       const row = document.createElement("p");
+      row.style.margin = "0";
       const strong = document.createElement("strong");
       strong.textContent = `${label}: `;
       row.append(strong, document.createTextNode(String(value)));
       parent.append(row);
     }
+
     function renderResult(result) {
       const facts = result.derived_facts || {};
       const fields = byId("letter-fields");
@@ -176,15 +269,21 @@
       checklist.replaceChildren();
       for (const item of facts.checklist || []) {
         const section = document.createElement("article");
-        section.className = "check";
+        section.className = "check check-item";
         const heading = document.createElement("div");
+        heading.className = "check-heading";
         const title = document.createElement("strong");
         title.textContent = item.label;
+
         const badge = document.createElement("span");
         badge.className = `status ${item.status}`;
-        badge.textContent = item.status.replaceAll("_", " ");
-        heading.append(title, document.createTextNode(" "), badge);
+        const icon = item.status === "have" ? "✓" : item.status === "missing" ? "✕" : "!";
+        badge.innerHTML = `<span aria-hidden="true">${icon}</span> <span>${item.status.replaceAll("_", " ")}</span>`;
+
+        heading.append(title, badge);
         const reason = document.createElement("p");
+        reason.className = "text-sm text-muted";
+        reason.style.margin = "4px 0 0";
         reason.textContent = item.reason;
         section.append(heading, reason);
         checklist.append(section);
@@ -198,6 +297,7 @@
         caseLink.hidden = false;
       }
     }
+
     async function loadResult(jobId) {
       const response = await request(`/api/jobs/${encodeURIComponent(jobId)}`);
       const body = await response.json();
@@ -211,9 +311,10 @@
         if (events) events.close();
         byId("submit-button").disabled = false;
         setText("job-status", "The check failed. " + (body.events?.at(-1)?.detail || "Try again or check the original document manually."));
-        byId("job-status").className = "error-box";
+        byId("job-status").className = "error-box form-error";
       }
     }
+
     byId("upload-form").addEventListener("submit", async (event) => {
       event.preventDefault();
       const letter = byId("letter-file").files[0];
@@ -223,11 +324,11 @@
       if (supporting.length > 4 || files.some((file) => file.size > 5 * 1024 * 1024) ||
           files.reduce((total, file) => total + file.size, 0) > 10 * 1024 * 1024) {
         setText("upload-message", "Choose up to four supporting PDFs, each no larger than 5 MB, with a combined total no larger than 10 MB.");
-        byId("upload-message").className = "error-box";
+        byId("upload-message").className = "error-box form-error";
         return;
       }
       byId("submit-button").disabled = true;
-      setText("upload-message", "Uploading PDFs…");
+      setText("upload-message", "Uploading PDFs to isolated container…");
       try {
         const [letterBase64, supportingDocuments] = await Promise.all([
           toBase64(letter),
@@ -242,7 +343,7 @@
         activeJobId = body.job_id;
         byId("progress-panel").hidden = false;
         byId("result-panel").hidden = true;
-        setText("job-id", `Job ID: ${activeJobId}`);
+        setText("job-id", activeJobId);
         setText("job-status", "Queued. Parsing PDFs in an isolated sandbox…");
         setText("upload-message", "");
         events = new EventSource(`${apiBase}/api/jobs/${encodeURIComponent(activeJobId)}/events`);
@@ -263,9 +364,10 @@
       } catch (error) {
         byId("submit-button").disabled = false;
         setText("upload-message", error.message || "Could not submit the PDFs.");
-        byId("upload-message").className = "error-box";
+        byId("upload-message").className = "error-box form-error";
       }
     });
+
     byId("attach-button").addEventListener("click", async () => {
       if (!activeJobId) return;
       byId("attach-button").disabled = true;
@@ -277,19 +379,19 @@
         });
         setText("attach-message", "Letter check attached. Dates and appointments are now on the case timeline.");
         byId("open-case").hidden = false;
+        showToast("Letter check attached to case");
       } catch (error) {
         setText("attach-message", error.message || "Could not attach the letter check.");
         byId("attach-button").disabled = false;
       }
     });
+
     byId("copy-job").addEventListener("click", async () => {
-      if (!activeJobId) return;
-      try {
-        await navigator.clipboard.writeText(activeJobId);
-        setText("attach-message", "Job ID copied.");
-      } catch {
-        setText("attach-message", `Copy this job ID: ${activeJobId}`);
+      if (!activeJobId) {
+        showToast("No active job ID yet.");
+        return;
       }
+      await copyToClipboard(activeJobId, "Job ID copied to clipboard");
     });
   </script>
 </body>
