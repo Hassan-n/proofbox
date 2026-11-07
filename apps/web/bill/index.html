@@ -3,10 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#F7F5F0">
-  <title>Proofbox · Bill Lens</title>
+  <meta name="theme-color" content="#F8FAFC">
+  <title>Proofbox | Bill Lens</title>
   <meta name="description" content="Upload your municipal water bill. Proofbox recomputes it from the published tariff and gives you a receipt for every finding.">
-  <link rel="stylesheet" href="bill.css">
+  <link rel="stylesheet" href="../css/tokens.css?v=6">
+  <link rel="stylesheet" href="../css/base.css?v=6">
+  <link rel="stylesheet" href="../css/components.css?v=6">
+  <link rel="stylesheet" href="bill.css?v=6">
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -14,50 +17,59 @@
   <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
-      <span>Synthetic data only. Please do not upload real documents.</span>
+      <span>Synthetic demo environment. Do not upload real records.</span>
     </div>
     <div class="topbar-inner">
       <a class="brand" href="../" aria-label="Proofbox Home">
         <span class="brand-mark" aria-hidden="true">P</span>
         <span>Proofbox</span>
       </a>
-      <nav class="topbar-nav" aria-label="Lenses">
+      <nav class="topbar-nav" aria-label="Proofbox navigation">
         <a href="../">Link Lens</a>
         <a href="./" aria-current="page">Bill Lens</a>
         <a href="../letter/">Letter Lens</a>
         <a href="../case/">Case File</a>
-        <a href="../vultr.html">Vultr Judges Page</a>
+        <a href="../vultr.html">Infrastructure</a>
+        <a href="../styleguide.html">System</a>
       </nav>
-      <div class="lang-picker">
-        <label for="bill-lang-select" class="sr-only">Language</label>
-        <select id="bill-lang-select" class="lang-select">
-          <option value="en">English</option>
-          <option value="zu">isiZulu</option>
-          <option value="af">Afrikaans</option>
-          <option value="st">Sesotho</option>
-        </select>
-      </div>
     </div>
   </header>
 
   <main id="main" class="app-main app-container">
-    <section class="bill-hero" aria-labelledby="hero-title">
-      <span class="eyebrow">Municipal Water Bill Verification</span>
-      <h1 id="hero-title">Is your water bill right?</h1>
-      <p class="text-muted">
-        Upload a municipal water bill from Karoo Bay Metro or other local council.
-        We recompute every charge from the published tariff, check your meter readings, and draft a dispute letter.
-        Every finding links to a verifiable receipt.
-      </p>
-      <div class="flex-row mt-s3">
-        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Sealed container, no network</span>
-        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Injections stripped</span>
-        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Deterministic code calculation</span>
+    <header class="bill-hero page-heading" aria-labelledby="hero-title">
+      <div>
+        <span class="eyebrow">02 / Bill Lens · Tariff Check</span>
+        <h1 id="hero-title">Is your water bill right?</h1>
+        <p class="text-muted">
+          Upload a municipal water bill. Proofbox recomputes charges from the published tariff, checks meter readings, and drafts a dispute letter with a receipt for each finding.
+        </p>
       </div>
-    </section>
+      <div class="page-heading-meta bill-proof-list" aria-label="Verification method">
+        <span class="status-chip status-chip--verified">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Sealed container, no network</span>
+        </span>
+        <span class="status-chip status-chip--verified">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Injections stripped</span>
+        </span>
+        <span class="status-chip status-chip--verified">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Deterministic code calculation</span>
+        </span>
+      </div>
+    </header>
 
     <div class="bill-workspace">
       <!-- Upload Card -->
@@ -75,7 +87,7 @@
             <span class="dropzone-hint" id="drop-hint">or <u>browse your files</u> · PDF up to 5 MB</span>
           </label>
 
-          <details class="card mt-s3 p-s3">
+          <details class="bill-history mt-s3 p-s3">
             <summary class="font-semibold text-sm cursor-pointer">
               Add earlier bills or outage log <span class="text-muted">(optional)</span>
             </summary>
@@ -198,8 +210,8 @@
 
       <!-- Containment Alert (Prompt Injection Blocked) -->
       <section class="alert-box alert-box--warn mb-s4" id="containment" hidden aria-labelledby="containment-title">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" class="flex-shrink-0" aria-hidden="true">
-          <path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
         </svg>
         <div>
           <h3 id="containment-title" class="m-0 mb-s1">Hidden instruction blocked</h3>
@@ -258,7 +270,7 @@
 
       <!-- Actions & Disclaimer -->
       <div class="flex-between border-t pt-s4">
-        <p class="text-xs text-muted max-w-620 m-0" id="disclaimer"></p>
+        <p class="text-xs text-muted max-w-680 m-0" id="disclaimer"></p>
         <div class="flex-row">
           <button type="button" class="btn btn-secondary btn-sm" id="save-result">Save result (.json)</button>
           <button type="button" class="btn btn-quiet btn-sm" id="check-another">Check another bill</button>
@@ -270,7 +282,7 @@
   <footer class="site-footer">
     <div class="site-footer-inner">
       <div>Proofbox · Bill Lens</div>
-      <div>Synthetic demo documents only. Not legal advice.</div>
+      <div>Synthetic demo data only. Not legal advice.</div>
     </div>
   </footer>
 

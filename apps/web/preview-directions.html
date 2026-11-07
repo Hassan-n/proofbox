@@ -1,0 +1,675 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Proofbox · Design Direction Comparison</title>
+  <style>
+    /* Reset & Shared Layout */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: #0B0F19;
+      color: #E2E8F0;
+      line-height: 1.5;
+      padding-bottom: 4rem;
+    }
+    .header-nav {
+      background: #060911;
+      border-bottom: 1px solid #1E293B;
+      padding: 1rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #F8FAFC;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .nav-badge {
+      background: #0F766E;
+      color: #FFF;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 9999px;
+      font-weight: 600;
+    }
+    .direction-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .dir-btn {
+      background: #1E293B;
+      color: #94A3B8;
+      border: 1px solid #334155;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .dir-btn:hover {
+      background: #334155;
+      color: #FFF;
+      transform: translateY(-1px);
+    }
+    .dir-btn.active {
+      background: #0F766E;
+      color: #FFF;
+      border-color: #14B8A6;
+      box-shadow: 0 0 12px rgba(20, 184, 166, 0.4);
+    }
+    .container {
+      max-width: 1280px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+    .intro-banner {
+      margin-bottom: 2.5rem;
+      text-align: center;
+    }
+    .intro-banner h1 {
+      font-size: 2rem;
+      color: #F8FAFC;
+      margin-bottom: 0.5rem;
+    }
+    .intro-banner p {
+      color: #94A3B8;
+      font-size: 1.05rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    .direction-showcase {
+      margin-bottom: 4rem;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid #334155;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+    .direction-meta {
+      background: #0F172A;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid #1E293B;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .meta-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #FFF;
+    }
+    .meta-desc {
+      font-size: 0.875rem;
+      color: #94A3B8;
+      margin-top: 0.25rem;
+    }
+    .meta-tags {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .meta-tag {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* =========================================================================
+       DIRECTION A: OBSIDIAN CYBER-COCKPIT (Linear / x.ai / Vercel style)
+       ========================================================================= */
+    .theme-cyber {
+      background: radial-gradient(circle at 50% 0%, #111A2E 0%, #060911 70%);
+      color: #E2E8F0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      padding: 2.5rem 2rem;
+    }
+    .cyber-cockpit {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .cyber-cockpit { grid-template-columns: 1fr; }
+    }
+    .cyber-card {
+      background: rgba(13, 19, 33, 0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      position: relative;
+    }
+    .cyber-eyebrow {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #22D3EE;
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      background: rgba(6, 182, 212, 0.12);
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid rgba(6, 182, 212, 0.3);
+    }
+    .cyber-h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: #F8FAFC;
+      line-height: 1.15;
+      margin-bottom: 0.75rem;
+      text-shadow: 0 0 20px rgba(56, 189, 248, 0.25);
+    }
+    .cyber-desc {
+      color: #94A3B8;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .cyber-chips {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+    }
+    .cyber-chip {
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid #1E293B;
+      color: #CBD5E1;
+      padding: 0.6rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.825rem;
+      font-family: "JetBrains Mono", monospace;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .cyber-chip:hover {
+      border-color: #06B6D4;
+      background: rgba(6, 182, 212, 0.1);
+      color: #22D3EE;
+      transform: translateX(4px);
+    }
+    .cyber-input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .cyber-input {
+      flex: 1;
+      background: #060911;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #F8FAFC;
+      padding: 0.65rem 0.9rem;
+      font-family: "JetBrains Mono", monospace;
+      font-size: 0.85rem;
+    }
+    .cyber-input:focus {
+      outline: none;
+      border-color: #22D3EE;
+      box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+    }
+    .cyber-btn {
+      background: #0284C7;
+      color: #FFF;
+      border: none;
+      border-radius: 6px;
+      padding: 0.65rem 1.25rem;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 0 15px rgba(2, 132, 199, 0.5);
+      transition: all 0.15s ease;
+    }
+    .cyber-btn:hover {
+      background: #0369A1;
+      transform: translateY(-1px);
+    }
+    .cyber-terminal {
+      background: #030712;
+      border: 1px solid #1F2937;
+      border-radius: 10px;
+      overflow: hidden;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(0,0,0,0.8);
+    }
+    .cyber-term-bar {
+      background: #0B0F19;
+      padding: 0.5rem 0.75rem;
+      border-bottom: 1px solid #1F2937;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+    }
+    .cyber-term-body {
+      padding: 1rem;
+      font-size: 0.8rem;
+      line-height: 1.7;
+    }
+    .cyber-dot-live {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+      display: inline-block;
+      animation: pulse-live 1.8s infinite;
+    }
+    @keyframes pulse-live {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+
+    /* =========================================================================
+       DIRECTION B: FORENSIC SWISS EDITORIAL (FT / ProPublica / Archival Evidence)
+       ========================================================================= */
+    .theme-editorial {
+      background: #F7F5F0;
+      color: #111827;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2.5rem 2rem;
+    }
+    .editorial-cockpit {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .editorial-cockpit { grid-template-columns: 1fr; }
+    }
+    .editorial-card {
+      background: #FFFFFF;
+      border: 1px solid #D1D5DB;
+      border-top: 4px solid #111827;
+      padding: 2rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .editorial-eyebrow {
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #6B7280;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .editorial-h1 {
+      font-family: "EB Garamond", "Newsreader", Charter, Georgia, serif;
+      font-size: 2.25rem;
+      font-weight: 700;
+      color: #111827;
+      line-height: 1.1;
+      margin-bottom: 0.75rem;
+    }
+    .editorial-desc {
+      color: #4B5563;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+    .editorial-receipt {
+      border: 2px dashed #9CA3AF;
+      background: #FAFAF9;
+      padding: 1.25rem;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 0.8rem;
+    }
+    .editorial-stamp {
+      display: inline-block;
+      border: 2px solid #991B1B;
+      color: #991B1B;
+      font-weight: 800;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.4rem;
+      transform: rotate(-3deg);
+      margin-bottom: 0.5rem;
+    }
+    .editorial-btn {
+      background: #111827;
+      color: #FFFFFF;
+      border: 1px solid #000;
+      padding: 0.7rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.15s ease;
+    }
+    .editorial-btn:hover {
+      background: #374151;
+      transform: translateY(-1px);
+    }
+
+    /* =========================================================================
+       DIRECTION C: MODERN CIVIC CLEAN (Apple / Stripe / Gov.uk Authority)
+       ========================================================================= */
+    .theme-civic {
+      background: #F8FAFC;
+      color: #0F172A;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 2.5rem 2rem;
+    }
+    .civic-cockpit {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 1.75rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (max-width: 900px) {
+      .civic-cockpit { grid-template-columns: 1fr; }
+    }
+    .civic-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 1.75rem;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+    }
+    .civic-eyebrow {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: #0F766E;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .civic-h1 {
+      font-size: 1.85rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: #0F172A;
+      line-height: 1.2;
+      margin-bottom: 0.75rem;
+    }
+    .civic-desc {
+      color: #475569;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 1.25rem;
+    }
+    .civic-input-group {
+      display: flex;
+      gap: 0.5rem;
+    }
+    .civic-input {
+      flex: 1;
+      background: #F1F5F9;
+      border: 1px solid #CBD5E1;
+      border-radius: 10px;
+      color: #0F172A;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+    }
+    .civic-input:focus {
+      outline: none;
+      background: #FFF;
+      border-color: #0F766E;
+      box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.2);
+    }
+    .civic-btn {
+      background: #0F766E;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      padding: 0.75rem 1.25rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      box-shadow: 0 2px 8px rgba(15, 118, 110, 0.25);
+      transition: all 0.15s ease;
+    }
+    .civic-btn:hover {
+      background: #0D5F58;
+      transform: translateY(-1px);
+    }
+    .civic-chamber {
+      background: #0B132B;
+      color: #E2E8F0;
+      border-radius: 16px;
+      padding: 1.25rem;
+      font-family: "JetBrains Mono", Consolas, monospace;
+      border: 1px solid #1E293B;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header-nav">
+    <div class="nav-title">
+      <span>Proofbox Design Direction Decision Matrix</span>
+      <span class="nav-badge">Interactive Sample</span>
+    </div>
+    <nav class="direction-pills">
+      <a class="dir-btn active" href="#direction-a">A: Obsidian Cyber-Cockpit</a>
+      <a class="dir-btn" href="#direction-b">B: Forensic Swiss Editorial</a>
+      <a class="dir-btn" href="#direction-c">C: Modern Civic Clean</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="intro-banner">
+      <h1>Choose the Visual Identity for Proofbox</h1>
+      <p>Compare the three proposed design directions rendered below with real hero cockpit components, buttons, inputs, and containment telemetry.</p>
+    </div>
+
+    <!-- =====================================================================
+         DIRECTION A SHOWCASE
+         ===================================================================== -->
+    <section class="direction-showcase" id="direction-a">
+      <div class="direction-meta">
+        <div>
+          <h2 class="meta-title">Direction A · Obsidian Cyber-Cockpit</h2>
+          <p class="meta-desc">Inspired by Linear, Vercel &amp; x.ai. Pure dark OLED void, glowing neon cyan/emerald accents, frosted glass cards, and technical instrument dials.</p>
+        </div>
+        <div class="meta-tags">
+          <span class="meta-tag" style="background:#082F49; color:#38BDF8; border:1px solid #0369A1;">High-Tech Security</span>
+          <span class="meta-tag" style="background:#052E16; color:#4ADE80; border:1px solid #166534;">Telemetry HUD</span>
+          <span class="meta-tag" style="background:#2E1065; color:#C084FC; border:1px solid #6B21A8;">Judge Wow-Factor</span>
+        </div>
+      </div>
+
+      <div class="theme-cyber">
+        <div class="cyber-cockpit">
+          <!-- Left: Intake -->
+          <div class="cyber-card">
+            <span class="cyber-eyebrow">// ISOLATED INTAKE SANDBOX</span>
+            <h3 class="cyber-h1">Open nothing unsafely.<br>Believe nothing unproven.</h3>
+            <p class="cyber-desc">
+              Inspect suspicious SMS links, municipal tariffs, and government letters inside a sealed microVM. Live telemetry, cryptographic signatures, zero host leaks.
+            </p>
+            <div class="cyber-chips">
+              <button type="button" class="cyber-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                <span>Suspicious SMS · Kingfisher Bank alert (Phish Test)</span>
+              </button>
+              <button type="button" class="cyber-chip">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22D3EE" stroke-width="2"><path d="M12 2v6m0 0a4 4 0 0 1 4 4v7a4 4 0 0 1-8 0v-7a4 4 0 0 1 4-4Z"/></svg>
+                <span>Water bill · Karoo Bay Metro overcharge (+R1,420 discrepancy)</span>
+              </button>
+            </div>
+            <div class="cyber-input-group">
+              <input type="text" class="cyber-input" value="https://karoo-bay.pay-water.fake/verify?id=992" readonly>
+              <button type="button" class="cyber-btn">
+                <span>INSPECT</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Telemetry Console -->
+          <div class="cyber-terminal">
+            <div class="cyber-term-bar">
+              <div style="display:flex; align-items:center; gap:0.5rem;">
+                <span class="cyber-dot-live"></span>
+                <span style="color:#22D3EE; font-weight:700;">SANDBOX #774-LIVE</span>
+              </div>
+              <span style="color:#64748B;">TIMEOUT: 35s</span>
+            </div>
+            <div class="cyber-term-body">
+              <div style="color:#10B981;">&gt; 09:41:02 [KERNEL] Sealed container booted with seccomp-bpf</div>
+              <div style="color:#38BDF8;">&gt; 09:41:03 [NET_QUARANTINE] Outbound DNS query hijacked to safe sinkhole</div>
+              <div style="color:#EF4444;">&gt; 09:41:04 [ALERT] Malicious credential harvester script blocked</div>
+              <div style="color:#F59E0B; margin-top:0.5rem; border-top:1px dashed #374151; padding-top:0.5rem;">
+                [SHA-256 PROOF]: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         DIRECTION B SHOWCASE
+         ===================================================================== -->
+    <section class="direction-showcase" id="direction-b">
+      <div class="direction-meta">
+        <div>
+          <h2 class="meta-title">Direction B · Forensic Swiss Editorial</h2>
+          <p class="meta-desc">Inspired by Financial Times, ProPublica &amp; Swiss legal document design. Archival paper canvas, crisp serif display type, documentary receipts, and legal stamps.</p>
+        </div>
+        <div class="meta-tags">
+          <span class="meta-tag" style="background:#450A0A; color:#F87171; border:1px solid #991B1B;">Archival Evidence</span>
+          <span class="meta-tag" style="background:#1E293B; color:#CBD5E1; border:1px solid #475569;">Legal Integrity</span>
+          <span class="meta-tag" style="background:#451A03; color:#FBBF24; border:1px solid #92400E;">High Contrast</span>
+        </div>
+      </div>
+
+      <div class="theme-editorial">
+        <div class="editorial-cockpit">
+          <!-- Left: Documentary Form -->
+          <div class="editorial-card">
+            <div class="editorial-eyebrow">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+              <span>PUBLIC EVIDENCE FILE · SECTION 42(A)</span>
+            </div>
+            <h3 class="editorial-h1">Open nothing unsafely.<br>Believe nothing unproven.</h3>
+            <p class="editorial-desc">
+              Every civic document, tariff calculation, and suspicious communication audited with independent mathematical proof. Generated case files are formatted for statutory dispute filing.
+            </p>
+            <div style="display:flex; gap:0.5rem; margin-top:1.5rem;">
+              <input type="text" value="https://karoo-bay.pay-water.fake/verify" style="flex:1; border:1px solid #000; padding:0.7rem; font-family:'JetBrains Mono',monospace; font-size:0.85rem;" readonly>
+              <button type="button" class="editorial-btn">
+                <span>AUDIT RECEIPT</span>
+                <span>&rarr;</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Archival Receipt Record -->
+          <div class="editorial-receipt">
+            <div class="editorial-stamp">CRYPTOGRAPHIC VERDICT</div>
+            <div style="font-weight:700; margin-bottom:0.5rem; color:#111827;">OFFICIAL FORENSIC CASE FILE #0092-ZA</div>
+            <div style="border-top:1px solid #D1D5DB; padding:0.5rem 0;">
+              <div>ITEM: Karoo Bay Municipal Water Bill</div>
+              <div>DATE: 2026-11-07 09:41 SAST</div>
+              <div style="color:#991B1B; font-weight:700;">DISCREPANCY DETECTED: +R 1,420.00 OVERCHARGE</div>
+            </div>
+            <div style="border-top:1px dashed #9CA3AF; margin-top:0.5rem; padding-top:0.5rem; color:#6B7280; font-size:0.75rem;">
+              STATUTORY DEADLINE: 14 Days to Disconnection Notice Appeal. Dispute bundle prepared according to Local Government Municipal Systems Act 32 of 2000.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         DIRECTION C SHOWCASE
+         ===================================================================== -->
+    <section class="direction-showcase" id="direction-c">
+      <div class="direction-meta">
+        <div>
+          <h2 class="meta-title">Direction C · Modern Civic Clean</h2>
+          <p class="meta-desc">Inspired by Apple, Stripe &amp; GOV.UK. Soft slate background, pristine elevated cards, deep oceanic teal accents, friendly rounded geometry, and effortless clarity.</p>
+        </div>
+        <div class="meta-tags">
+          <span class="meta-tag" style="background:#0F766E; color:#FFF;">Citizen Friendly</span>
+          <span class="meta-tag" style="background:#E2E8F0; color:#0F172A;">WCAG AAA Ready</span>
+          <span class="meta-tag" style="background:#F1F5F9; color:#475569; border:1px solid #CBD5E1;">Stripe Simplicity</span>
+        </div>
+      </div>
+
+      <div class="theme-civic">
+        <div class="civic-cockpit">
+          <!-- Left: Citizen Card -->
+          <div class="civic-card">
+            <span class="civic-eyebrow">Citizen Intake &amp; Dispute Protection</span>
+            <h3 class="civic-h1">Open nothing unsafely.<br>Believe nothing unproven.</h3>
+            <p class="civic-desc">
+              Inspect suspicious links, recalculate unfair municipal water bills, and verify government letters in a secure, sealed sandbox. Safe, simple, and free for every citizen.
+            </p>
+            <div class="civic-input-group">
+              <input type="text" class="civic-input" value="https://karoo-bay.pay-water.fake/verify" readonly>
+              <button type="button" class="civic-btn">
+                <span>Check link safely</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Visual Status Card -->
+          <div class="civic-chamber">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; border-bottom:1px solid #1E293B; padding-bottom:0.75rem;">
+              <span style="font-size:0.85rem; font-weight:700; color:#38BDF8;">Containment Active</span>
+              <span style="font-size:0.75rem; color:#94A3B8;">Isolated Sandbox</span>
+            </div>
+            <div style="font-size:0.8rem; line-height:1.6; color:#CBD5E1;">
+              <div>&#x25CF; Network sandbox started</div>
+              <div>&#x25CF; Analyzing destination page: fake-bank-login</div>
+              <div style="color:#F87171; font-weight:700; margin-top:0.25rem;">&#x25B2; Phishing behavior detected &amp; blocked</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+</body>
+</html>
+

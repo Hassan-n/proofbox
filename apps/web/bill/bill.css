@@ -4,14 +4,34 @@
    Zero hardcoded colors or one-off font sizes.
    ========================================================================== */
 
-@import "../css/tokens.css";
-@import "../css/base.css";
-@import "../css/components.css";
-
 /* Hero & Workspace Layout */
 .bill-hero {
   padding: var(--s5) 0 var(--s4);
-  max-width: 760px;
+  max-width: none;
+}
+
+.bill-hero.page-heading {
+  padding-top: var(--s4);
+  padding-bottom: var(--s4);
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.34fr);
+}
+
+@media (max-width: 700px) {
+  .bill-hero.page-heading {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.bill-proof-list {
+  display: grid;
+  justify-items: start;
+  gap: var(--s2);
+}
+
+.bill-proof-list .status-chip {
+  width: fit-content;
+  max-width: 100%;
+  white-space: normal;
 }
 
 .bill-hero h1 {
@@ -21,14 +41,26 @@
 .bill-workspace {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--s5);
+  gap: var(--s6);
   align-items: start;
 }
 
-@media (min-width: 860px) {
+@media (min-width: 980px) {
   .bill-workspace {
-    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.1fr) minmax(340px, 0.9fr);
   }
+}
+
+.upload-card {
+  border-top: 2px solid var(--brand);
+}
+
+.progress-card {
+  border-top: 2px solid var(--chamber-cyan);
+}
+
+.bill-history {
+  border-top: 1px solid var(--line);
 }
 
 /* Sample Cards Grid */
@@ -53,6 +85,14 @@
   display: flex;
   flex-direction: column;
   gap: var(--s1);
+  box-shadow: var(--shadow-1);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.sample:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  border-color: var(--line-strong);
 }
 
 .sample h3 {

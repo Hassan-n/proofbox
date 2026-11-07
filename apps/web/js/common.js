@@ -1,6 +1,7 @@
 /**
  * Proofbox Central Design System · Shared Utilities
- * Single constant brand name, accessible dialog management, formatting & DOM helpers.
+ * Single constant brand name, accessible dialog management, SVG icon creator,
+ * formatting & DOM helpers.
  */
 
 export const PROOFBOX_NAME = "Proofbox";
@@ -38,6 +39,38 @@ export function el(tag, attrs = {}, ...children) {
     }
   }
   return node;
+}
+
+/**
+ * Clean SVG icon creator (Heroicons/Lucide inspired)
+ */
+export function createSvgIcon(type, className = "chip-icon") {
+  const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  svg.setAttribute("viewBox", "0 0 24 24");
+  svg.setAttribute("fill", "none");
+  svg.setAttribute("stroke", "currentColor");
+  svg.setAttribute("stroke-width", "2");
+  svg.setAttribute("stroke-linecap", "round");
+  svg.setAttribute("stroke-linejoin", "round");
+  svg.setAttribute("aria-hidden", "true");
+  if (className) svg.setAttribute("class", className);
+
+  const paths = {
+    check: '<polyline points="20 6 9 17 4 12"></polyline>',
+    cross: '<line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>',
+    shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>',
+    alert: '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line>',
+    info: '<circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line>',
+    file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline>',
+    water: '<path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>',
+    phone: '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line>',
+    arrowRight: '<line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline>',
+    copy: '<rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>',
+    clock: '<circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>'
+  };
+
+  svg.innerHTML = paths[type] || paths.info;
+  return svg;
 }
 
 /**
@@ -123,7 +156,6 @@ export function showToast(message) {
 
 /**
  * Accessible Dialog Trap & Manager
- * Traps Tab key within dialog, closes on Esc, restores focus to trigger on close.
  */
 export function setupAccessibleDialog(dialog, triggerElement = null) {
   if (!dialog) return;
@@ -180,4 +212,3 @@ export function setupAccessibleDialog(dialog, triggerElement = null) {
     }
   };
 }
-

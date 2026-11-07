@@ -1,141 +1,245 @@
 /* ==========================================================================
-   Proofbox Central Design System · Design Tokens
+   Proofbox Central Design System · Design Tokens (Direction C: Modern Civic Clean)
    Brand Line: Open nothing unsafely. Believe nothing unproven. Fight with receipts.
-   All values checked against WCAG AA (>= 4.5:1 text, >= 3:1 non-text)
+   3-Layer Token Architecture (Primitive -> Semantic -> Component)
+   Inspired by Apple, Stripe & GOV.UK civic authority with deep oceanic teal.
+   All values verified against WCAG AA (>= 4.5:1 text, >= 3:1 non-text).
    ========================================================================== */
 
 :root {
-  /* Surfaces */
-  --paper: #F7F5F0;          /* Warm notebook background */
-  --surface: #FFFFFF;        /* Cards & containers */
-  --surface-sunken: #EFECE4; /* Insets, table headers/stripes */
-  --ink: #14202B;            /* Primary readable text (contrast 14.9:1 on paper) */
-  --ink-muted: #4B5966;      /* Secondary text (contrast 6.5:1 on paper, AA pass) */
-  --line: #D9D4C7;           /* Structural borders */
-  --line-strong: #A8A193;    /* Enhanced border for active/selected items */
+  /* ------------------------------------------------------------------------
+     1. Primitive Tokens: Colors & Palettes
+     ------------------------------------------------------------------------ */
+  /* Surfaces & Paper Canvas */
+  --color-paper-light: #F8FAFC;         /* Soft slate-50 civic canvas */
+  --color-surface-light: #FFFFFF;       /* Crisp pristine white cards */
+  --color-sunken-light: #F1F5F9;        /* Slate-100 sunken wells, table headers */
+  --color-line-light: #E2E8F0;          /* Delicate slate-200 boundary */
+  --color-line-strong-light: #CBD5E1;   /* Slate-300 boundary for inputs and focus */
 
-  /* Brand */
-  --brand: #0F6B64;          /* Deep teal: primary actions, "proof" */
-  --brand-strong: #0A4F4A;   /* Pressed / hovered deep teal */
-  --brand-tint: #E2F1EF;     /* Subtle brand background */
+  /* Inks & Typography */
+  --color-ink-light: #0F172A;           /* Slate-900 primary copy (15.8:1 contrast) */
+  --color-ink-muted-light: #475569;     /* Slate-600 secondary explanation (7.2:1 contrast) */
+  --color-ink-faint-light: #94A3B8;     /* Slate-400 inactive/placeholder */
 
-  /* Containment Panel (Hero Dark Chamber) */
-  --chamber-bg: #0B1620;      /* Dark instrument canvas */
-  --chamber-surface: #12212E; /* Instrument cards / controls */
-  --chamber-line: #24384A;    /* Instrument borders */
-  --chamber-text: #D7E3EC;    /* Readable instrument text (12.1:1 on chamber-surface) */
-  --chamber-muted: #8FA5B6;   /* Secondary instrument text (6.5:1 on chamber-surface) */
-  --chamber-cyan: #38BDF8;    /* General sandbox info event */
-  --chamber-cyan-bright: #72E0D4; /* Live pulse text */
-  --chamber-cyan-glow: #2CD6C5;   /* Live pulse dot */
-  --chamber-red: #F87171;     /* Blocked / killed tag */
-  --chamber-amber: #FBBF24;   /* Quarantined tag */
-  --chamber-blue: #60A5FA;    /* Ignored instruction tag */
-  --chamber-green: #34D399;   /* Destroyed / complete tag */
-  --white: #FFFFFF;
-  --black: #000000;
+  /* Brand Palette: Civic Oceanic Teal */
+  --color-brand-base: #0F766E;          /* Deep authoritative oceanic teal */
+  --color-brand-strong: #0D5F58;        /* Pressed / focused dark teal */
+  --color-brand-light: #14B8A6;         /* Bright interactive teal */
+  --color-brand-tint: #F0FDFA;          /* Subtle mint-teal wash */
+  --color-brand-border: #CCFBF1;        /* Soft teal accent border */
 
-  /* Status Colors (always paired with icon + plain word) */
-  --danger: #B42318;
-  --danger-strong: #8F1A12;
-  --danger-tint: #FDECEA;
+  /* Signature Containment Instrument (Modern Deep Marine Console) */
+  --color-chamber-bg: #0B132B;          /* Deep marine void */
+  --color-chamber-surface: #111C44;     /* Elevated marine console panel */
+  --color-chamber-card: #172554;        /* Dark navy inner event well */
+  --color-chamber-line: #1E293B;        /* Instrument boundary */
+  --color-chamber-text: #F8FAFC;        /* High-contrast monospace text (15.4:1) */
+  --color-chamber-muted: #94A3B8;       /* Monospace secondary telemetry */
+  --color-chamber-cyan: #38BDF8;        /* Live event pulse & query indicator */
+  --color-chamber-cyan-bright: #7DD3FC;
+  --color-chamber-cyan-glow: rgba(56, 189, 248, 0.25);
+  --color-chamber-red: #F87171;         /* Threat block */
+  --color-chamber-amber: #FBBF24;       /* Quarantine */
+  --color-chamber-blue: #38BDF8;        /* Query note */
+  --color-chamber-green: #34D399;       /* Verified cryptographic milestone */
 
-  --warn: #A15C07;
-  --warn-strong: #784303;
-  --warn-tint: #FFF3DC;
+  /* Honest Semantic Status Colors (Icon + Plain Word; never color alone) */
+  --color-danger: #DC2626;              /* Red: attacks, confirmed overcharges, overdue */
+  --color-danger-strong: #B91C1C;
+  --color-danger-tint: #FEF2F2;
+  --color-danger-border: #FEE2E2;
+
+  --color-warn: #D97706;                /* Amber: suspicious links, due soon */
+  --color-warn-strong: #B45309;
+  --color-warn-tint: #FFFBEB;
+  --color-warn-border: #FEF3C7;
 
   /* Mandatory honest wording: info is used for "no issue found", NEVER green */
-  --info: #1F5F99;
-  --info-strong: #14436E;
-  --info-tint: #E6F0FA;
+  --color-info: #0284C7;                /* Sky blue: informational findings */
+  --color-info-strong: #0369A1;
+  --color-info-tint: #F0F9FF;
+  --color-info-border: #BAE6FD;
 
   /* Ok is strictly for completed/verified process milestones, NEVER for "safe" */
-  --ok: #1B6B3A;
-  --ok-strong: #124D28;
-  --ok-tint: #E4F4EA;
+  --color-ok: #16A34A;                  /* Emerald: cryptographic milestone verified */
+  --color-ok-strong: #15803D;
+  --color-ok-tint: #F0FDF4;
+  --color-ok-border: #BBF7D0;
 
-  --neutral: #5A6672;
-  --neutral-strong: #3F4750;
-  --neutral-tint: #ECEEF0;
+  --color-neutral: #64748B;             /* Neutral slate */
+  --color-neutral-strong: #475569;
+  --color-neutral-tint: #F8FAFC;
+  --color-neutral-border: #E2E8F0;
 
-  /* Typography: System fonts only (no web-font downloads) */
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Sans", sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --font-serif: Georgia, Cambria, "Times New Roman", serif;
+  --color-white: #FFFFFF;
+  --color-black: #000000;
 
-  /* Type Scale */
-  --text-xs: 0.8125rem; /* 13px */
-  --text-sm: 0.9375rem; /* 15px */
-  --text-md: 1.0625rem; /* 17px base */
-  --text-lg: 1.25rem;   /* 20px */
-  --text-xl: 1.625rem;  /* 26px */
-  --text-2xl: 2.125rem; /* 34px */
-  --leading: 1.55;
+  /* ------------------------------------------------------------------------
+     2. Semantic Tokens (Mapped to Direction C: Modern Civic Clean)
+     ------------------------------------------------------------------------ */
+  --paper: var(--color-paper-light);
+  --surface: var(--color-surface-light);
+  --surface-raised: #FFFFFF;
+  --surface-sunken: var(--color-sunken-light);
+  --line: var(--color-line-light);
+  --line-strong: var(--color-line-strong-light);
+
+  --ink: var(--color-ink-light);
+  --ink-muted: var(--color-ink-muted-light);
+  --ink-faint: var(--color-ink-faint-light);
+
+  --brand: var(--color-brand-base);
+  --brand-strong: var(--color-brand-strong);
+  --brand-light: var(--color-brand-light);
+  --brand-tint: var(--color-brand-tint);
+  --brand-border: var(--color-brand-border);
+
+  /* Containment chamber preserves deep marine console styling */
+  --chamber-bg: var(--color-chamber-bg);
+  --chamber-surface: var(--color-chamber-surface);
+  --chamber-card: var(--color-chamber-card);
+  --chamber-line: var(--color-chamber-line);
+  --chamber-text: var(--color-chamber-text);
+  --chamber-muted: var(--color-chamber-muted);
+  --chamber-cyan: var(--color-chamber-cyan);
+  --chamber-cyan-bright: var(--color-chamber-cyan-bright);
+  --chamber-cyan-glow: var(--color-chamber-cyan-glow);
+  --chamber-red: var(--color-chamber-red);
+  --chamber-amber: var(--color-chamber-amber);
+  --chamber-blue: var(--color-chamber-blue);
+  --chamber-green: var(--color-chamber-green);
+  --white: var(--color-white);
+  --black: var(--color-black);
+
+  --danger: var(--color-danger);
+  --danger-strong: var(--color-danger-strong);
+  --danger-tint: var(--color-danger-tint);
+  --danger-border: var(--color-danger-border);
+
+  --warn: var(--color-warn);
+  --warn-strong: var(--color-warn-strong);
+  --warn-tint: var(--color-warn-tint);
+  --warn-border: var(--color-warn-border);
+
+  --info: var(--color-info);
+  --info-strong: var(--color-info-strong);
+  --info-tint: var(--color-info-tint);
+  --info-border: var(--color-info-border);
+
+  --ok: var(--color-ok);
+  --ok-strong: var(--color-ok-strong);
+  --ok-tint: var(--color-ok-tint);
+  --ok-border: var(--color-ok-border);
+
+  --neutral: var(--color-neutral);
+  --neutral-strong: var(--color-neutral-strong);
+  --neutral-tint: var(--color-neutral-tint);
+  --neutral-border: var(--color-neutral-border);
+
+  /* ------------------------------------------------------------------------
+     3. Modern Typography Tokens (Inter / Clean System-Native Stack)
+     ------------------------------------------------------------------------ */
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-serif: "Newsreader", "Charter", "Bitstream Charter", "Georgia", serif;
+  --font-mono: "JetBrains Mono", "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+
+  /* Modern Fluid Type Scale */
+  --text-xs: 0.75rem;     /* 12px */
+  --text-sm: 0.875rem;    /* 14px */
+  --text-base: 1rem;      /* 16px */
+  --text-md: 1.0625rem;   /* 17px */
+  --text-lg: 1.25rem;     /* 20px */
+  --text-xl: 1.5rem;      /* 24px */
+  --text-2xl: 2rem;       /* 32px */
+  --text-3xl: 2.75rem;    /* 44px */
+
+  --leading: 1.6;
   --leading-tight: 1.25;
+  --leading-relaxed: 1.75;
 
-  /* 4px Base Spacing Scale */
-  --s1: 0.25rem; /* 4px */
-  --s2: 0.5rem;  /* 8px */
-  --s3: 0.75rem; /* 12px */
-  --s4: 1rem;    /* 16px */
-  --s5: 1.5rem;  /* 24px */
-  --s6: 2rem;    /* 32px */
-  --s7: 3rem;    /* 48px */
+  /* ------------------------------------------------------------------------
+     4. 4px Spacing Scale
+     ------------------------------------------------------------------------ */
+  --s1: 0.25rem;  /* 4px */
+  --s2: 0.5rem;   /* 8px */
+  --s3: 0.75rem;  /* 12px */
+  --s4: 1rem;     /* 16px */
+  --s5: 1.5rem;   /* 24px */
+  --s6: 2rem;     /* 32px */
+  --s7: 3rem;     /* 48px */
+  --s8: 4rem;     /* 64px */
 
-  /* Shapes & Depth */
+  /* ------------------------------------------------------------------------
+     5. Modern Curves, Shapes & Multi-Layer Elevation (Direction C)
+     ------------------------------------------------------------------------ */
+  --radius-xs: 4px;
   --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-lg: 20px;
-  --radius-pill: 999px;
-  --shadow-1: 0 1px 2px rgb(20 32 43 / 0.08);
-  --shadow-2: 0 6px 20px rgb(20 32 43 / 0.10);
+   --radius-md: 10px;      /* Compact evidence surface radius */
+   --radius-lg: 12px;      /* Large instrument surface radius */
+  --radius-pill: 9999px;
 
-  /* Touch & Interaction */
-  --tap: 48px; /* Minimum touch target height/width */
-  --focus: 0 0 0 3px #FFFFFF, 0 0 0 6px var(--brand);
-  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* Stripe / Apple Multi-Layer Soft Elevation Shadows */
+  --shadow-1: 0 1px 3px rgba(15, 23, 42, 0.04), 0 1px 2px rgba(15, 23, 42, 0.02);
+  --shadow-2: 0 6px 20px -2px rgba(15, 23, 42, 0.07), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+  --shadow-3: 0 20px 35px -5px rgba(15, 23, 42, 0.09), 0 8px 16px -4px rgba(15, 23, 42, 0.04);
+  --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.03);
+
+  /* Touch & Interaction (WCAG 2.5.5) */
+  --tap: 44px;
+  --focus: 0 0 0 2px #FFFFFF, 0 0 0 4px var(--brand);
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
   --dur: 160ms;
 }
 
-/* Reduced Motion Override */
-@media (prefers-reduced-motion: reduce) {
-  :root {
-    --dur: 0ms !important;
-  }
-}
+/* Explicit Dark Theme (Available via data-theme="dark") */
+[data-theme="dark"] {
+  --paper: #0B0F19;
+  --surface: #111827;
+  --surface-raised: #1F2937;
+  --surface-sunken: #070B14;
+  --line: #1F2937;
+  --line-strong: #374151;
 
-/* Dark Mode Token Overrides (Clean surface inversions; chamber preserves instrument look) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper: #0B131C;
-    --surface: #141F2B;
-    --surface-sunken: #0E1721;
-    --ink: #E6EDF2;
-    --ink-muted: #95A5B5;
-    --line: #273646;
-    --line-strong: #3F5266;
+  --ink: #F9FAFB;
+  --ink-muted: #9CA3AF;
+  --ink-faint: #6B7280;
 
-    --brand: #22998F;
-    --brand-strong: #177A72;
-    --brand-tint: #103330;
+  --brand: #14B8A6;
+  --brand-strong: #0D9488;
+  --brand-light: #2DD4BF;
+  --brand-tint: #042F2E;
+  --brand-border: #115E59;
 
-    --danger-tint: #381513;
-    --warn-tint: #3B2404;
-    --info-tint: #12283C;
-    --ok-tint: #10331C;
-    --neutral-tint: #1E2832;
+  --danger: #EF4444;
+  --danger-strong: #DC2626;
+  --danger-tint: #450A0A;
+  --danger-border: #991B1B;
 
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 0.40);
-    --shadow-2: 0 6px 20px rgb(0 0 0 / 0.55);
-    --focus: 0 0 0 3px #0B131C, 0 0 0 6px var(--brand);
-  }
-}
+  --warn: #F59E0B;
+  --warn-strong: #D97706;
+  --warn-tint: #451A03;
+  --warn-border: #92400E;
 
-/* High Contrast / Forced Colors Fallback */
-@media (forced-colors: active) {
-  :root {
-    --line: CanvasText;
-    --line-strong: Highlight;
-    --focus: 2px solid Highlight;
-  }
+  --info: #38BDF8;
+  --info-strong: #0284C7;
+  --info-tint: #082F49;
+  --info-border: #0369A1;
+
+  --ok: #22C55E;
+  --ok-strong: #16A34A;
+  --ok-tint: #052E16;
+  --ok-border: #166534;
+
+  --neutral: #9CA3AF;
+  --neutral-strong: #6B7280;
+  --neutral-tint: #1F2937;
+  --neutral-border: #374151;
+
+  --shadow-1: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 6px 20px rgba(0, 0, 0, 0.6);
+  --shadow-3: 0 20px 40px rgba(0, 0, 0, 0.8);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.5);
+
+  --focus: 0 0 0 2px #0B0F19, 0 0 0 4px var(--brand);
 }

@@ -24,6 +24,7 @@ export class ContainmentPanel {
     this.timerInterval = null;
 
     this.renderShell();
+    this.addEvent("standby", "Sandbox container ready. Enter a URL or choose an example to begin sealed inspection.");
     this.startCountdown();
   }
 
@@ -129,7 +130,11 @@ export class ContainmentPanel {
     let plainDescription = detail || type;
 
     // Map according to Step 2 specifications:
-    if (type === "network_blocked" || type === "request_blocked") {
+    if (type === "standby") {
+      tagText = "STANDBY";
+      borderColor = "var(--chamber-cyan)";
+      plainDescription = detail || "Sandbox ready. Enter a URL or choose an example to begin sealed inspection.";
+    } else if (type === "network_blocked" || type === "request_blocked") {
       this.counts.blocked++;
       tagText = "BLOCKED";
       tagClass = "tag-blocked";

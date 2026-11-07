@@ -3,33 +3,53 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#F7F5F0">
+  <meta name="theme-color" content="#F8FAFC">
   <title>Proofbox | Chat Intake &amp; Link Lens</title>
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/tokens.css?v=6">
+  <link rel="stylesheet" href="css/base.css?v=6">
+  <link rel="stylesheet" href="css/components.css?v=6">
   <style>
-    .workspace-two-zone {
+    /* Cockpit Layout: Intake & Containment Chamber in Hero Viewport */
+    .cockpit-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: var(--s5);
-      margin-top: var(--s5);
+        gap: var(--s6);
+      margin-top: var(--s4);
+      align-items: start;
     }
+
     @media (min-width: 960px) {
-      .workspace-two-zone {
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-        align-items: start;
+      .cockpit-grid {
+          grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+          gap: var(--s6);
       }
     }
+
+    .cockpit-column {
+      display: flex;
+      flex-direction: column;
+      gap: var(--s4);
+      min-width: 0;
+    }
+
+    .intake-card {
+      border-top: 2px solid var(--brand);
+    }
+
     .chat-bubble-container {
       display: flex;
       flex-direction: column;
       gap: var(--s3);
-      margin: var(--s4) 0;
+      margin: var(--s3) 0;
+      max-height: 240px;
+      overflow-y: auto;
+      padding-right: var(--s1);
     }
+
     .composer-wrap {
-      margin: var(--s4) 0 var(--s5);
+      margin-top: var(--s3);
     }
+
     .trace-btn-link {
       display: inline-flex;
       align-items: center;
@@ -46,209 +66,239 @@
   <!-- Persistent App Shell Header -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
-      <span>Synthetic data only. Please do not upload real documents.</span>
+      <span>Synthetic demo environment. Do not upload real records.</span>
     </div>
     <div class="topbar-inner">
       <a class="brand" href="./" aria-label="Proofbox Home">
         <span class="brand-mark" aria-hidden="true">P</span>
         <span id="app-brand-name">Proofbox</span>
       </a>
-      <nav class="topbar-nav" aria-label="Lenses">
+      <nav class="topbar-nav" aria-label="Proofbox navigation">
         <a href="./" aria-current="page">Link Lens</a>
         <a id="bill-link" href="bill/">Bill Lens</a>
         <a id="letter-link" href="letter/">Letter Lens</a>
         <a id="case-link" href="case/">Case File</a>
-        <a id="vultr-link" href="vultr.html">Vultr Judges Page</a>
+        <a id="vultr-link" href="vultr.html">Infrastructure</a>
+        <a href="styleguide.html">System</a>
       </nav>
-      <div class="lang-picker">
-        <label for="lang-select" class="sr-only">Choose language</label>
-        <select id="lang-select" class="lang-select">
-          <option value="en">English</option>
-          <option value="zu">isiZulu</option>
-          <option value="af">Afrikaans</option>
-          <option value="st">Sesotho</option>
-        </select>
-      </div>
     </div>
   </header>
 
   <main id="main" class="app-main app-container">
-    <!-- Screen Intro -->
-    <section class="card" aria-labelledby="chat-intro-heading">
-      <span class="eyebrow">Citizen Intake &amp; Isolated Inspection</span>
-      <h1 id="chat-intro-heading">Open nothing unsafely. Believe nothing unproven.</h1>
-      <p class="text-muted max-w-680">
-        Proofbox inspects suspicious links, water bills, and government letters inside a sealed sandbox.
-        Observe network behavior, recompute charges, and preserve receipts for your private case file.
-      </p>
-
-      <!-- Chat Bubbles & Router Guidance -->
-      <div class="chat-bubble-container" id="chat-log" role="log" aria-live="polite">
-        <div class="chat-bubble chat-proofbox">
-          <strong>Proofbox:</strong> What would you like to inspect today? Choose an example below or enter a link or question.
-        </div>
+    <header class="page-heading">
+      <div>
+        <span class="eyebrow">01 / Link Lens · Isolated Inspection</span>
+        <h1 id="chat-intro-heading">Open nothing unsafely. Believe nothing unproven.</h1>
+        <p>Inspect a suspicious link inside a sealed sandbox. Proofbox records what the page tries to do and preserves a receipt you can attach to a private case file.</p>
       </div>
+      <aside class="page-heading-meta" aria-label="Proofbox workflow">
+        <div>01 &nbsp; Inspect</div>
+        <div>02 &nbsp; Verify</div>
+        <div>03 &nbsp; Preserve</div>
+      </aside>
+    </header>
 
-      <!-- Quick Example Chips -->
-      <div class="prompt-chips" aria-label="Example prompts">
-        <button type="button" class="prompt-chip" id="chip-sms" data-url="http://10.99.0.4:8000/a1">
-          <span aria-hidden="true">📱</span>
-          <span>Suspicious SMS (Kingfisher Bank alert)</span>
-        </button>
-        <button type="button" class="prompt-chip" id="chip-bill">
-          <span aria-hidden="true">💧</span>
-          <span>Water bill with overcharges (Karoo Bay Metro)</span>
-        </button>
-        <button type="button" class="prompt-chip" id="chip-letter">
-          <span aria-hidden="true">📄</span>
-          <span>Grant review letter (Community Benefits Agency)</span>
-        </button>
-      </div>
+    <div class="cockpit-grid">
+      <!-- Left Column: Citizen Intake & Composer -->
+      <div class="cockpit-column">
+        <section class="card intake-card" aria-labelledby="intake-title">
+          <div class="card-head">
+            <h2 id="intake-title" class="m-0">New inspection</h2>
+            <span class="font-mono text-xs text-muted">LINK / 01</span>
+          </div>
 
-      <!-- Main Input Composer Form -->
-      <form class="form composer-wrap" id="inspect-form">
-        <label for="url" class="form-label">Link or message to inspect</label>
-        <div class="chat-composer chat-composer-sticky">
-          <input id="url" name="url" type="url" placeholder="Paste link here, e.g. https://karoo-bay.pay-water.fake" required autocomplete="url">
-          <button id="submit" class="btn btn-primary" type="submit">
-            <span>Inspect link</span>
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-        <p class="form-hint">Links are opened in a headless browser with network isolation. No passwords or form data are submitted.</p>
-      </form>
-
-      <p class="alert-box alert-box--danger" id="error" role="alert" hidden></p>
-    </section>
-
-    <!-- Two-Zone Execution Workspace: Containment Panel + Finding Report -->
-    <div class="workspace-two-zone">
-      <!-- Zone 1: Hero Containment Panel -->
-      <section id="containment-chamber-container" aria-labelledby="activity-heading">
-        <h2 id="activity-heading" class="sr-only">Sandbox Activity</h2>
-        <!-- Legacy hook preservation -->
-        <span class="sr-only" id="job-state">Waiting</span>
-        <ol class="sr-only" id="events" aria-live="polite"></ol>
-
-        <!-- Modern Hero Containment Panel Component -->
-        <div class="containment-panel" id="hero-containment">
-          <div class="containment-header">
-            <div class="containment-title-group">
-              <span class="containment-badge">Sandbox</span>
-              <span class="font-mono text-xs" id="job-id">Ready</span>
-            </div>
-            <div class="flex-row">
-              <span class="containment-live-pill">
-                <span class="containment-live-dot" aria-hidden="true"></span>
-                <span id="chamber-live-label">WAITING</span>
-              </span>
-              <span class="containment-timer" id="chamber-timer-val">40s limit</span>
+          <!-- Chat Bubbles & Router Guidance -->
+          <div class="chat-bubble-container" id="chat-log" role="log" aria-live="polite">
+            <div class="chat-bubble chat-proofbox">
+              <strong>Proofbox:</strong> What would you like to inspect today? Choose an example below or paste a suspicious link.
             </div>
           </div>
 
-          <div class="containment-summary" id="hero-summary" hidden>
-            <div class="containment-summary-item">
-              <span>Blocked:</span> <span class="containment-summary-count" id="count-blocked-val">0</span>
-            </div>
-            <div class="containment-summary-item">
-              <span>Quarantined:</span> <span class="containment-summary-count" id="count-quar-val">0</span>
-            </div>
-            <div class="containment-summary-item">
-              <span>Ignored:</span> <span class="containment-summary-count" id="count-ign-val">0</span>
-            </div>
-          </div>
-
-          <ol class="containment-events" id="chamber-events" aria-live="polite">
-            <li class="containment-event-row">
-              <span class="containment-event-time">--:--:--</span>
-              <div class="containment-event-body">
-                <span class="containment-event-tag">STANDBY</span>
-                <span>Sandbox ready. Enter a URL or choose an example to begin sealed inspection.</span>
-              </div>
-            </li>
-          </ol>
-
-          <div class="bg-chamber-surface border-t-chamber text-right p-s3">
-            <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it" title="Test container security against simulated attack">
-              Try to break it (Simulate attack)
+          <!-- Quick Example Chips (SVG Icons, zero emojis) -->
+          <div class="prompt-chips" aria-label="Example prompts">
+            <button type="button" class="prompt-chip" id="chip-sms" data-url="http://10.99.0.4:8000/a1">
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
+                <line x1="12" y1="18" x2="12.01" y2="18"></line>
+              </svg>
+              <span>Suspicious SMS (Kingfisher Bank alert)</span>
+            </button>
+            <button type="button" class="prompt-chip" id="chip-bill">
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+              <span>Water bill with overcharges (Karoo Bay Metro)</span>
+            </button>
+            <button type="button" class="prompt-chip" id="chip-letter">
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+              <span>Grant review letter (Community Benefits Agency)</span>
             </button>
           </div>
-        </div>
-      </section>
 
-      <!-- Zone 2: Finding Report / Verdict Card -->
-      <section aria-labelledby="result-heading">
-        <h2 id="result-heading" class="sr-only">Finding Report</h2>
-
-        <!-- Empty State before Inspection -->
-        <div class="card empty-state" id="result-empty">
-          <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-          <h3>No inspection result yet</h3>
-          <p class="empty-state-text">
-            When an inspection finishes, your verdict, confidence score, observed actions, and safe advice will appear here with cryptographic receipts.
-          </p>
-        </div>
-
-        <!-- Populated Verdict Card -->
-        <div class="verdict-card" id="verdict" aria-live="polite" hidden>
-          <div class="flex-between">
-            <div class="badge status-chip" id="badge">
-              <span aria-hidden="true">●</span>
-              <span id="verdict-name">Finding</span>
+          <!-- Main Input Composer Form -->
+          <form class="composer-wrap" id="inspect-form">
+            <label for="url" class="form-label">Link or message to inspect</label>
+            <div class="chat-composer chat-composer-sticky">
+              <input id="url" name="url" type="url" placeholder="Paste link here, e.g. https://karoo-bay.pay-water.fake" required autocomplete="url">
+              <button id="submit" class="btn btn-primary" type="submit">
+                <span>Inspect link</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
             </div>
-            <div class="verdict-confidence-box">
-              <span id="confidence">Confidence: --</span>
-              <div class="confidence-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
-                <div class="confidence-bar-fill" id="confidence-bar-fill"></div>
+            <p class="form-hint">Links are opened in a headless browser with network isolation. No credentials or passwords are ever submitted.</p>
+          </form>
+
+          <p class="alert-box alert-box--danger mt-s3" id="error" role="alert" hidden></p>
+        </section>
+
+        <!-- Finding Report / Verdict Card (Rendered below intake on match) -->
+        <section aria-labelledby="result-heading">
+          <h2 id="result-heading" class="sr-only">Finding Report</h2>
+
+          <!-- Empty State before Inspection -->
+          <div class="card empty-state" id="result-empty">
+            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <h3>Ready for inspection</h3>
+            <p class="empty-state-text">
+              Enter a link or choose an example above. The isolated container will spin up, record all outbound network requests, and present verifiable findings here.
+            </p>
+          </div>
+
+          <!-- Populated Verdict Card -->
+          <div class="verdict-card" id="verdict" aria-live="polite" hidden>
+            <div class="flex-between">
+              <div class="status-chip" id="badge">
+                <span id="verdict-name">Finding</span>
+              </div>
+              <div class="verdict-confidence-box">
+                <span id="confidence">Confidence: --</span>
+                <div class="confidence-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                  <div class="confidence-bar-fill" id="confidence-bar-fill"></div>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div class="verdict-advice-box">
-            <p class="verdict-advice-text" id="advice"></p>
-          </div>
+            <div class="verdict-advice-box">
+              <p class="verdict-advice-text" id="advice"></p>
+            </div>
 
-          <div>
-            <h3 class="mb-s2">Observed Reasons:</h3>
-            <ul class="verdict-reasons-list reasons" id="reasons"></ul>
-          </div>
+            <div>
+              <h3 class="mb-s2">Observed Reasons:</h3>
+              <ul class="verdict-reasons-list reasons" id="reasons"></ul>
+            </div>
 
-          <div class="verdict-caveat-box">
-            <strong>What this does not mean:</strong> <span id="caveat"></span>
-          </div>
+            <div class="verdict-caveat-box">
+              <strong>What this does not mean:</strong> <span id="caveat"></span>
+            </div>
 
-          <!-- Sandbox Screenshot (Explicit dimensions, compressed WebP) -->
-          <div id="screenshot-wrapper" hidden>
-            <h4 class="mt-s3 mb-s1 text-sm">Sandbox Screenshot:</h4>
-            <img class="screenshot screenshot-preview" id="screenshot" alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy">
-            <a class="trace-btn-link" id="trace-link" href="#main" hidden>See what it did (Inspect Trace Receipt) →</a>
-          </div>
+            <!-- Sandbox Screenshot -->
+            <div id="screenshot-wrapper" hidden>
+              <h4 class="mt-s3 mb-s1 text-sm font-semibold">Sandbox Viewport Screenshot:</h4>
+              <img class="screenshot screenshot-preview" id="screenshot" alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy">
+              <a class="trace-btn-link" id="trace-link" href="#main" hidden>
+                <span>Inspect Trace Receipt</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
 
-          <!-- Attach to Case Link -->
-          <div class="border-t pt-s3 flex-between">
-            <span class="text-xs text-muted">Attach this finding to your private case timeline</span>
-            <a class="btn btn-secondary btn-sm" id="case-attach-cta" href="case/">Save finding to case file →</a>
+            <!-- Attach to Case Link -->
+            <div class="border-t pt-s3 flex-between">
+              <span class="text-xs text-muted">Attach this finding to your private case timeline</span>
+              <a class="btn btn-secondary btn-sm" id="case-attach-cta" href="case/">
+                <span>Save finding to case file</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
+
+      <!-- Right Column: Hero Containment Chamber (Telemetry Console) -->
+      <div class="cockpit-column">
+        <section id="containment-chamber-container" aria-labelledby="activity-heading">
+          <h2 id="activity-heading" class="sr-only">Sandbox Telemetry &amp; Network Events</h2>
+          <!-- Legacy hook preservation -->
+          <span class="sr-only" id="job-state">Waiting</span>
+          <ol class="sr-only" id="events" aria-live="polite"></ol>
+
+          <!-- Modern Hero Containment Panel Component -->
+          <div class="containment-panel" id="hero-containment">
+            <div class="containment-header">
+              <div class="containment-title-group">
+                <span class="containment-badge">Sandbox</span>
+                <span class="font-mono text-xs text-muted" id="job-id">Standby</span>
+              </div>
+              <div class="flex-row">
+                <span class="containment-live-pill">
+                  <span class="containment-live-dot" aria-hidden="true"></span>
+                  <span id="chamber-live-label">WAITING</span>
+                </span>
+                <span class="containment-timer" id="chamber-timer-val">40s limit</span>
+              </div>
+            </div>
+
+            <div class="containment-summary" id="hero-summary" hidden>
+              <div class="containment-summary-item">
+                <span class="text-muted">Blocked:</span> <span class="containment-summary-count" id="count-blocked-val">0</span>
+              </div>
+              <div class="containment-summary-item">
+                <span class="text-muted">Quarantined:</span> <span class="containment-summary-count" id="count-quar-val">0</span>
+              </div>
+              <div class="containment-summary-item">
+                <span class="text-muted">Ignored:</span> <span class="containment-summary-count" id="count-ign-val">0</span>
+              </div>
+            </div>
+
+            <ol class="containment-events" id="chamber-events" aria-live="polite">
+              <li class="containment-event-row">
+                <span class="containment-event-time">--:--:--</span>
+                <div class="containment-event-body">
+                  <span class="containment-event-tag">STANDBY</span>
+                  <span>Sandbox ready. Enter a URL or choose an example to begin sealed inspection.</span>
+                </div>
+              </li>
+            </ol>
+
+            <div class="bg-chamber-surface border-t-chamber text-right p-s3">
+              <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it" title="Test container security against simulated attack">
+                Try to break it (Simulate attack)
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
     </div>
   </main>
 
   <!-- Site Footer -->
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div>Proofbox · Fictional Demo Testing Environment</div>
-      <div>Synthetic demo documents only. Not legal advice.</div>
+      <div>Proofbox · Link Lens</div>
+      <div>Synthetic demo data only. Not legal advice.</div>
     </div>
   </footer>
 
   <script type="module">
-    import { PROOFBOX_NAME, BRAND_LINE, el, showToast } from "./js/common.js";
+    import { PROOFBOX_NAME, BRAND_LINE, el, showToast, createSvgIcon } from "./js/common.js";
     import { ContainmentPanel } from "./js/containment.js";
 
     // Set brand constants
@@ -338,14 +388,17 @@
       const verdictName = result.verdict || "could_not_check";
       badge.className = `status-chip status-chip--${verdictName}`;
       
-      const iconMap = {
-        dangerous: "▲",
-        suspicious: "●",
-        no_issue_found: "ℹ",
-        could_not_check: "?"
+      const iconTypeMap = {
+        dangerous: "alert",
+        suspicious: "alert",
+        no_issue_found: "info",
+        could_not_check: "info"
       };
-      const iconText = iconMap[verdictName] || "●";
-      badge.innerHTML = `<span aria-hidden="true">${iconText}</span> <span>${verdictName.replaceAll("_", " ")}</span>`;
+      const iconType = iconTypeMap[verdictName] || "info";
+      badge.replaceChildren(
+        createSvgIcon(iconType, "chip-icon"),
+        el("span", { text: verdictName.replaceAll("_", " ") })
+      );
 
       // Confidence score & bar
       const conf = result.confidence || "Unknown";
