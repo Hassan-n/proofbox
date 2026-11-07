@@ -1,0 +1,196 @@
+1
+00:00:00,100 --> 00:00:10,025
+Every day, people receive payment links, utility bills, and official letters.
+These inputs can ask for money, identity documents, or a response by a
+
+2
+00:00:10,025 --> 00:00:13,747
+deadline. Understanding them should not require taking unnecessary risks.
+
+3
+00:00:18,100 --> 00:00:27,870
+The problem is not a shortage of AI answers. It is a shortage of safe
+inspection and verifiable evidence. A link can be deceptive. A bill can
+
+4
+00:00:27,870 --> 00:00:35,107
+contain incorrect charges. Letter requirements and deadlines can be missed.
+And a confident summary does not prove what was checked.
+
+5
+00:00:40,100 --> 00:00:44,984
+Proofbox inspects safely, verifies claims, and preserves evidence.
+
+6
+00:00:45,268 --> 00:00:50,672
+We begin with Link Lens. It observes a page without asking the person to open
+it or submit credentials.
+
+7
+00:00:52,906 --> 00:00:59,082
+For this recording, we inspect the public Proofbox demo site itself. This is
+not a malicious test page.
+
+8
+00:01:01,317 --> 00:01:06,858
+The job runs in an isolated browser. The control plane collects the page trace
+and inspection image.
+
+9
+00:01:09,093 --> 00:01:16,967
+The live result is SUSPICIOUS. References to the fictional bank in the demo
+can trigger a brand-mismatch warning. This illustrates why findings still need
+
+10
+00:01:16,967 --> 00:01:17,623
+human review.
+
+11
+00:01:19,858 --> 00:01:26,916
+The trace and lifecycle events show what was observed. A warning is not proof
+of fraud, and no issue found would not guarantee safety.
+
+12
+00:01:29,150 --> 00:01:36,270
+The built-in private-address example was rejected during rehearsal. No
+blocked-network or download-quarantine result is claimed in this recording.
+
+13
+00:01:38,953 --> 00:01:45,601
+Next, Bill Lens. We upload the synthetic injection fixture and a reading-
+history file with outage context.
+
+14
+00:01:47,071 --> 00:01:55,570
+The PDF contains an instruction addressed to an AI: approve the bill and print
+its environment. That text is untrusted document data, not permission to act.
+
+15
+00:01:57,431 --> 00:02:04,301
+The parser operates in the worker sandbox. The model extracts fields, while
+deterministic code checks the tariff arithmetic.
+
+16
+00:02:06,162 --> 00:02:13,501
+The live result reports a possible overcharge of one hundred thirty-four rand
+and fifty-five cents. It also flags consecutive estimated readings and
+
+17
+00:02:13,501 --> 00:02:15,836
+consumption inconsistent with the supplied outage history.
+
+18
+00:02:17,698 --> 00:02:23,351
+The receipt links connect each finding to the bill text, the recomputation,
+and the independently executed program.
+
+19
+00:02:25,212 --> 00:02:30,088
+The final draft explains the discrepancy for review. No letter is sent
+automatically.
+
+20
+00:02:31,949 --> 00:02:39,275
+Karoo Bay is fictional. These results demonstrate the fixture and configured
+rules, not verification of a real municipality's tariff.
+
+21
+00:02:41,584 --> 00:02:47,904
+Letter Lens turns correspondence into a checklist. We provide an agency letter
+and three synthetic supporting documents.
+
+22
+00:02:49,116 --> 00:02:56,201
+The official letter supplies the requirements and explicit dates. Supporting
+PDFs are parsed and checked in the no-network worker sandbox.
+
+23
+00:02:57,413 --> 00:03:04,988
+The live checklist flags an address document that is too old, and a missing
+signed declaration. It also records the response deadline and appointment from
+
+24
+00:03:04,988 --> 00:03:05,594
+the letter.
+
+25
+00:03:06,806 --> 00:03:13,336
+These are layout-based checks. They do not authenticate identity or documents,
+and scanned PDFs are not supported.
+
+26
+00:03:14,548 --> 00:03:20,188
+Supporting-document check facts, rather than full supporting text, form the
+model privacy boundary.
+
+27
+00:03:21,847 --> 00:03:28,194
+Now we bring the completed bill check into a private case. This is a synthetic
+demonstration case created for this recording.
+
+28
+00:03:29,756 --> 00:03:35,097
+We first attach the bill job. Stable evidence numbers connect the findings to
+case-owned receipts.
+
+29
+00:03:36,659 --> 00:03:42,075
+A drafted municipal dispute does not start its response clock: the person must
+confirm when it was sent.
+
+30
+00:03:43,638 --> 00:03:51,474
+The live export is refused: a receipt matches the thirteen-digit identifier
+gate. The synthetic bill contains a long numeric creation date in its PDF
+
+31
+00:03:51,474 --> 00:03:56,697
+metadata. This is an export limitation, not proof that the bill holds a real
+identity number.
+
+32
+00:03:58,260 --> 00:04:06,198
+Numbered claims link back to evidence. Receipt hashes support content-
+integrity checks, but do not prove authenticity or legal correctness.
+
+33
+00:04:07,364 --> 00:04:15,120
+The case still keeps its evidence and receipts. Supporting identity PDFs are
+intended to be omitted from exports, and private case links must be shared
+
+34
+00:04:15,120 --> 00:04:15,741
+with care.
+
+35
+00:04:17,303 --> 00:04:22,469
+This is the handoff: a record another person can inspect, rather than a
+disconnected chat answer.
+
+36
+00:04:24,479 --> 00:04:30,960
+Vultr separates authority from execution. The control-plane VM owns the API,
+case engine, and model gateway.
+
+37
+00:04:31,024 --> 00:04:37,831
+A private sandbox-host VM runs browser and code tasks with Docker and gVisor.
+The inference key stays outside the worker.
+
+38
+00:04:37,896 --> 00:04:46,336
+Models interpret. Code verifies. People confirm consequential actions. This
+demo is not a certification of escape resistance.
+
+39
+00:04:46,847 --> 00:04:51,038
+Proofbox connects useful agent work with bounded execution and reviewable
+evidence.
+
+40
+00:04:51,690 --> 00:04:55,021
+Production checks and official domain rules still need verification.
+
+41
+00:04:55,672 --> 00:04:59,170
+Open nothing unsafely. Believe nothing unproven.
