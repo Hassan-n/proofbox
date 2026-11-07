@@ -10,7 +10,7 @@ been performed or tested on your servers.
 | Component | Day 4 change |
 |---|---|
 | API | Letter intake and jobs, case files, clocks, replies and pack generation. New `reportlab` and `tzdata` dependencies. |
-| Web | New `/letter/` and `/case/` pages. |
+| Web | New `/letter/` and `/case/` pages. Built-in Nginx reverse proxy (`nginx.conf`) with dynamic `API_URL` configuration (`40-configure-api-url.sh`) and 25 MB upload limit. |
 | Worker | `/run-bill` gains `parse_document` for Letter Lens; `code` is also used for its document checks. |
 | Sandbox image | `proofbox-parse:latest` must be rebuilt to include `parse_document.py`. |
 | Database | API startup creates and migrates case-related tables. **Back up and review the migration before starting the new API.** |
@@ -249,7 +249,37 @@ prints event names only, not parsed text. A 401 means the token is wrong; a
 
 In Coolify, build the existing web application from the same approved
 `letter-lens` commit and `apps/web` context. Its Dockerfile copies `bill/`,
-`letter/` and `case/` into nginx. Verify:
+`letter/` and `case/` into nginx, along with `nginx.conf` and
+`40-configure-api-url.sh`.
+
+### 5.1 Configure API reverse proxy in Coolify
+
+The web container provides an Nginx reverse proxy routing `/api/*` requests
+directly to the FastAPI backend. Configure the `API_URL` environment variable
+on the web application in Coolify:
+
+```env
+API_URL=http://<api-container-name>:8000
+```
+
+- **Coolify internal networking:** Both web and API containers share the
+  `coolify` Docker network. The internal container name corresponds to the
+  resource ID / UUID shown in the API app's URL or General tab (for example,
+  if the API domain is `http://zzarudpebhfzoohnpppp0snw.64.177.59.98.sslip.io`,
+  the internal container host is `zzarudpebhfzoohnpppp0snw`, so set
+  `API_URL=http://zzarudpebhfzoohnpppp0snw:8000`).
+- **Do not use the public IP or external sslip.io domain for `API_URL`:**
+  Cloud VPS instances (such as Vultr) drop loopback traffic from inside Docker
+  containers attempting to reach their own public IP (`64.177.59.98`) due to
+  hairpin NAT restrictions. In addition, port 80 is bound to Traefik rather
+  than FastAPI (which listens on port 8000). Always use the internal container
+  name and port 8000.
+- **Query parameter fallback:** If testing directly in a browser or across
+  external origins, you can still append `?api=http://your-api-domain` to the
+  URL (e.g. `http://4kcvz2ocaby56a8gdp4cdvvk.64.177.59.98.sslip.io/?api=http://zzarudpebhfzoohnpppp0snw.64.177.59.98.sslip.io`).
+  The frontend preserves the `?api=` parameter across navigation links.
+
+### 5.2 Verify web and reverse proxy routes
 
 ```bash
 WEB='https://your-web-domain'
@@ -259,11 +289,18 @@ for path in / /bill/ /letter/ /case/ /letter/samples/A9_letter.pdf; do
 done
 ```
 
-Each should return 200. If API and web have different origins, open
-`https://your-web-domain/case/?api=https://your-api-domain` or
-`https://your-web-domain/letter/?api=https://your-api-domain`. Ensure the
-API permits the web origin. Prefer HTTPS; an HTTPS page cannot safely call an
-HTTP API due to mixed-content restrictions.
+Each should return 200. Next verify that `/api/` reverse proxies properly to
+FastAPI through the web host:
+
+```bash
+curl -fsS "$WEB/api/cases" -X POST -H 'Content-Type: application/json' \
+  -d '{"title":"Deployment Verification","rule_set":"municipal_billing"}' |
+  python3 -c 'import json,sys; d=json.load(sys.stdin); print("Case created:", d.get("case",{}).get("id")); sys.exit(0 if "case" in d else 1)'
+```
+
+Expect a created case response (`201` with `case-…` ID). If this returns 404,
+Nginx is serving static files instead of proxying; if it returns 504 / 110
+timeout, verify the internal `API_URL` setting.
 
 ## 6. Letter Lens end-to-end smoke test
 
@@ -332,6 +369,9 @@ a useful additional test; observe completion and worker sandbox limits.
 | API fails on startup | Inspect private logs for dependency, database connection, DDL permission or migration errors. Do not assume partial migrations were reverted. |
 | Pack download fails after redeploy | Check `CASE_STORAGE_DIR`, mount persistence, permissions and identical paths across replicas. |
 | Browser CORS or wrong API host | Check `?api=`, `CORS_ORIGINS`, HTTPS and proxy configuration. |
+| `open() /usr/share/nginx/html/api/... failed (404)` | Web container lacks Nginx reverse proxy configuration. Ensure latest `apps/web/Dockerfile`, `nginx.conf`, and `40-configure-api-url.sh` are built. |
+| `upstream timed out (110)` connecting to `http://<ip>:80` | `API_URL` was set to the host's public IP/domain instead of internal Docker network. Set `API_URL=http://<api-container-name>:8000`. |
+| `413 Request Entity Too Large` on PDF uploads | Ensure `client_max_body_size 25M;` is active in `apps/web/nginx.conf`. |
 
 For rollback, coordinate with Person A and stop new work first. Restore the
 recorded previous API and web deployments and the backed-up worker files
