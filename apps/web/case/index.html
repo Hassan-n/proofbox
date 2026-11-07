@@ -4,19 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#F7F5F0">
+  <meta name="theme-color" content="#F8FAFC">
   <title>Proofbox | Private Case File</title>
-  <link rel="stylesheet" href="../css/tokens.css">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/tokens.css?v=6">
+  <link rel="stylesheet" href="../css/base.css?v=6">
+  <link rel="stylesheet" href="../css/components.css?v=6">
   <style>
     .case-summary-card {
       background-color: var(--surface);
       border: 1px solid var(--line);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       padding: var(--s5);
-      box-shadow: var(--shadow-1);
+      box-shadow: none;
       margin-bottom: var(--s4);
+      transition: border-color var(--dur) var(--ease);
+    }
+    .case-summary-card:hover {
+      border-color: var(--line-strong);
     }
     .case-main-grid {
       display: grid;
@@ -26,7 +30,7 @@
     }
     @media (min-width: 880px) {
       .case-main-grid {
-        grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+        grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
         align-items: start;
       }
     }
@@ -36,10 +40,10 @@
       gap: var(--s4);
       background-color: var(--surface);
       border: 1px solid var(--line);
-      border-radius: var(--radius-md);
+      border-radius: var(--radius-sm);
       padding: var(--s4);
       margin-top: var(--s3);
-      box-shadow: var(--shadow-1);
+      box-shadow: none;
     }
     @media (min-width: 760px) {
       .reply-review-card {
@@ -49,7 +53,7 @@
     }
     .review-side-proposed {
       background-color: var(--brand-tint);
-      border: 1px solid var(--brand);
+      border: 1px solid var(--brand-border);
       border-radius: var(--radius-sm);
       padding: var(--s4);
     }
@@ -84,11 +88,62 @@
       color: var(--ink);
     }
     .card-danger-zone {
-      border-color: var(--danger-tint);
+      border-color: var(--danger-border);
       background-color: var(--surface);
     }
     .text-danger {
       color: var(--danger);
+    }
+    .max-w-600 {
+      max-width: 600px;
+    }
+    .auto-center {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .case-create-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.9fr);
+      gap: var(--s6);
+      align-items: stretch;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .case-create-form {
+      margin: 0;
+    }
+    .case-create-note {
+      padding: var(--s5) 0 var(--s5) var(--s5);
+      border-left: 1px solid var(--line-strong);
+      align-self: center;
+    }
+    .case-create-steps {
+      list-style: none;
+      padding: 0;
+      margin: var(--s4) 0;
+      display: grid;
+      gap: var(--s3);
+    }
+    .case-create-steps li {
+      display: grid;
+      grid-template-columns: 2rem minmax(0, 1fr);
+      gap: var(--s2);
+      align-items: start;
+    }
+    .case-create-steps span {
+      color: var(--brand);
+      font: 600 var(--text-xs) var(--font-mono);
+    }
+    @media (max-width: 760px) {
+      .case-create-layout {
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--s4);
+      }
+      .case-create-note {
+        padding: var(--s4) 0 0;
+        border-left: 0;
+        border-top: 1px solid var(--line-strong);
+      }
     }
     @media print {
       body {
@@ -111,66 +166,80 @@
   <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
-      <span>Synthetic data only. Please do not upload real documents.</span>
+      <span>Synthetic demo environment. Do not upload real records.</span>
     </div>
     <div class="topbar-inner">
       <a class="brand" href="../" aria-label="Proofbox Home">
         <span class="brand-mark" aria-hidden="true">P</span>
         <span>Proofbox</span>
       </a>
-      <nav class="topbar-nav" aria-label="Lenses">
+      <nav class="topbar-nav" aria-label="Proofbox navigation">
         <a href="../">Link Lens</a>
         <a href="../bill/">Bill Lens</a>
         <a href="../letter/">Letter Lens</a>
         <a href="./" aria-current="page">Case File</a>
-        <a href="../vultr.html">Vultr Judges Page</a>
+        <a href="../vultr.html">Infrastructure</a>
+        <a href="../styleguide.html">System</a>
       </nav>
-      <div class="lang-picker">
-        <label for="case-lang-select" class="sr-only">Language</label>
-        <select id="case-lang-select" class="lang-select">
-          <option value="en">English</option>
-          <option value="zu">isiZulu</option>
-          <option value="af">Afrikaans</option>
-          <option value="st">Sesotho</option>
-        </select>
-      </div>
     </div>
   </header>
 
   <main id="main" class="app-main app-container">
-    <section class="intro mb-s4">
-      <span class="eyebrow">Private Forensic Case File</span>
-      <h1 id="page-title">Keep the evidence together.</h1>
-      <p class="text-muted max-w-680">
-        A case link is private. Anyone with this exact token link can view its verified evidence, statutory clocks, and receipts until it expires or is deleted.
-      </p>
-    </section>
+    <header class="page-heading">
+      <div>
+        <span class="eyebrow">04 / Case File · Evidence Ledger</span>
+        <h1 id="page-title">Keep the evidence together.</h1>
+        <p>A private case brings completed checks, statutory clocks, and verifiable receipts into one timeline.</p>
+      </div>
+      <aside class="page-heading-meta" aria-label="Case file access">
+        <div>PRIVATE TOKEN LINK</div>
+        <div>SHARE WITH CARE</div>
+        <div>DELETE ANY TIME</div>
+      </aside>
+    </header>
 
     <!-- Create Case Form Panel (shown when no hash token is present) -->
-    <section id="create-panel" class="card max-w-600 auto-center" aria-labelledby="create-title" hidden>
-      <h2 id="create-title" class="m-0">Create a private case file</h2>
-      <p class="text-sm text-muted">Initialize an encrypted case file with statutory deadline rules.</p>
-      <form class="form" id="create-form">
-        <div class="form-group">
-          <label class="form-label" for="case-title">Case title</label>
-          <input id="case-title" maxlength="120" value="Karoo Bay Water Dispute" required>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="rule-set">Statutory rule set</label>
-          <select id="rule-set">
-            <option value="municipal_billing">Municipal billing (Karoo Bay Metro)</option>
-            <option value="grant_review">Agency letter / grant review (Community Benefits Agency)</option>
-          </select>
-        </div>
-        <button type="submit" class="btn btn-primary w-full">
-          <span>Create private case</span>
-          <span aria-hidden="true">→</span>
-        </button>
-        <p id="create-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
-      </form>
+    <section id="create-panel" class="case-create-layout" aria-label="Create a private case file" hidden>
+      <section class="card case-create-form" aria-labelledby="create-title">
+        <span class="eyebrow">Start a case</span>
+        <h2 id="create-title" class="m-0">Create a private case file</h2>
+        <p class="text-sm text-muted">Choose a title and the rule set that matches your correspondence.</p>
+        <form class="form" id="create-form">
+          <div class="form-group">
+            <label class="form-label" for="case-title">Case title</label>
+            <input id="case-title" type="text" maxlength="120" value="Karoo Bay Water Dispute" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="rule-set">Statutory rule set</label>
+            <select id="rule-set">
+              <option value="municipal_billing">Municipal billing (Karoo Bay Metro)</option>
+              <option value="grant_review">Agency letter / grant review (Community Benefits Agency)</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-primary w-full">
+            <span>Create private case</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          <p id="create-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
+        </form>
+      </section>
+      <aside class="case-create-note">
+        <span class="eyebrow">Inside the file</span>
+        <ol class="case-create-steps">
+          <li><span>01</span><div><strong>Attach checks</strong><br><span class="text-sm text-muted">Bring link, bill, and letter findings into one record.</span></div></li>
+          <li><span>02</span><div><strong>Track deadlines</strong><br><span class="text-sm text-muted">See rule-driven clocks alongside the evidence timeline.</span></div></li>
+          <li><span>03</span><div><strong>Export receipts</strong><br><span class="text-sm text-muted">Generate a dated evidence pack when you need it.</span></div></li>
+        </ol>
+        <p class="text-xs text-muted">Anyone with the exact private token link can view a case. Share it only with people you trust.</p>
+      </aside>
     </section>
 
     <!-- Existing Case View (shown when hash token is present) -->
@@ -312,8 +381,8 @@
 
   <footer class="site-footer">
     <div class="site-footer-inner">
-      <div>Proofbox · Private Case Timeline</div>
-      <div>Synthetic test data only. Not legal advice.</div>
+      <div>Proofbox · Case File</div>
+      <div>Synthetic demo data only. Not legal advice.</div>
     </div>
   </footer>
 
@@ -333,7 +402,7 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script type="module">
-    import { el, formatDate, copyToClipboard, showToast, setupAccessibleDialog } from "../js/common.js";
+    import { el, formatDate, copyToClipboard, showToast, setupAccessibleDialog, createSvgIcon } from "../js/common.js";
 
     const API_BASE = (new URLSearchParams(location.search).get("api") || location.origin).replace(/\/+$/, "");
     const [caseId, accessToken] = decodeURIComponent(location.hash.slice(1)).split(".", 2);
@@ -408,12 +477,17 @@
 
       // Render Highlighted Next Action Card
       const next = $("#next-action");
+      const nextTitle = element("div", undefined, "next-action-title");
+      nextTitle.replaceChildren(
+        createSvgIcon("clock", "chip-icon"),
+        element("span", "Next Required Action")
+      );
       next.replaceChildren(
-        element("div", "★ Next Required Action", "next-action-title"),
+        nextTitle,
         element("div", data.next_action.text, "next-action-body")
       );
 
-      // Render Clocks with Word + Icon Status Chips
+      // Render Clocks with Word + SVG Status Chips
       const clocks = $("#clocks");
       clocks.replaceChildren();
       if (!data.clocks.length) {
@@ -421,7 +495,7 @@
       }
       for (const clock of data.clocks) {
         const state = clock.computed_state;
-        const icons = { upcoming: "○", due_soon: "◷", overdue: "!", met: "✓" };
+        const iconTypeMap = { upcoming: "clock", due_soon: "alert", overdue: "alert", met: "check" };
         const labels = { upcoming: "Upcoming", due_soon: "Due soon", overdue: "Overdue", met: "Met" };
 
         const item = element("article", undefined, "card clock-card");
@@ -429,7 +503,10 @@
         head.append(element("h3", clock.name, "text-sm"));
 
         const chip = element("span", undefined, `status-chip status-chip--${state}`);
-        chip.innerHTML = `<span aria-hidden="true">${icons[state] || "○"}</span> <span>${labels[state] || "Upcoming"}</span>`;
+        chip.replaceChildren(
+          createSvgIcon(iconTypeMap[state] || "clock", "chip-icon"),
+          element("span", labels[state] || "Upcoming")
+        );
         head.append(chip);
 
         item.append(
@@ -462,7 +539,12 @@
           element("strong", `[E${item.seq}]`, "receipt-chip"),
           element("h3", item.kind[0].toUpperCase() + item.kind.slice(1) + " Check", "text-sm")
         );
-        head.append(titleWrap, element("span", "✓ Verified", "status-chip status-chip--verified"));
+        const verifiedBadge = element("span", undefined, "status-chip status-chip--verified");
+        verifiedBadge.replaceChildren(
+          createSvgIcon("check", "chip-icon"),
+          element("span", "Verified")
+        );
+        head.append(titleWrap, verifiedBadge);
 
         card.append(
           head,
@@ -720,7 +802,7 @@
 
       // Mandatory honest footer banner on pack
       paper.append(
-        element("div", "Not legal advice. All claims are generated from verified deterministic code calculations and document receipts.", "alert-box alert-box--info text-xs")
+        element("div", "Not legal advice. All claims are generated from verified deterministic code calculations and document receipts.", "alert-box alert-box--info text-xs mt-s4")
       );
 
       preview.replaceChildren(paper);

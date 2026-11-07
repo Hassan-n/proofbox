@@ -4,13 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Proofbox · Design System Styleguide</title>
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/tokens.css?v=3">
+  <link rel="stylesheet" href="css/base.css?v=3">
+  <link rel="stylesheet" href="css/components.css?v=3">
   <style>
     .swatch-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
       gap: var(--s3);
       margin: var(--s3) 0 var(--s5);
     }
@@ -20,13 +20,15 @@
       overflow: hidden;
       font-size: var(--text-xs);
       background-color: var(--surface);
+      box-shadow: var(--shadow-1);
     }
     .swatch-color {
       height: 54px;
       width: 100%;
     }
-    .swatch-info {
+    .swatch-meta {
       padding: var(--s2);
+      background-color: var(--surface);
     }
     .swatch-name {
       font-weight: 700;
@@ -53,17 +55,12 @@
     .swatch-chamber-surface { background: var(--chamber-surface); }
     .swatch-danger { background: var(--danger); }
     .swatch-warn { background: var(--warn); }
-    .swatch-info { background: var(--info); }
+    .swatch-info-color { background: var(--info); }
     .swatch-ok { background: var(--ok); }
     .swatch-neutral { background: var(--neutral); }
     .swatch-text-ink { color: var(--white); background: var(--ink); }
     .swatch-text-chamber-bg { color: var(--white); background: var(--chamber-bg); }
     .swatch-text-chamber-surf { color: var(--white); background: var(--chamber-surface); }
-    .event-queued { border-left-color: var(--chamber-sky); }
-    .event-blocked { border-left-color: var(--danger); }
-    .event-quarantined { border-left-color: var(--warn); }
-    .event-ignored { border-left-color: var(--chamber-sky); }
-    .event-destroyed { border-left-color: var(--chamber-emerald); }
     .fill-94 { width: 94%; }
     .fill-75-info { width: 75%; background-color: var(--info); }
     .advice-border-info { border-left-color: var(--info); }
@@ -75,10 +72,12 @@
   <!-- Persistent App Shell -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
-      <span>Synthetic data only. Please do not upload real documents.</span>
+      <span>Synthetic demo testing environment. Please do not upload real citizen documents.</span>
     </div>
     <div class="topbar-inner">
       <a class="brand" href="./" aria-label="Proofbox Home">
@@ -121,30 +120,30 @@
 
       <h3>Surfaces &amp; Lines</h3>
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color swatch-paper"></div><div class="swatch-info"><div class="swatch-name">Paper</div><div class="swatch-hex">#F7F5F0</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-surface"></div><div class="swatch-info"><div class="swatch-name">Surface</div><div class="swatch-hex">#FFFFFF</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-sunken"></div><div class="swatch-info"><div class="swatch-name">Sunken</div><div class="swatch-hex">#EFECE4</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-line"></div><div class="swatch-info"><div class="swatch-name">Line</div><div class="swatch-hex">#D9D4C7</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-ink"></div><div class="swatch-info"><div class="swatch-name swatch-text-ink">Ink</div><div class="swatch-hex">#14202B</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-ink-muted"></div><div class="swatch-info"><div class="swatch-name">Ink Muted</div><div class="swatch-hex">#4B5966</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-paper"></div><div class="swatch-meta"><div class="swatch-name">Paper</div><div class="swatch-hex">var(--paper)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-surface"></div><div class="swatch-meta"><div class="swatch-name">Surface</div><div class="swatch-hex">var(--surface)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-sunken"></div><div class="swatch-meta"><div class="swatch-name">Sunken</div><div class="swatch-hex">var(--surface-sunken)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-line"></div><div class="swatch-meta"><div class="swatch-name">Line</div><div class="swatch-hex">var(--line)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-ink"></div><div class="swatch-meta"><div class="swatch-name swatch-text-ink">Ink</div><div class="swatch-hex">var(--ink)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-ink-muted"></div><div class="swatch-meta"><div class="swatch-name">Ink Muted</div><div class="swatch-hex">var(--ink-muted)</div></div></div>
       </div>
 
       <h3>Brand &amp; Containment Chamber</h3>
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color swatch-brand"></div><div class="swatch-info"><div class="swatch-name">Brand Teal</div><div class="swatch-hex">#0F6B64</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-brand-strong"></div><div class="swatch-info"><div class="swatch-name">Brand Strong</div><div class="swatch-hex">#0A4F4A</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-brand-tint"></div><div class="swatch-info"><div class="swatch-name">Brand Tint</div><div class="swatch-hex">#E2F1EF</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-chamber-bg"></div><div class="swatch-info"><div class="swatch-name swatch-text-chamber-bg">Chamber BG</div><div class="swatch-hex">#0B1620</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-chamber-surface"></div><div class="swatch-info"><div class="swatch-name swatch-text-chamber-surf">Chamber Surface</div><div class="swatch-hex">#12212E</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-brand"></div><div class="swatch-meta"><div class="swatch-name">Brand Teal</div><div class="swatch-hex">var(--brand)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-brand-strong"></div><div class="swatch-meta"><div class="swatch-name">Brand Strong</div><div class="swatch-hex">var(--brand-strong)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-brand-tint"></div><div class="swatch-meta"><div class="swatch-name">Brand Tint</div><div class="swatch-hex">var(--brand-tint)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-chamber-bg"></div><div class="swatch-meta"><div class="swatch-name swatch-text-chamber-bg">Chamber BG</div><div class="swatch-hex">var(--chamber-bg)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-chamber-surface"></div><div class="swatch-meta"><div class="swatch-name swatch-text-chamber-surf">Chamber Surface</div><div class="swatch-hex">var(--chamber-surface)</div></div></div>
       </div>
 
       <h3>Status Colors (Contrast Verified)</h3>
       <div class="swatch-grid">
-        <div class="swatch"><div class="swatch-color swatch-danger"></div><div class="swatch-info"><div class="swatch-name">Danger</div><div class="swatch-hex">#B42318</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-warn"></div><div class="swatch-info"><div class="swatch-name">Warn</div><div class="swatch-hex">#A15C07</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-info"></div><div class="swatch-info"><div class="swatch-name">Info (No Issue)</div><div class="swatch-hex">#1F5F99</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-ok"></div><div class="swatch-info"><div class="swatch-name">Ok (Process)</div><div class="swatch-hex">#1B6B3A</div></div></div>
-        <div class="swatch"><div class="swatch-color swatch-neutral"></div><div class="swatch-info"><div class="swatch-name">Neutral</div><div class="swatch-hex">#5A6672</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-danger"></div><div class="swatch-meta"><div class="swatch-name">Danger</div><div class="swatch-hex">var(--danger)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-warn"></div><div class="swatch-meta"><div class="swatch-name">Warn</div><div class="swatch-hex">var(--warn)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-info-color"></div><div class="swatch-meta"><div class="swatch-name">Info (No Issue)</div><div class="swatch-hex">var(--info)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-ok"></div><div class="swatch-meta"><div class="swatch-name">Ok (Process)</div><div class="swatch-hex">var(--ok)</div></div></div>
+        <div class="swatch"><div class="swatch-color swatch-neutral"></div><div class="swatch-meta"><div class="swatch-name">Neutral</div><div class="swatch-hex">var(--neutral)</div></div></div>
       </div>
     </section>
 
@@ -152,7 +151,7 @@
 
     <!-- SECTION 2: BUTTONS -->
     <section aria-labelledby="buttons-title">
-      <h2 id="buttons-title">2. Buttons &amp; Interactive Actions (Min 48px Touch Target)</h2>
+      <h2 id="buttons-title">2. Buttons &amp; Interactive Actions (Min 44px Touch Target)</h2>
       <div class="flex-row mb-s4">
         <button type="button" class="btn btn-primary">Primary Action</button>
         <button type="button" class="btn btn-secondary">Secondary Action</button>
@@ -177,35 +176,95 @@
 
     <!-- SECTION 3: STATUS CHIPS -->
     <section aria-labelledby="status-title">
-      <h2 id="status-title">3. Status Chips (Always Word + Icon)</h2>
-      <p class="text-sm text-muted">WCAG AA Rule: Status must never be conveyed by color alone.</p>
+      <h2 id="status-title">3. Status Chips (Always Word + SVG Icon)</h2>
+      <p class="text-sm text-muted">WCAG AA Rule: Status must never be conveyed by color alone. Every chip pairs a semantic SVG with honest plain words.</p>
+      
       <div class="flex-row mb-s3">
         <span class="status-chip status-chip--dangerous">
-          <span aria-hidden="true">▲</span> Dangerous
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Dangerous</span>
         </span>
         <span class="status-chip status-chip--suspicious">
-          <span aria-hidden="true">●</span> Suspicious
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Suspicious</span>
         </span>
         <span class="status-chip status-chip--no_issue_found">
-          <span aria-hidden="true">ℹ</span> No Issue Found
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>No Issue Found</span>
         </span>
         <span class="status-chip status-chip--could_not_check">
-          <span aria-hidden="true">?</span> Could Not Check
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="16" x2="12" y2="12"></line>
+            <line x1="12" y1="8" x2="12.01" y2="8"></line>
+          </svg>
+          <span>Could Not Check</span>
         </span>
       </div>
 
       <div class="flex-row mb-s3">
-        <span class="status-chip status-chip--upcoming"><span aria-hidden="true">○</span> Upcoming</span>
-        <span class="status-chip status-chip--due_soon"><span aria-hidden="true">◷</span> Due Soon</span>
-        <span class="status-chip status-chip--overdue"><span aria-hidden="true">!</span> Overdue</span>
-        <span class="status-chip status-chip--met"><span aria-hidden="true">✓</span> Met</span>
-        <span class="status-chip status-chip--verified"><span aria-hidden="true">✓</span> Verified</span>
+        <span class="status-chip status-chip--upcoming">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Upcoming</span>
+        </span>
+        <span class="status-chip status-chip--due_soon">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <span>Due Soon</span>
+        </span>
+        <span class="status-chip status-chip--overdue">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"></polygon>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          <span>Overdue</span>
+        </span>
+        <span class="status-chip status-chip--met">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Met</span>
+        </span>
+        <span class="status-chip status-chip--verified">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+          <span>Verified</span>
+        </span>
       </div>
 
       <div class="flex-row">
-        <span class="status have">✓ Have document</span>
-        <span class="status missing">✕ Missing document</span>
-        <span class="status needs_fixing">! Needs fixing</span>
+        <span class="status have">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          <span>Have document</span>
+        </span>
+        <span class="status missing">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          <span>Missing document</span>
+        </span>
+        <span class="status needs_fixing">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>Needs fixing</span>
+        </span>
       </div>
     </section>
 
@@ -220,7 +279,7 @@
         <div class="containment-header">
           <div class="containment-title-group">
             <span class="containment-badge">Sandbox</span>
-            <span class="font-mono text-xs">job-7c3a4f1e</span>
+            <span class="font-mono text-xs text-muted">job-7c3a4f1e</span>
           </div>
           <div class="flex-row">
             <span class="containment-live-pill">
@@ -233,46 +292,46 @@
 
         <div class="containment-summary">
           <div class="containment-summary-item">
-            <span>Blocked:</span> <span class="containment-summary-count">2</span>
+            <span class="text-muted">Blocked:</span> <span class="containment-summary-count">2</span>
           </div>
           <div class="containment-summary-item">
-            <span>Quarantined:</span> <span class="containment-summary-count">1</span>
+            <span class="text-muted">Quarantined:</span> <span class="containment-summary-count">1</span>
           </div>
           <div class="containment-summary-item">
-            <span>Ignored:</span> <span class="containment-summary-count">1</span>
+            <span class="text-muted">Ignored:</span> <span class="containment-summary-count">1</span>
           </div>
         </div>
 
         <ol class="containment-events" aria-live="polite">
-          <li class="containment-event-row event-queued">
+          <li class="containment-event-row" style="border-left-color: var(--chamber-cyan);">
             <span class="containment-event-time">21:10:02</span>
             <div class="containment-event-body">
               <span class="containment-event-tag">QUEUED</span>
               <span>Container initialized in isolated sandbox with zero host access.</span>
             </div>
           </li>
-          <li class="containment-event-row event-blocked">
+          <li class="containment-event-row" style="border-left-color: var(--chamber-red);">
             <span class="containment-event-time">21:10:05</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-blocked">BLOCKED</span>
               <span>Blocked: tried to reach internal network 10.0.0.5:8080</span>
             </div>
           </li>
-          <li class="containment-event-row event-quarantined">
+          <li class="containment-event-row" style="border-left-color: var(--chamber-amber);">
             <span class="containment-event-time">21:10:08</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-quarantined">QUARANTINED</span>
               <span>Download intercepted: payload.bin (14.2 KB, sha256: 7f8a...c91) never opened.</span>
             </div>
           </li>
-          <li class="containment-event-row event-ignored">
+          <li class="containment-event-row" style="border-left-color: var(--chamber-blue);">
             <span class="containment-event-time">21:10:11</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-ignored">IGNORED</span>
               <span>Prompt injection instruction removed from document; did not change the result.</span>
             </div>
           </li>
-          <li class="containment-event-row event-destroyed">
+          <li class="containment-event-row" style="border-left-color: var(--chamber-green);">
             <span class="containment-event-time">21:10:14</span>
             <div class="containment-event-body">
               <span class="containment-event-tag tag-destroyed">DESTROYED</span>
@@ -289,11 +348,12 @@
     <section aria-labelledby="verdict-title-sec">
       <h2 id="verdict-title-sec">5. Verdict Card &amp; Mandatory Honest Wording</h2>
 
-      <div class="grid-equal-2col">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--s4);">
         <!-- Dangerous Verdict -->
         <article class="verdict-card">
           <span class="status-chip status-chip--dangerous">
-            <span aria-hidden="true">▲</span> Dangerous
+            <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            <span>Dangerous</span>
           </span>
           <h3 class="verdict-heading">Do not enter personal details on this link.</h3>
 
@@ -321,7 +381,8 @@
         <!-- No Issue Found Verdict (Info Blue, Never Green Safe) -->
         <article class="verdict-card">
           <span class="status-chip status-chip--no_issue_found">
-            <span aria-hidden="true">ℹ</span> No Issue Found
+            <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>No Issue Found</span>
           </span>
           <h3 class="verdict-heading">No signs of tampering or unauthorized network calls.</h3>
 
@@ -352,7 +413,7 @@
 
     <!-- SECTION 6: CHAT INTAKE BUBBLES -->
     <section aria-labelledby="chat-title">
-      <h2 id="chat-title">6. Chat Intake &amp; Router Bubbles</h2>
+      <h2 id="chat-title">6. Chat Intake &amp; Prompt Chips</h2>
 
       <div class="card">
         <div class="chat-container">
@@ -362,13 +423,16 @@
 
           <div class="prompt-chips">
             <button type="button" class="prompt-chip">
-              <span aria-hidden="true">📱</span> Suspicious SMS with payment link
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+              <span>Suspicious SMS with payment link</span>
             </button>
             <button type="button" class="prompt-chip">
-              <span aria-hidden="true">💧</span> Unexpected municipal water bill
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path></svg>
+              <span>Unexpected municipal water bill</span>
             </button>
             <button type="button" class="prompt-chip">
-              <span aria-hidden="true">📄</span> Agency grant deadline letter
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+              <span>Agency grant deadline letter</span>
             </button>
           </div>
 
@@ -388,7 +452,7 @@
 
     <!-- SECTION 7: DISCREPANCY TABLE (BILL LENS) -->
     <section aria-labelledby="table-title">
-      <h2 id="table-title">7. Discrepancy Table (Reflows to Cards at 360px)</h2>
+      <h2 id="table-title">7. Discrepancy Table (Reflows to Cards at 640px)</h2>
 
       <div class="discrepancy-table-wrap">
         <table class="discrepancy-table">
@@ -408,7 +472,8 @@
               <td data-label="Recomputed">R 620.00</td>
               <td data-label="Difference">
                 <span class="discrepancy-diff">
-                  <span aria-hidden="true">▲</span> +R 220.50
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+                  <span>+R 220.50</span>
                 </span>
               </td>
               <td data-label="Receipt">
@@ -439,7 +504,11 @@
 
       <div class="next-action-card mb-s4">
         <div class="next-action-title">
-          <span aria-hidden="true">★</span> Next Required Action
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Next Required Action</span>
         </div>
         <div class="next-action-body">
           Deliver the formal dispute letter to Karoo Bay Metro customer center before the 14-day statutory clock runs out.
@@ -452,7 +521,10 @@
           <div class="timeline-card">
             <div class="flex-between">
               <strong>Water Bill Checked</strong>
-              <span class="status-chip status-chip--verified">✓ Verified</span>
+              <span class="status-chip status-chip--verified">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Verified</span>
+              </span>
             </div>
             <p class="text-sm text-muted">A6 water bill recomputed against published Karoo Bay Metro 2026 tariff gazette.</p>
             <div class="flex-row">
@@ -467,7 +539,10 @@
           <div class="timeline-card">
             <div class="flex-between">
               <strong>Letter Generated</strong>
-              <span class="status-chip status-chip--verified">✓ Verified</span>
+              <span class="status-chip status-chip--verified">
+                <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>Verified</span>
+              </span>
             </div>
             <p class="text-sm text-muted">Dispute letter drafted with code-verified claim amounts.</p>
             <div class="flex-row">

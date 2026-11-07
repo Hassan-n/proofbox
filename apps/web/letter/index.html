@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="no-referrer">
-  <meta name="theme-color" content="#F7F5F0">
+  <meta name="theme-color" content="#F8FAFC">
   <title>Proofbox | Letter Lens</title>
-  <link rel="stylesheet" href="../css/tokens.css">
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="../css/tokens.css?v=6">
+  <link rel="stylesheet" href="../css/base.css?v=6">
+  <link rel="stylesheet" href="../css/components.css?v=6">
   <style>
     .letter-grid {
       display: grid;
@@ -45,6 +45,30 @@
       gap: var(--s2);
       font-size: var(--text-sm);
     }
+    .letter-upload-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--s3) var(--s4);
+      margin-top: var(--s4);
+    }
+    .letter-upload-form .form-group {
+      min-width: 0;
+      margin-bottom: 0;
+    }
+    .letter-upload-form .letter-trust-note,
+    .letter-upload-form #submit-button,
+    .letter-upload-form #upload-message {
+      grid-column: 1 / -1;
+    }
+    .letter-trust-note {
+      border-left: 2px solid var(--brand);
+      padding-left: var(--s3);
+    }
+    @media (max-width: 700px) {
+      .letter-upload-form {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
@@ -53,51 +77,48 @@
   <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-        <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 3a.75.75 0 0 1 .75.75v3.5a.75.75 0 0 1-1.5 0v-3.5A.75.75 0 0 1 8 4zm0 7a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
       </svg>
-      <span>Synthetic data only. Please do not upload real documents.</span>
+      <span>Synthetic demo environment. Do not upload real records.</span>
     </div>
     <div class="topbar-inner">
       <a class="brand" href="../" aria-label="Proofbox Home">
         <span class="brand-mark" aria-hidden="true">P</span>
         <span>Proofbox</span>
       </a>
-      <nav class="topbar-nav" aria-label="Lenses">
+      <nav class="topbar-nav" aria-label="Proofbox navigation">
         <a href="../">Link Lens</a>
         <a href="../bill/">Bill Lens</a>
         <a href="./" aria-current="page">Letter Lens</a>
         <a href="../case/">Case File</a>
-        <a href="../vultr.html">Vultr Judges Page</a>
+        <a href="../vultr.html">Infrastructure</a>
+        <a href="../styleguide.html">System</a>
       </nav>
-      <div class="lang-picker">
-        <label for="letter-lang-select" class="sr-only">Language</label>
-        <select id="letter-lang-select" class="lang-select">
-          <option value="en">English</option>
-          <option value="zu">isiZulu</option>
-          <option value="af">Afrikaans</option>
-          <option value="st">Sesotho</option>
-        </select>
-      </div>
     </div>
   </header>
 
-  <main id="main" class="app-main app-container container-narrow">
+  <main id="main" class="app-main app-container">
     <!-- Screen Header -->
-    <section class="mb-s5">
-      <span class="eyebrow">Letter &amp; Document Review</span>
-      <h1>Read the letter. Check the paperwork.</h1>
-      <p class="text-muted">
-        Letter text is analyzed to extract dates, references, and required paperwork.
-        Supporting PDFs are inspected in a sealed code sandbox with zero network access; they are never sent to a model.
-        Checks are layout-based and do not authenticate documents.
-      </p>
-    </section>
+    <header class="page-heading">
+      <div>
+        <span class="eyebrow">03 / Letter Lens · Document Review</span>
+        <h1>Read the letter. Check the paperwork.</h1>
+        <p>Extract dates and requirements from an agency letter, then check supporting PDFs in a sealed sandbox. Layout checks do not authenticate documents.</p>
+      </div>
+      <aside class="page-heading-meta" aria-label="Document review limits">
+        <div>LETTER + UP TO 4 PDFs</div>
+        <div>NO NETWORK ACCESS</div>
+        <div>LAYOUT CHECKS ONLY</div>
+      </aside>
+    </header>
 
     <!-- Upload Panel Card -->
     <section class="card" aria-labelledby="upload-heading">
       <h2 id="upload-heading" class="m-0 text-lg">Upload PDFs</h2>
-      <form class="form" id="upload-form">
+      <form class="form letter-upload-form" id="upload-form">
         <div class="form-group">
           <label class="form-label" for="letter-file">Official agency letter (PDF, max 5 MB)</label>
           <input id="letter-file" type="file" accept="application/pdf,.pdf" required>
@@ -108,7 +129,7 @@
           <input id="supporting-files" type="file" accept="application/pdf,.pdf" multiple>
         </div>
 
-        <div class="card bg-sunken p-s3 mt-s2 mb-s2">
+        <div class="letter-trust-note bg-sunken p-s3 mt-s2 mb-s2">
           <p class="text-xs text-muted mb-s1">
             <strong>Synthetic demo samples:</strong>
             <a href="samples/A9_letter.pdf" download>A9 agency letter</a> ·
@@ -123,7 +144,10 @@
 
         <button id="submit-button" class="btn btn-primary w-full mt-s3" type="submit">
           <span>Check letter and paperwork</span>
-          <span aria-hidden="true">→</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </button>
         <p id="upload-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
       </form>
@@ -134,7 +158,7 @@
       <div class="containment-header">
         <div class="containment-title-group">
           <span class="containment-badge">Sandbox</span>
-          <span class="font-mono text-xs" id="job-id"></span>
+          <span class="font-mono text-xs text-muted" id="job-id"></span>
         </div>
         <div class="flex-row">
           <span class="containment-live-pill">
@@ -144,8 +168,8 @@
         </div>
       </div>
       <div class="p-s4">
-        <h3 class="mb-s2 text-md text-chamber">Check Progress</h3>
-        <p id="job-status" class="font-mono text-xs m-0 text-chamber-muted"></p>
+        <h3 class="mb-s2 text-md" style="color: var(--chamber-text);">Check Progress</h3>
+        <p id="job-status" class="font-mono text-xs m-0" style="color: var(--chamber-muted);"></p>
       </div>
     </section>
 
@@ -156,7 +180,12 @@
         <article class="card" aria-labelledby="details-heading">
           <div class="card-head">
             <h2 id="details-heading" class="m-0 text-md">Letter Details</h2>
-            <span class="status-chip status-chip--verified">✓ Parsed</span>
+            <span class="status-chip status-chip--verified">
+              <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span>Parsed</span>
+            </span>
           </div>
           <div id="letter-fields" class="fields-col"></div>
         </article>
@@ -174,7 +203,11 @@
       <!-- Next Steps & Case Linking Card -->
       <section class="card next-action-card mt-s4">
         <div class="next-action-title">
-          <span aria-hidden="true">★</span> Next Required Action
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Next Required Action</span>
         </div>
         <p class="next-action-body">
           Deadlines and appointment dates appear on your private case timeline once you attach this result.
@@ -182,7 +215,13 @@
         </p>
         <div class="flex-row mt-s2">
           <button id="attach-button" class="btn btn-primary btn-sm" type="button" hidden>Add result to this case file</button>
-          <a id="open-case" class="btn btn-secondary btn-sm" href="../case/" hidden>Open case timeline →</a>
+          <a id="open-case" class="btn btn-secondary btn-sm" href="../case/" hidden>
+            <span>Open case timeline</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </a>
           <button id="copy-job" class="btn btn-quiet btn-sm" type="button">Copy job ID</button>
         </div>
         <p id="attach-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
@@ -199,14 +238,14 @@
   <footer class="site-footer">
     <div class="site-footer-inner">
       <div>Proofbox · Letter Lens</div>
-      <div>Synthetic demo documents only. Not legal advice.</div>
+      <div>Synthetic demo data only. Not legal advice.</div>
     </div>
   </footer>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script type="module">
-    import { copyToClipboard, showToast } from "../js/common.js";
+    import { copyToClipboard, showToast, createSvgIcon } from "../js/common.js";
 
     const params = new URLSearchParams(location.search);
     const apiBase = (params.get("api") || "").replace(/\/+$/, "");
@@ -218,6 +257,7 @@
 
     function byId(id) { return document.getElementById(id); }
     function setText(id, value) { byId(id).textContent = value || ""; }
+
     function safeFileName(file) { return file.name.split(/[\\/]/).pop(); }
     
     function toBase64(file) {
@@ -283,8 +323,11 @@
 
         const badge = document.createElement("span");
         badge.className = `status ${item.status}`;
-        const icon = item.status === "have" ? "✓" : item.status === "missing" ? "✕" : "!";
-        badge.innerHTML = `<span aria-hidden="true">${icon}</span> <span>${item.status.replaceAll("_", " ")}</span>`;
+        const iconType = item.status === "have" ? "check" : item.status === "missing" ? "cross" : "alert";
+        badge.replaceChildren(
+          createSvgIcon(iconType, "chip-icon"),
+          document.createTextNode(` ${item.status.replaceAll("_", " ")}`)
+        );
 
         heading.append(title, badge);
         const reason = document.createElement("p");

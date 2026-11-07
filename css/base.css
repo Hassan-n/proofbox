@@ -1,6 +1,6 @@
 /* ==========================================================================
    Proofbox Central Design System · Base & Primitives
-   Reset, Typography, Layout Primitives, Accessibility Defaults
+   Reset, Typography Hierarchy, Layout Primitives, Accessibility Standards
    ========================================================================== */
 
 /* Universal Reset & Box Sizing */
@@ -16,7 +16,7 @@ html {
   -webkit-text-size-adjust: 100%;
   tab-size: 4;
   scroll-behavior: smooth;
-  scroll-padding-top: var(--s6);
+  scroll-padding-top: var(--s7);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -29,15 +29,23 @@ body {
   margin: 0;
   padding: 0;
   background-color: var(--paper);
+  background-image: radial-gradient(at 50% 0%, #FFFFFF 0%, var(--paper) 70%);
+  background-attachment: fixed;
   color: var(--ink);
   font-family: var(--font-sans);
-  font-size: var(--text-md);
+  font-size: var(--text-base);
   line-height: var(--leading);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background-color: var(--brand-tint);
+  color: var(--brand-strong);
 }
 
 /* Typography Hierarchy */
@@ -48,25 +56,30 @@ h1, h2, h3, h4, h5, h6 {
   line-height: var(--leading-tight);
   margin-top: 0;
   margin-bottom: var(--s3);
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
   overflow-wrap: break-word;
 }
 
 h1 {
-  font-size: clamp(1.75rem, 5vw, 2.5rem);
-  letter-spacing: -0.025em;
+  font-size: clamp(1.45rem, 5vw, 2.5rem);
+  letter-spacing: -0.03em;
+  font-weight: 800;
+  line-height: 1.15;
 }
 
 h2 {
-  font-size: clamp(1.35rem, 3.5vw, 1.75rem);
+  font-size: clamp(1.35rem, 2.5vw, 1.85rem);
+  letter-spacing: -0.02em;
 }
 
 h3 {
   font-size: var(--text-lg);
+  font-weight: 700;
 }
 
 h4 {
-  font-size: var(--text-md);
+  font-size: var(--text-base);
+  font-weight: 600;
 }
 
 p {
@@ -90,10 +103,23 @@ small, .text-sm {
   color: var(--ink-muted);
 }
 
-/* Monospace & Code */
+.text-faint {
+  color: var(--ink-faint);
+}
+
+/* Monospace & Forensic Code Display */
 code, kbd, samp, pre, .font-mono {
   font-family: var(--font-mono);
   font-size: 0.9em;
+  font-feature-settings: "tnum" 1;
+}
+
+code {
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--line);
+  padding: 0.15em 0.4em;
+  border-radius: var(--radius-xs);
+  color: var(--brand-strong);
 }
 
 pre {
@@ -105,6 +131,7 @@ pre {
   overflow-x: auto;
   white-space: pre-wrap;
   word-break: break-all;
+  line-height: 1.5;
 }
 
 /* Links */
@@ -112,7 +139,7 @@ a {
   color: var(--brand);
   text-decoration-thickness: 1.5px;
   text-underline-offset: 3px;
-  transition: color var(--dur) var(--ease);
+  transition: color var(--dur) var(--ease), text-decoration-color var(--dur) var(--ease);
 }
 
 a:hover {
@@ -126,11 +153,11 @@ img, svg, video, canvas {
   height: auto;
 }
 
-/* Keyboard Focus Defaults */
+/* Keyboard Focus Standard (WCAG 2.4.7 AA) */
 :focus-visible {
   outline: none;
   box-shadow: var(--focus);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
 }
 
 /* Skip Navigation Link */
@@ -154,7 +181,7 @@ img, svg, video, canvas {
   transform: translateY(0);
 }
 
-/* Screen Reader Only Utility */
+/* Accessible Screen Reader Only Utility */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -164,68 +191,54 @@ img, svg, video, canvas {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
-  border-width: 0;
+  border: 0;
 }
 
-/* Layout Primitives */
+/* App Container & Max Width Constraints */
 .app-container {
   width: 100%;
-  max-width: 1120px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: var(--s4);
-  padding-right: var(--s4);
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--s4);
+}
+
+@media (min-width: 768px) {
+  .app-container {
+    padding: var(--s5) var(--s6);
+  }
+}
+
+.container-narrow {
+  max-width: 840px;
 }
 
 .app-main {
-  flex: 1 0 auto;
-  padding-top: var(--s5);
-  padding-bottom: var(--s7);
+  flex: 1;
 }
 
-/* Responsive Grid Primitives (Mobile First: stacks at 360px, splits on desktop) */
-.grid-2col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s5);
+/* Eyebrow Label (Direction C: Modern Pill) */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s2);
+  font-family: var(--font-sans);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  background: var(--brand-tint);
+  border: 1px solid var(--brand-border);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--s3);
 }
 
-@media (min-width: 840px) {
-  .grid-2col {
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
-    align-items: start;
-  }
-}
-
-.grid-equal-2col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s4);
-}
-
-@media (min-width: 640px) {
-  .grid-equal-2col {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-.grid-3col {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--s4);
-}
-
-@media (min-width: 680px) {
-  .grid-3col {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-}
-
-/* Flexbox Helpers */
+/* Utility Flex & Alignment */
 .flex-row {
   display: flex;
   align-items: center;
-  gap: var(--s3);
+  gap: var(--s2);
   flex-wrap: wrap;
 }
 
@@ -237,34 +250,30 @@ img, svg, video, canvas {
   flex-wrap: wrap;
 }
 
-.flex-col {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s3);
+.w-full {
+  width: 100%;
 }
 
-/* Plain Language Eyebrow Label */
-.eyebrow {
-  display: inline-block;
-  text-transform: uppercase;
-  font-size: var(--text-xs);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  color: var(--brand);
-  margin-bottom: var(--s2);
+.cursor-pointer {
+  cursor: pointer;
 }
 
-/* Zero-Inline-Style Utility Primitives */
-.w-full { width: 100%; }
-.flex-1 { flex: 1; min-width: 0; }
-.text-center { text-align: center; }
-.text-right { text-align: right; }
-.max-w-600 { max-width: 600px; }
-.max-w-680 { max-width: 680px; }
-.max-w-720 { max-width: 720px; }
-.container-narrow { max-width: 880px; margin-left: auto; margin-right: auto; }
+.text-right {
+  text-align: right;
+}
 
-.m-0 { margin: 0; }
+.text-center {
+  text-align: center;
+}
+
+.font-semibold {
+  font-weight: 600;
+}
+
+.max-w-680 {
+  max-width: 680px;
+}
+
 .mt-s1 { margin-top: var(--s1); }
 .mt-s2 { margin-top: var(--s2); }
 .mt-s3 { margin-top: var(--s3); }
@@ -272,27 +281,32 @@ img, svg, video, canvas {
 .mt-s5 { margin-top: var(--s5); }
 .mt-s6 { margin-top: var(--s6); }
 
-.mb-0 { margin-bottom: 0; }
 .mb-s1 { margin-bottom: var(--s1); }
 .mb-s2 { margin-bottom: var(--s2); }
 .mb-s3 { margin-bottom: var(--s3); }
 .mb-s4 { margin-bottom: var(--s4); }
 .mb-s5 { margin-bottom: var(--s5); }
 
+.p-s2 { padding: var(--s2); }
 .p-s3 { padding: var(--s3); }
 .p-s4 { padding: var(--s4); }
-.pt-s2 { padding-top: var(--s2); }
-.pt-s3 { padding-top: var(--s3); }
-.pt-s4 { padding-top: var(--s4); }
+.p-s5 { padding: var(--s5); }
 
 .border-t { border-top: 1px solid var(--line); }
-.border-t-chamber { border-top: 1px solid var(--chamber-line); }
-.border-l-brand { border-left: 5px solid var(--brand); }
-.auto-center { margin-left: auto; margin-right: auto; }
+.border-b { border-bottom: 1px solid var(--line); }
+.pt-s3 { padding-top: var(--s3); }
+.pt-s4 { padding-top: var(--s4); }
+.pb-s3 { padding-bottom: var(--s3); }
+.pb-s4 { padding-bottom: var(--s4); }
+
 .bg-sunken { background-color: var(--surface-sunken); }
 .bg-chamber-surface { background-color: var(--chamber-surface); }
-.text-chamber { color: var(--chamber-text); }
-.text-chamber-muted { color: var(--chamber-muted); }
-.modal-scroll-body { max-height: 60vh; overflow-y: auto; }
-.screenshot-preview { border: 1px solid var(--line); border-radius: var(--radius-sm); max-height: 380px; object-fit: contain; background: var(--surface-sunken); }
+.border-t-chamber { border-top: 1px solid var(--chamber-line); }
 
+.screenshot-preview {
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  max-height: 380px;
+  object-fit: contain;
+  background: var(--surface-sunken);
+}

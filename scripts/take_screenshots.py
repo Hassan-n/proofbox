@@ -46,25 +46,43 @@ VIEWPORTS = [
     (1280, 800, "1280px"),
 ]
 
+import tempfile
+
 print(f"Taking screenshots using {CHROME_PATH}...")
 for screen_name, path in SCREENS:
     for width, height, label in VIEWPORTS:
         out_file = OUT_DIR / f"{screen_name}-{label}.png"
         url = f"http://127.0.0.1:{PORT}{path}"
-        cmd = [
-            CHROME_PATH,
-            "--headless=new",
-            "--disable-gpu",
-            "--hide-scrollbars",
-            f"--window-size={width},{height}",
-            f"--screenshot={out_file}",
-            url
-        ]
-        res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20)
-        if out_file.exists():
-            print(f"Captured: {out_file.name} ({out_file.stat().st_size} bytes)")
-        else:
-            print(f"Failed to capture: {out_file.name}")
+        with tempfile.TemporaryDirectory(prefix="shot_prof_") as temp_dir:
+            cmd = [
+                CHROME_PATH,
+                "--headless=new",
+                "--disable-gpu",
+                "--no-sandbox",
+                "--no-first-run",
+                "--no-default-browser-check",
+                "--disable-background-networking",
+                f"--user-data-dir={temp_dir}",
+                "--hide-scrollbars",
+                f"--window-size={width},{height}",
+                f"--screenshot={out_file}",
+                url
+            ]
+            max_attempts = 2
+            for attempt in range(max_attempts):
+                try:
+                    res = subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=25)
+                    if out_file.exists():
+                        print(f"Captured: {out_file.name} ({out_file.stat().st_size} bytes)", flush=True)
+                        break
+                    else:
+                        print(f"Failed to capture: {out_file.name}", flush=True)
+                except subprocess.TimeoutExpired:
+                    if attempt < max_attempts - 1:
+                        print(f"Retrying {out_file.name}...", flush=True)
+                        time.sleep(1)
+                    else:
+                        print(f"Timeout capturing {out_file.name}", flush=True)
 
 print("All screenshots captured!")
 
