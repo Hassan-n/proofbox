@@ -6,7 +6,7 @@
 
 export const PROOFBOX_NAME = "Proofbox";
 export const BRAND_LINE = "Open nothing unsafely. Believe nothing unproven. Fight with receipts.";
-export const DEPLOYED_API_URL = "http://zzarudpebhfzoohnpppp0snw.64.177.59.98.sslip.io";
+export const DEPLOYED_API_URL = "https://zzarudpebhfzoohnpppp0snw.64.177.59.98.sslip.io";
 
 /**
  * Resolves the API base URL.
