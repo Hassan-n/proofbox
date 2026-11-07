@@ -457,9 +457,9 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script type="module">
-    import { el, formatDate, copyToClipboard, showToast, setupAccessibleDialog, createSvgIcon } from "../js/common.js";
+    import { el, formatDate, copyToClipboard, showToast, setupAccessibleDialog, createSvgIcon, getApiBase } from "../js/common.js";
 
-    const API_BASE = (new URLSearchParams(location.search).get("api") || location.origin).replace(/\/+$/, "");
+    const API_BASE = getApiBase();
     const [caseId, accessToken] = decodeURIComponent(location.hash.slice(1)).split(".", 2);
     const $ = (selector) => document.querySelector(selector);
     const esc = (value) => String(value ?? "");
