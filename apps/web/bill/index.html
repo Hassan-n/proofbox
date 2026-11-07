@@ -1,23 +1,27 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#F8FAFC">
   <title>Proofbox | Bill Lens</title>
-  <meta name="description" content="Upload your municipal water bill. Proofbox recomputes it from the published tariff and gives you a receipt for every finding.">
+  <meta name="description"
+    content="Upload your municipal water bill. Proofbox recomputes it from the published tariff and gives you a receipt for every finding.">
   <link rel="stylesheet" href="../css/tokens.css?v=6">
   <link rel="stylesheet" href="../css/base.css?v=6">
   <link rel="stylesheet" href="../css/components.css?v=6">
   <link rel="stylesheet" href="bill.css?v=6">
 </head>
+
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
         <line x1="12" y1="9" x2="12" y2="13"></line>
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -35,7 +39,6 @@
         <a href="../letter/">Letter Lens</a>
         <a href="../case/">Case File</a>
         <a href="../vultr.html">Infrastructure</a>
-        <a href="../styleguide.html">System</a>
       </nav>
     </div>
   </header>
@@ -46,24 +49,28 @@
         <span class="eyebrow">02 / Bill Lens · Tariff Check</span>
         <h1 id="hero-title">Is your water bill right?</h1>
         <p class="text-muted">
-          Upload a municipal water bill. Proofbox recomputes charges from the published tariff, checks meter readings, and drafts a dispute letter with a receipt for each finding.
+          Upload a municipal water bill. Proofbox recomputes charges from the published tariff, checks meter readings,
+          and drafts a dispute letter with a receipt for each finding.
         </p>
       </div>
       <div class="page-heading-meta bill-proof-list" aria-label="Verification method">
         <span class="status-chip status-chip--verified">
-          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
           <span>Sealed container, no network</span>
         </span>
         <span class="status-chip status-chip--verified">
-          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
           <span>Injections stripped</span>
         </span>
         <span class="status-chip status-chip--verified">
-          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
           <span>Deterministic code calculation</span>
@@ -79,8 +86,12 @@
           <label class="dropzone" id="dropzone" for="pdf-input">
             <input type="file" id="pdf-input" accept="application/pdf,.pdf">
             <div class="dropzone-icon" aria-hidden="true">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 17v-6"/><path d="m9 14 3-3 3 3"/>
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+                <path d="M14 3v5h5" />
+                <path d="M12 17v-6" />
+                <path d="m9 14 3-3 3 3" />
               </svg>
             </div>
             <span class="dropzone-title" id="drop-title">Drop your bill PDF here</span>
@@ -92,7 +103,8 @@
               Add earlier bills or outage log <span class="text-muted">(optional)</span>
             </summary>
             <p class="form-hint mb-s2 mt-s2">
-              Earlier readings reveal consecutive estimates. An outage log verifies billing during water cuts. Shape like the <a href="samples/history.json" download>example history</a>.
+              Earlier readings reveal consecutive estimates. An outage log verifies billing during water cuts. Shape
+              like the <a href="samples/history.json" download>example history</a>.
             </p>
             <label class="form-label text-xs" for="history-input">History file (.json)</label>
             <input type="file" id="history-input" accept="application/json,.json" class="mt-s1">
@@ -202,21 +214,33 @@
           <p class="text-sm text-muted" id="meta"></p>
         </div>
         <dl class="totals">
-          <div><dt>Billed</dt><dd id="billed-total">–</dd></div>
-          <div><dt>Should be</dt><dd id="recomputed-total">–</dd></div>
-          <div class="diff-box"><dt>Difference</dt><dd id="total-diff">–</dd></div>
+          <div>
+            <dt>Billed</dt>
+            <dd id="billed-total">–</dd>
+          </div>
+          <div>
+            <dt>Should be</dt>
+            <dd id="recomputed-total">–</dd>
+          </div>
+          <div class="diff-box">
+            <dt>Difference</dt>
+            <dd id="total-diff">–</dd>
+          </div>
         </dl>
       </section>
 
       <!-- Containment Alert (Prompt Injection Blocked) -->
       <section class="alert-box alert-box--warn mb-s4" id="containment" hidden aria-labelledby="containment-title">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0" aria-hidden="true">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          <polyline points="9 12 11 14 15 10" />
         </svg>
         <div>
           <h3 id="containment-title" class="m-0 mb-s1">Hidden instruction blocked</h3>
           <p class="text-sm mb-s2">
-            This document contained untrusted prompt injection addressed to an AI. It was quarantined and stripped before model processing, and had zero effect on the deterministic tariff checks.
+            This document contained untrusted prompt injection addressed to an AI. It was quarantined and stripped
+            before model processing, and had zero effect on the deterministic tariff checks.
           </p>
           <ul id="containment-list" class="font-mono text-xs m-0"></ul>
         </div>
@@ -229,7 +253,8 @@
           <span class="text-sm text-muted" id="checks-run"></span>
         </div>
         <p class="alert-box alert-box--info" id="no-findings" hidden>
-          No discrepancies found. The billed amounts match the published Karoo Bay Metro tariff. (Note: No issue found does not mean safe from errors not covered by the tariff engine).
+          No discrepancies found. The billed amounts match the published Karoo Bay Metro tariff. (Note: No issue found
+          does not mean safe from errors not covered by the tariff engine).
         </p>
         <div class="findings-list" id="findings"></div>
         <div class="card bg-sunken mt-s3" id="analyst" hidden></div>
@@ -247,7 +272,8 @@
           <h2 id="letter-title" class="m-0">Your dispute letter</h2>
           <span class="status-chip status-chip--verified" id="letter-source"></span>
         </div>
-        <p class="text-xs text-muted">Ready to submit to the municipality. Every amount is verified by deterministic code.</p>
+        <p class="text-xs text-muted">Ready to submit to the municipality. Every amount is verified by deterministic
+          code.</p>
         <pre class="letter-box letter" id="letter-text"></pre>
         <div class="flex-row">
           <button type="button" class="btn btn-primary btn-sm" id="copy-letter">Copy letter</button>
@@ -304,4 +330,5 @@
 
   <script src="bill.js"></script>
 </body>
+
 </html>

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,22 +17,27 @@
       gap: var(--s4);
       margin-top: var(--s4);
     }
+
     @media (min-width: 760px) {
       .letter-grid {
         grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       }
     }
+
     .check-item {
       border-bottom: 1px solid var(--line);
       padding: var(--s3) 0;
     }
+
     .check-item:first-child {
       padding-top: 0;
     }
+
     .check-item:last-child {
       border-bottom: none;
       padding-bottom: 0;
     }
+
     .check-heading {
       display: flex;
       justify-content: space-between;
@@ -39,31 +45,37 @@
       gap: var(--s2);
       flex-wrap: wrap;
     }
+
     .fields-col {
       display: flex;
       flex-direction: column;
       gap: var(--s2);
       font-size: var(--text-sm);
     }
+
     .letter-upload-form {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: var(--s3) var(--s4);
       margin-top: var(--s4);
     }
+
     .letter-upload-form .form-group {
       min-width: 0;
       margin-bottom: 0;
     }
+
     .letter-upload-form .letter-trust-note,
     .letter-upload-form #submit-button,
     .letter-upload-form #upload-message {
       grid-column: 1 / -1;
     }
+
     .letter-trust-note {
       border-left: 2px solid var(--brand);
       padding-left: var(--s3);
     }
+
     @media (max-width: 700px) {
       .letter-upload-form {
         grid-template-columns: minmax(0, 1fr);
@@ -71,13 +83,15 @@
     }
   </style>
 </head>
+
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
         <line x1="12" y1="9" x2="12" y2="13"></line>
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -95,7 +109,6 @@
         <a href="./" aria-current="page">Letter Lens</a>
         <a href="../case/">Case File</a>
         <a href="../vultr.html">Infrastructure</a>
-        <a href="../styleguide.html">System</a>
       </nav>
     </div>
   </header>
@@ -106,7 +119,8 @@
       <div>
         <span class="eyebrow">03 / Letter Lens · Document Review</span>
         <h1>Read the letter. Check the paperwork.</h1>
-        <p>Extract dates and requirements from an agency letter, then check supporting PDFs in a sealed sandbox. Layout checks do not authenticate documents.</p>
+        <p>Extract dates and requirements from an agency letter, then check supporting PDFs in a sealed sandbox. Layout
+          checks do not authenticate documents.</p>
       </div>
       <aside class="page-heading-meta" aria-label="Document review limits">
         <div>LETTER + UP TO 4 PDFs</div>
@@ -138,13 +152,15 @@
             <a href="samples/A10_bank_statement.pdf" download>A10 bank statement</a>.
           </p>
           <p class="text-xs text-muted m-0">
-            All ID numbers and names are fictional synthetic test data. Combined upload limit is 10 MB. Scanned/image-only PDFs are not supported.
+            All ID numbers and names are fictional synthetic test data. Combined upload limit is 10 MB.
+            Scanned/image-only PDFs are not supported.
           </p>
         </div>
 
         <button id="submit-button" class="btn btn-primary w-full mt-s3" type="submit">
           <span>Check letter and paperwork</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -181,7 +197,8 @@
           <div class="card-head">
             <h2 id="details-heading" class="m-0 text-md">Letter Details</h2>
             <span class="status-chip status-chip--verified">
-              <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg class="chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
               <span>Parsed</span>
@@ -203,7 +220,8 @@
       <!-- Next Steps & Case Linking Card -->
       <section class="card next-action-card mt-s4">
         <div class="next-action-title">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
@@ -214,10 +232,12 @@
           Verify all extracted details against your original physical letter.
         </p>
         <div class="flex-row mt-s2">
-          <button id="attach-button" class="btn btn-primary btn-sm" type="button" hidden>Add result to this case file</button>
+          <button id="attach-button" class="btn btn-primary btn-sm" type="button" hidden>Add result to this case
+            file</button>
           <a id="open-case" class="btn btn-secondary btn-sm" href="../case/" hidden>
             <span>Open case timeline</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
@@ -229,7 +249,8 @@
 
       <div class="border-t mt-s4 pt-s3 text-center">
         <p class="text-xs text-muted m-0">
-          <strong>Not legal advice.</strong> Check every item and date yourself against official government agency notices.
+          <strong>Not legal advice.</strong> Check every item and date yourself against official government agency
+          notices.
         </p>
       </div>
     </section>
@@ -259,7 +280,7 @@
     function setText(id, value) { byId(id).textContent = value || ""; }
 
     function safeFileName(file) { return file.name.split(/[\\/]/).pop(); }
-    
+
     function toBase64(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -370,7 +391,7 @@
       const files = [letter, ...supporting].filter(Boolean);
       if (!letter) return;
       if (supporting.length > 4 || files.some((file) => file.size > 5 * 1024 * 1024) ||
-          files.reduce((total, file) => total + file.size, 0) > 10 * 1024 * 1024) {
+        files.reduce((total, file) => total + file.size, 0) > 10 * 1024 * 1024) {
         setText("upload-message", "Choose up to four supporting PDFs, each no larger than 5 MB, with a combined total no larger than 10 MB.");
         byId("upload-message").className = "error-box form-error";
         return;
@@ -443,4 +464,5 @@
     });
   </script>
 </body>
+
 </html>

@@ -37,7 +37,7 @@ export class ContainmentPanel {
     this.header = el("div", { className: "containment-header" },
       el("div", { className: "containment-title-group" },
         el("span", { className: "containment-badge" }, "Sandbox"),
-        el("span", { className: "font-mono text-xs text-muted", id: "chamber-job-id" }, shortId)
+        el("span", { className: "font-mono text-xs text-muted", id: "job-id" }, shortId)
       ),
       el("div", { className: "flex-row" },
         el("span", { className: "containment-live-pill", id: "chamber-status-pill" },
@@ -94,7 +94,7 @@ export class ContainmentPanel {
   setJobId(jobId) {
     this.jobId = jobId;
     const shortId = jobId ? (jobId.length > 14 ? `${jobId.slice(0, 14)}…` : jobId) : "";
-    const node = this.root.querySelector("#chamber-job-id");
+    const node = this.root.querySelector("#job-id, #chamber-job-id");
     if (node) node.textContent = shortId;
   }
 
