@@ -180,3 +180,4 @@ export function setupAccessibleDialog(dialog, triggerElement = null) {
     }
   };
 }
+
