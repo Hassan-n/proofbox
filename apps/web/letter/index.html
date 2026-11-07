@@ -266,10 +266,10 @@
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script type="module">
-    import { copyToClipboard, showToast, createSvgIcon } from "../js/common.js";
+    import { copyToClipboard, showToast, createSvgIcon, getApiBase } from "../js/common.js";
 
     const params = new URLSearchParams(location.search);
-    const apiBase = (params.get("api") || "").replace(/\/+$/, "");
+    const apiBase = getApiBase();
     const caseParts = decodeURIComponent(location.hash.slice(1)).split(".");
     const caseId = caseParts.length === 2 ? caseParts[0] : "";
     const caseToken = caseParts.length === 2 ? caseParts[1] : "";

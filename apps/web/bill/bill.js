@@ -2,7 +2,8 @@
 
 // Everything shown here comes from documents users upload, so it is only ever written with textContent.
 const params = new URLSearchParams(location.search);
-const API_BASE = (params.get("api") || location.origin).replace(/\/+$/, "");
+const DEPLOYED_API_URL = "http://zzarudpebhfzoohnpppp0snw.64.177.59.98.sslip.io";
+const API_BASE = (params.get("api") || ((location.hostname.includes("4kcvz2ocaby56a8gdp4cdvvk") || location.hostname.includes("64.177.59.98")) ? DEPLOYED_API_URL : location.origin)).replace(/\/+$/, "");
 if (params.get("api")) {
   document.querySelectorAll('a[href="../"]').forEach((a) => { a.href = `../?api=${encodeURIComponent(params.get("api"))}`; });
 }

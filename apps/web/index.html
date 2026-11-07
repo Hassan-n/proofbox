@@ -310,14 +310,14 @@
   </footer>
 
   <script type="module">
-    import { PROOFBOX_NAME, BRAND_LINE, el, showToast, createSvgIcon } from "./js/common.js";
+    import { PROOFBOX_NAME, BRAND_LINE, el, showToast, createSvgIcon, getApiBase } from "./js/common.js";
     import { ContainmentPanel } from "./js/containment.js";
 
     // Set brand constants
     document.querySelector("#app-brand-name").textContent = PROOFBOX_NAME;
 
     const params = new URLSearchParams(location.search);
-    const API_BASE = (params.get("api") || location.origin).replace(/\/+$/, "");
+    const API_BASE = getApiBase();
     if (params.get("api")) {
       document.querySelector("#bill-link").href = `bill/?api=${encodeURIComponent(API_BASE)}`;
       document.querySelector("#letter-link").href = `letter/?api=${encodeURIComponent(API_BASE)}`;
