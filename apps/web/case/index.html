@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,21 +20,25 @@
       margin-bottom: var(--s4);
       transition: border-color var(--dur) var(--ease);
     }
+
     .case-summary-card:hover {
       border-color: var(--line-strong);
     }
+
     .case-main-grid {
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--s5);
       margin-bottom: var(--s5);
     }
+
     @media (min-width: 880px) {
       .case-main-grid {
         grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
         align-items: start;
       }
     }
+
     .reply-review-card {
       display: grid;
       grid-template-columns: 1fr;
@@ -45,33 +50,39 @@
       margin-top: var(--s3);
       box-shadow: none;
     }
+
     @media (min-width: 760px) {
       .reply-review-card {
         grid-template-columns: 1fr 1.2fr;
         align-items: start;
       }
     }
+
     .review-side-proposed {
       background-color: var(--brand-tint);
       border: 1px solid var(--brand-border);
       border-radius: var(--radius-sm);
       padding: var(--s4);
     }
+
     .review-side-form {
       display: flex;
       flex-direction: column;
       gap: var(--s3);
     }
+
     .clocks-container {
       display: flex;
       flex-direction: column;
       gap: var(--s3);
     }
+
     .timeline-container {
       display: flex;
       flex-direction: column;
       gap: var(--s3);
     }
+
     /* Pack Preview Clean Document Style */
     .pack-paper {
       background-color: var(--white);
@@ -82,25 +93,31 @@
       font-family: var(--font-sans);
       margin-top: var(--s4);
     }
+
     .pack-paper h3 {
       font-family: var(--font-serif);
       font-weight: 600;
       color: var(--ink);
     }
+
     .card-danger-zone {
       border-color: var(--danger-border);
       background-color: var(--surface);
     }
+
     .text-danger {
       color: var(--danger);
     }
+
     .max-w-600 {
       max-width: 600px;
     }
+
     .auto-center {
       margin-left: auto;
       margin-right: auto;
     }
+
     .case-create-layout {
       display: grid;
       grid-template-columns: minmax(0, 1.1fr) minmax(250px, 0.9fr);
@@ -109,14 +126,17 @@
       max-width: 1080px;
       margin: 0 auto;
     }
+
     .case-create-form {
       margin: 0;
     }
+
     .case-create-note {
       padding: var(--s5) 0 var(--s5) var(--s5);
       border-left: 1px solid var(--line-strong);
       align-self: center;
     }
+
     .case-create-steps {
       list-style: none;
       padding: 0;
@@ -124,34 +144,52 @@
       display: grid;
       gap: var(--s3);
     }
+
     .case-create-steps li {
       display: grid;
       grid-template-columns: 2rem minmax(0, 1fr);
       gap: var(--s2);
       align-items: start;
     }
+
     .case-create-steps span {
       color: var(--brand);
       font: 600 var(--text-xs) var(--font-mono);
     }
+
     @media (max-width: 760px) {
       .case-create-layout {
         grid-template-columns: minmax(0, 1fr);
         gap: var(--s4);
       }
+
       .case-create-note {
         padding: var(--s4) 0 0;
         border-left: 0;
         border-top: 1px solid var(--line-strong);
       }
     }
+
     @media print {
       body {
         background: var(--white) !important;
       }
-      .topbar, .site-footer, .btn, button, nav, #create-panel, #attach-form, #reply-form, #sent-panel, #delete-title, #delete-case, .no-print {
+
+      .topbar,
+      .site-footer,
+      .btn,
+      button,
+      nav,
+      #create-panel,
+      #attach-form,
+      #reply-form,
+      #sent-panel,
+      #delete-title,
+      #delete-case,
+      .no-print {
         display: none !important;
       }
+
       .pack-paper {
         border: none !important;
         box-shadow: none !important;
@@ -160,13 +198,15 @@
     }
   </style>
 </head>
+
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Topbar with Persistent Demo Banner -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
         <line x1="12" y1="9" x2="12" y2="13"></line>
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -184,7 +224,6 @@
         <a href="../letter/">Letter Lens</a>
         <a href="./" aria-current="page">Case File</a>
         <a href="../vultr.html">Infrastructure</a>
-        <a href="../styleguide.html">System</a>
       </nav>
     </div>
   </header>
@@ -223,7 +262,8 @@
           </div>
           <button type="submit" class="btn btn-primary w-full">
             <span>Create private case</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
@@ -234,11 +274,21 @@
       <aside class="case-create-note">
         <span class="eyebrow">Inside the file</span>
         <ol class="case-create-steps">
-          <li><span>01</span><div><strong>Attach checks</strong><br><span class="text-sm text-muted">Bring link, bill, and letter findings into one record.</span></div></li>
-          <li><span>02</span><div><strong>Track deadlines</strong><br><span class="text-sm text-muted">See rule-driven clocks alongside the evidence timeline.</span></div></li>
-          <li><span>03</span><div><strong>Export receipts</strong><br><span class="text-sm text-muted">Generate a dated evidence pack when you need it.</span></div></li>
+          <li><span>01</span>
+            <div><strong>Attach checks</strong><br><span class="text-sm text-muted">Bring link, bill, and letter
+                findings into one record.</span></div>
+          </li>
+          <li><span>02</span>
+            <div><strong>Track deadlines</strong><br><span class="text-sm text-muted">See rule-driven clocks alongside
+                the evidence timeline.</span></div>
+          </li>
+          <li><span>03</span>
+            <div><strong>Export receipts</strong><br><span class="text-sm text-muted">Generate a dated evidence pack
+                when you need it.</span></div>
+          </li>
         </ol>
-        <p class="text-xs text-muted">Anyone with the exact private token link can view a case. Share it only with people you trust.</p>
+        <p class="text-xs text-muted">Anyone with the exact private token link can view a case. Share it only with
+          people you trust.</p>
       </aside>
     </section>
 
@@ -280,7 +330,8 @@
       <!-- Add Completed Check as Evidence -->
       <section class="card mb-s5" aria-labelledby="attach-title">
         <h2 id="attach-title" class="m-0 text-md">Add a completed check</h2>
-        <p class="text-sm text-muted">Run a link, bill, or letter check, then enter its completed job ID to attach the finding and receipts to this case.</p>
+        <p class="text-sm text-muted">Run a link, bill, or letter check, then enter its completed job ID to attach the
+          finding and receipts to this case.</p>
         <div class="flex-row mb-s3">
           <a class="btn btn-secondary btn-sm" id="link-lens" href="../">Check a link</a>
           <a class="btn btn-secondary btn-sm" id="bill-lens" href="../bill/">Check a bill</a>
@@ -290,7 +341,8 @@
           <div class="form-group mb-s2">
             <label class="form-label" for="job-id">Completed Job ID</label>
             <div class="flex-row">
-              <input id="job-id" class="flex-1" maxlength="100" placeholder="e.g. job-a1b2c3d4" required autocomplete="off">
+              <input id="job-id" class="flex-1" maxlength="100" placeholder="e.g. job-a1b2c3d4" required
+                autocomplete="off">
               <button type="submit" class="btn btn-primary btn-sm">Add to case file</button>
             </div>
           </div>
@@ -302,7 +354,8 @@
       <section class="card mb-s5 border-l-brand" id="sent-panel" aria-labelledby="sent-title" hidden>
         <h2 id="sent-title" class="m-0 text-md">Start the dispute clocks</h2>
         <p class="text-sm text-muted">
-          Record the date you confirmed delivery of your dispute letter to the municipality. The statutory reply clock begins on this confirmed date.
+          Record the date you confirmed delivery of your dispute letter to the municipality. The statutory reply clock
+          begins on this confirmed date.
         </p>
         <form class="form" id="sent-form">
           <div class="grid-equal-2col">
@@ -330,7 +383,8 @@
         <form class="form" id="reply-form">
           <div class="form-group">
             <label class="form-label" for="reply-text">Institution reply text</label>
-            <textarea id="reply-text" rows="5" maxlength="50000" placeholder="Paste the response letter or message text here..." required></textarea>
+            <textarea id="reply-text" rows="5" maxlength="50000"
+              placeholder="Paste the response letter or message text here..." required></textarea>
           </div>
           <button type="submit" class="btn btn-primary btn-sm">Review reply</button>
           <p id="reply-message" class="form-hint mt-s2" role="status" aria-live="polite"></p>
@@ -369,7 +423,8 @@
       <section class="card mb-s5 card-danger-zone" aria-labelledby="delete-title">
         <h2 id="delete-title" class="m-0 text-md text-danger">Delete this case file</h2>
         <p class="text-sm text-muted">
-          All evidence, copied receipts, pack snapshots, and database records will be permanently purged. This action cannot be reversed.
+          All evidence, copied receipts, pack snapshots, and database records will be permanently purged. This action
+          cannot be reversed.
         </p>
         <button type="button" class="btn btn-danger btn-sm" id="delete-case">Delete case and all receipts</button>
       </section>
@@ -438,7 +493,7 @@
       });
       if (!response.ok) {
         let detail = "The request could not be completed.";
-        try { detail = (await response.json()).detail || detail; } catch {}
+        try { detail = (await response.json()).detail || detail; } catch { }
         throw new Error(detail);
       }
       return response.status === 204 ? null : response;
@@ -533,7 +588,7 @@
       for (const item of data.evidence) {
         const card = element("article", undefined, "card timeline-card");
         const head = element("div", undefined, "flex-between");
-        
+
         const titleWrap = element("div", undefined, "flex-row");
         titleWrap.append(
           element("strong", `[E${item.seq}]`, "receipt-chip"),
@@ -961,4 +1016,5 @@
     loadCase().catch((error) => showError(error.message || "Could not load this case file. Check your access link."));
   </script>
 </body>
+
 </html>

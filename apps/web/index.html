@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,15 +14,15 @@
     .cockpit-grid {
       display: grid;
       grid-template-columns: 1fr;
-        gap: var(--s6);
+      gap: var(--s6);
       margin-top: var(--s4);
       align-items: start;
     }
 
     @media (min-width: 960px) {
       .cockpit-grid {
-          grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
-          gap: var(--s6);
+        grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+        gap: var(--s6);
       }
     }
 
@@ -60,13 +61,15 @@
     }
   </style>
 </head>
+
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
 
   <!-- Persistent App Shell Header -->
   <header class="topbar">
     <div class="topbar-banner">
-      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <svg class="topbar-banner-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
         <line x1="12" y1="9" x2="12" y2="13"></line>
         <line x1="12" y1="17" x2="12.01" y2="17"></line>
@@ -84,7 +87,6 @@
         <a id="letter-link" href="letter/">Letter Lens</a>
         <a id="case-link" href="case/">Case File</a>
         <a id="vultr-link" href="vultr.html">Infrastructure</a>
-        <a href="styleguide.html">System</a>
       </nav>
     </div>
   </header>
@@ -94,7 +96,8 @@
       <div>
         <span class="eyebrow">01 / Link Lens · Isolated Inspection</span>
         <h1 id="chat-intro-heading">Open nothing unsafely. Believe nothing unproven.</h1>
-        <p>Inspect a suspicious link inside a sealed sandbox. Proofbox records what the page tries to do and preserves a receipt you can attach to a private case file.</p>
+        <p>Inspect a suspicious link inside a sealed sandbox. Proofbox records what the page tries to do and preserves a
+          receipt you can attach to a private case file.</p>
       </div>
       <aside class="page-heading-meta" aria-label="Proofbox workflow">
         <div>01 &nbsp; Inspect</div>
@@ -115,27 +118,31 @@
           <!-- Chat Bubbles & Router Guidance -->
           <div class="chat-bubble-container" id="chat-log" role="log" aria-live="polite">
             <div class="chat-bubble chat-proofbox">
-              <strong>Proofbox:</strong> What would you like to inspect today? Choose an example below or paste a suspicious link.
+              <strong>Proofbox:</strong> What would you like to inspect today? Choose an example below or paste a
+              suspicious link.
             </div>
           </div>
 
           <!-- Quick Example Chips (SVG Icons, zero emojis) -->
           <div class="prompt-chips" aria-label="Example prompts">
             <button type="button" class="prompt-chip" id="chip-sms" data-url="http://10.99.0.4:8000/a1">
-              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <rect width="14" height="20" x="5" y="2" rx="2" ry="2"></rect>
                 <line x1="12" y1="18" x2="12.01" y2="18"></line>
               </svg>
               <span>Suspicious SMS (Kingfisher Bank alert)</span>
             </button>
             <button type="button" class="prompt-chip" id="chip-bill">
-              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
               </svg>
               <span>Water bill with overcharges (Karoo Bay Metro)</span>
             </button>
             <button type="button" class="prompt-chip" id="chip-letter">
-              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg class="prompt-chip-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                 <polyline points="14 2 14 8 20 8"></polyline>
               </svg>
@@ -147,16 +154,19 @@
           <form class="composer-wrap" id="inspect-form">
             <label for="url" class="form-label">Link or message to inspect</label>
             <div class="chat-composer chat-composer-sticky">
-              <input id="url" name="url" type="url" placeholder="Paste link here, e.g. https://karoo-bay.pay-water.fake" required autocomplete="url">
+              <input id="url" name="url" type="url" placeholder="Paste link here, e.g. https://karoo-bay.pay-water.fake"
+                required autocomplete="url">
               <button id="submit" class="btn btn-primary" type="submit">
                 <span>Inspect link</span>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </button>
             </div>
-            <p class="form-hint">Links are opened in a headless browser with network isolation. No credentials or passwords are ever submitted.</p>
+            <p class="form-hint">Links are opened in a headless browser with network isolation. No credentials or
+              passwords are ever submitted.</p>
           </form>
 
           <p class="alert-box alert-box--danger mt-s3" id="error" role="alert" hidden></p>
@@ -168,12 +178,14 @@
 
           <!-- Empty State before Inspection -->
           <div class="card empty-state" id="result-empty">
-            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
             </svg>
             <h3>Ready for inspection</h3>
             <p class="empty-state-text">
-              Enter a link or choose an example above. The isolated container will spin up, record all outbound network requests, and present verifiable findings here.
+              Enter a link or choose an example above. The isolated container will spin up, record all outbound network
+              requests, and present verifiable findings here.
             </p>
           </div>
 
@@ -207,10 +219,12 @@
             <!-- Sandbox Screenshot -->
             <div id="screenshot-wrapper" hidden>
               <h4 class="mt-s3 mb-s1 text-sm font-semibold">Sandbox Viewport Screenshot:</h4>
-              <img class="screenshot screenshot-preview" id="screenshot" alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy">
+              <img class="screenshot screenshot-preview" id="screenshot"
+                alt="Isolated sandbox screenshot of the inspected page" width="600" height="400" loading="lazy">
               <a class="trace-btn-link" id="trace-link" href="#main" hidden>
                 <span>Inspect Trace Receipt</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
@@ -222,7 +236,8 @@
               <span class="text-xs text-muted">Attach this finding to your private case timeline</span>
               <a class="btn btn-secondary btn-sm" id="case-attach-cta" href="case/">
                 <span>Save finding to case file</span>
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
@@ -258,13 +273,16 @@
 
             <div class="containment-summary" id="hero-summary" hidden>
               <div class="containment-summary-item">
-                <span class="text-muted">Blocked:</span> <span class="containment-summary-count" id="count-blocked-val">0</span>
+                <span class="text-muted">Blocked:</span> <span class="containment-summary-count"
+                  id="count-blocked-val">0</span>
               </div>
               <div class="containment-summary-item">
-                <span class="text-muted">Quarantined:</span> <span class="containment-summary-count" id="count-quar-val">0</span>
+                <span class="text-muted">Quarantined:</span> <span class="containment-summary-count"
+                  id="count-quar-val">0</span>
               </div>
               <div class="containment-summary-item">
-                <span class="text-muted">Ignored:</span> <span class="containment-summary-count" id="count-ign-val">0</span>
+                <span class="text-muted">Ignored:</span> <span class="containment-summary-count"
+                  id="count-ign-val">0</span>
               </div>
             </div>
 
@@ -279,7 +297,8 @@
             </ol>
 
             <div class="bg-chamber-surface border-t-chamber text-right p-s3">
-              <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it" title="Test container security against simulated attack">
+              <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it"
+                title="Test container security against simulated attack">
                 Try to break it (Simulate attack)
               </button>
             </div>
@@ -387,7 +406,7 @@
       const badge = document.querySelector("#badge");
       const verdictName = result.verdict || "could_not_check";
       badge.className = `status-chip status-chip--${verdictName}`;
-      
+
       const iconTypeMap = {
         dangerous: "alert",
         suspicious: "alert",
@@ -457,8 +476,10 @@
       containmentController.clear();
       document.querySelector("#verdict").hidden = true;
       document.querySelector("#result-empty").hidden = false;
-      document.querySelector("#job-id").textContent = "Queuing...";
-      document.querySelector("#job-state").textContent = "Queuing";
+      const jobIdEl = document.querySelector("#job-id") || document.querySelector("#chamber-job-id");
+      if (jobIdEl) jobIdEl.textContent = "Queuing...";
+      const jobStateEl = document.querySelector("#job-state");
+      if (jobStateEl) jobStateEl.textContent = "Queuing";
       submit.disabled = true;
 
       const targetUrl = input.value.trim();
@@ -477,8 +498,8 @@
         }
         const { job_id: jobId } = await response.json();
         containmentController.setJobId(jobId);
-        document.querySelector("#job-id").textContent = jobId;
-        document.querySelector("#job-state").textContent = "Inspecting";
+        if (jobIdEl) jobIdEl.textContent = jobId;
+        if (jobStateEl) jobStateEl.textContent = "Inspecting";
 
         activeStream = new EventSource(`${API_BASE}/api/jobs/${encodeURIComponent(jobId)}/events`);
         activeStream.onmessage = async (message) => {
@@ -489,7 +510,7 @@
             activeStream.close();
             const isSuccess = item.event === "job_completed";
             containmentController.finish(isSuccess ? "DESTROYED" : "FAILED");
-            document.querySelector("#job-state").textContent = isSuccess ? "Complete" : "Failed";
+            if (jobStateEl) jobStateEl.textContent = isSuccess ? "Complete" : "Failed";
 
             if (isSuccess) {
               const jobResponse = await fetch(`${API_BASE}/api/jobs/${encodeURIComponent(jobId)}`);
@@ -506,17 +527,18 @@
         activeStream.onerror = () => {
           activeStream.close();
           containmentController.finish("TERMINATED");
-          document.querySelector("#job-state").textContent = "Connection lost";
+          if (jobStateEl) jobStateEl.textContent = "Connection lost";
           submit.disabled = false;
           showError("The live event connection ended before a final result arrived. Reload to retry.");
         };
       } catch (requestError) {
         submit.disabled = false;
         containmentController.finish("FAILED");
-        document.querySelector("#job-state").textContent = "Could not start";
+        if (jobStateEl) jobStateEl.textContent = "Could not start";
         showError(requestError.message || "Could not start inspection.");
       }
     });
   </script>
 </body>
+
 </html>
