@@ -67,3 +67,4 @@ for screen_name, path in SCREENS:
             print(f"Failed to capture: {out_file.name}")
 
 print("All screenshots captured!")
+

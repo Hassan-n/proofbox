@@ -175,3 +175,4 @@ All `id`, `data-*` attributes, classes, and SSE event handlers read or written b
    - Error banners (`role="alert"`), offline indicators, and expired/deleted case notices.
 9. **Component Styleguide (`styleguide.html`)**:
    - Comprehensive test bench exhibiting every token, component, button, badge, input, and state.
+
