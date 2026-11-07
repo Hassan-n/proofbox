@@ -295,13 +295,6 @@
                 </div>
               </li>
             </ol>
-
-            <div class="bg-chamber-surface border-t-chamber text-right p-s3">
-              <button type="button" class="btn btn-redteam btn-sm" id="btn-break-it"
-                title="Test container security against simulated attack">
-                Try to break it (Simulate attack)
-              </button>
-            </div>
           </div>
         </section>
       </div>
@@ -343,12 +336,7 @@
     let containmentController = new ContainmentPanel({
       rootElement: chamberEl,
       jobId: "",
-      wallClockSeconds: 35,
-      onBreakIt: () => {
-        // Red-team simulated attack demonstration
-        input.value = "http://10.99.0.4:8000/a3";
-        form.dispatchEvent(new Event("submit"));
-      }
+      wallClockSeconds: 35
     });
 
     let activeStream = null;

@@ -11,13 +11,11 @@ export class ContainmentPanel {
     rootElement,
     jobId = "",
     wallClockSeconds = 40,
-    onBreakIt = null,
   }) {
     this.root = rootElement;
     this.jobId = jobId;
     this.wallClockSeconds = wallClockSeconds;
     this.timeRemaining = wallClockSeconds;
-    this.onBreakIt = onBreakIt;
     this.isFinished = false;
     this.counts = { blocked: 0, quarantined: 0, ignored: 0 };
     this.userHasScrolledUp = false;
@@ -77,18 +75,6 @@ export class ContainmentPanel {
     });
 
     this.root.replaceChildren(this.header, this.summaryRow, this.eventList);
-
-    if (this.onBreakIt) {
-      const redTeamBar = el("div", { style: "padding: var(--s2) var(--s3); background: var(--chamber-surface); border-top: 1px solid var(--chamber-line); text-align: right;" },
-        el("button", {
-          type: "button",
-          className: "btn btn-redteam",
-          title: "Safe simulated attack demonstration in isolated container",
-          onClick: this.onBreakIt
-        }, "Try to break it (Safe test)")
-      );
-      this.root.appendChild(redTeamBar);
-    }
   }
 
   setJobId(jobId) {
