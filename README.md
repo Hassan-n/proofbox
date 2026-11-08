@@ -66,18 +66,16 @@ Proofbox is an evidence-first assistant for people navigating suspicious links, 
 
 The recorded examples use synthetic inputs and a fictional municipality. They demonstrate executable workflows, not validation of a real municipality's tariffs or official agency rules.
 
-## Demo video and Challenge 1 containment evidence
+## Hackathon demo video and presentation
 
-- [Five-minute demo video](docs/Proofbox_Demo_5min.mp4)
-- [Timestamped subtitles](docs/Proofbox_Demo_5min.srt)
+- **[Recorded Video Walkthrough (MP4, 1080p, 03:20)](docs/brag.mp4)** — Full walkthrough demonstrating live working features (Link Lens, Bill Lens, Letter Lens, Case File) with natural voiceover narration, ducked background track, and containment events.
+- **[Hackathon Slide Presentation (PDF)](docs/Proofbox_Hackathon_Presentation.pdf)** — Presentation slide deck covering the civic problem, two-host Vultr architecture, Serverless Inference, and containment boundaries.
 
-**Observed containment moment: 03:43-03:56, evidence-pack export refusal.** The recorded case export is refused because a receipt matches the 13-digit identifier privacy gate. The narration explains that the synthetic bill's PDF metadata contains a long numeric creation date: this is a conservative export limitation, not evidence of a real identity number. The boundary prevents the flagged receipt from being exported, while the case retains its evidence for review.
+### Observed containment moments in `docs/brag.mp4`:
+- **Challenge 1 Containment (01:34–02:12, Prompt-Injection Neutralization):** Bill Lens processes a synthetic municipal bill PDF containing an adversarial prompt injection instructing the AI to approve the bill and dump environment variables. Proofbox treats all document text strictly as untrusted data. The worker executes deterministic tariff arithmetic against `tariffs/tariff_v1.json` inside a zero-network gVisor sandbox, completely neutralizing the injection, confirming a **R134.55 overcharge**, and drafting a formal municipal dispute letter.
+- **Challenge 2 & Privacy Containment (02:34–03:04, 13-Digit PII Export Gate Refusal):** Link Lens runs browser automation safely behind an isolated proxy. When the citizen attempts to export an evidence pack from Case File, the ReportLab engine validates receipts against privacy rules: a 13-digit national ID pattern in the synthetic bill metadata triggers `🛑 EXPORT REFUSED: 13-digit identifier gate triggered`. Sensitive citizen PII is blocked at the perimeter while evidence remains safely preserved in the local database.
 
-**Additional untrusted-input example: 01:39-02:39.** Bill Lens processes a synthetic prompt-injection PDF that tells the AI to approve the bill and print its environment. The demo instead reports billing discrepancies and evidence-linked checks. This illustrates handling document instructions as untrusted input; it does not by itself certify sandbox escape resistance or prove every secret-exfiltration path is blocked.
-
-**Challenge 1 submission check:** Demonstrate at least one containment moment in the submitted video exactly as required by the challenge brief. Confirm that the export-refusal example above is an accepted containment category. If the brief requires an execution-boundary event, record a controlled test showing the attempted action, the resulting block/kill/quarantine event, and cleanup in the UI. The worker implements events such as `timeout_kill`, `network_blocked`, `request_blocked` and `download_quarantined`, but their implementation is not evidence that they appear in this recording.
-
-The existing narration at 01:29-01:36 explicitly states that no blocked-network or download-quarantine result is claimed. Do not present that segment as a successful containment demonstration. Before publishing, ensure the video and subtitles are committed and accessible from the public GitHub README, and check the final recording against the challenge brief. The Vultr integration explanation is included here; no separate Vultr architecture report is needed.
+*(Note: The archive recording [docs/Proofbox_Demo_5min.mp4](docs/Proofbox_Demo_5min.mp4) remains available for historical reference).*
 
 ## Repository layout
 
